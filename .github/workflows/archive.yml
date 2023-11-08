@@ -6,26 +6,23 @@
 # SPDX-License-Identifier: MIT
 #
 
-name: Create XCFramework and Release
+name: Build XCArchive
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'The version number of the framework embedded in the XCArchives'
-        type: string
+        description: 'The version number of the framework'
         required: true
       configuration:
         description: 'The configuration to use when archiving the scheme'
-        type: string
         required: false
         default: 'Release'
 
 jobs:
-  create-xcframework-and-release-workflow:
-    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@feat/add-archive-and-xcframework-template-workflows
+  build-xcarchive:
+    uses: StanfordBDHG/.github/.github/workflows/archive.yml@feat/add-archive-and-xcframework-template-workflows
     with:
-      xcFrameworkName: 'llama'
       archiveName: 'llama'
       workspaceFile: 'llama.xcworkspace'
       scheme: 'llama'
