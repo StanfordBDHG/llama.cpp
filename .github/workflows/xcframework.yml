@@ -1,0 +1,33 @@
+#
+# This source file is part of the Stanford Biodesign Digital Health Group open-source organization
+#
+# SPDX-FileCopyrightText: 2022 Stanford University and the project authors (see CONTRIBUTORS.md)
+#
+# SPDX-License-Identifier: MIT
+#
+
+name: Release Workflow
+
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The version number of the framework embedded in the XCArchives'
+        type: string
+        required: true
+      configuration:
+        description: 'The configuration to use when archiving the scheme'
+        type: string
+        required: false
+        default: 'Release'
+
+jobs:
+  call-archive-and-release-workflow:
+    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@feat/add-archive-and-xcframework-template-workflows
+    with:
+      xcFrameworkName: 'llama'
+      archiveName: 'llama'
+      workspaceFile: 'llama.xcworkspace'
+      scheme: 'llama'
+      version: ${{ github.event.inputs.version }}
+      configuration: ${{ github.event.inputs.configuration || 'Release' }}
