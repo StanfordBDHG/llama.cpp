@@ -22,7 +22,7 @@ on:
         default: 'Release'
 
 jobs:
-  call-archive-and-release-workflow:
+  archive-xcframework-and-release-workflow:
     uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@feat/add-archive-and-xcframework-template-workflows
     with:
       xcFrameworkName: 'llama'
