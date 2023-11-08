@@ -12,19 +12,21 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'The version number of the framework'
+        description: 'The version number of the framework embedded in the XCArchives.'
+        type: string
         required: true
       configuration:
-        description: 'The configuration to use when archiving the scheme'
+        description: 'The build configuration to use when archiving the scheme, either Debug or Release.'
+        type: string
         required: false
         default: 'Release'
 
 jobs:
   build-xcarchive:
-    uses: StanfordBDHG/.github/.github/workflows/archive.yml@feat/add-archive-and-xcframework-template-workflows
+    uses: StanfordBDHG/.github/.github/workflows/archive.yml@v2
     with:
-      archiveName: 'llama'
       workspaceFile: 'llama.xcworkspace'
+      XCArchiveName: 'llama'
       scheme: 'llama'
       version: ${{ inputs.version }}
       configuration: ${{ inputs.configuration || 'Release' }}

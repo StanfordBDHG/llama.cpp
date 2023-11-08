@@ -12,22 +12,22 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'The version number of the framework embedded in the XCArchives'
+        description: 'The version number of the framework embedded in the XCArchives. This version number is also used as the release tag.'
         type: string
         required: true
       configuration:
-        description: 'The configuration to use when archiving the scheme'
+        description: 'The build configuration to use when archiving the scheme, either Debug or Release.'
         type: string
         required: false
         default: 'Release'
 
 jobs:
   create-xcframework-and-release-workflow:
-    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@feat/add-archive-and-xcframework-template-workflows
+    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@v2
     with:
-      xcFrameworkName: 'llama'
-      archiveName: 'llama'
       workspaceFile: 'llama.xcworkspace'
+      XCFrameworkName: 'llama'
+      XCArchiveName: 'llama'
       scheme: 'llama'
       version: ${{ inputs.version }}
       configuration: ${{ inputs.configuration || 'Release' }}
