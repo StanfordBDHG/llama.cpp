@@ -28,7 +28,7 @@ jobs:
     uses: StanfordBDHG/.github/.github/workflows/archive.yml@v2
     with:
       workspaceFile: 'llama.xcworkspace'
-      XCArchiveName: 'llama'
+      xcArchiveName: 'llama'
       scheme: 'llama'
       version: ${{ inputs.version }}
       configuration: ${{ inputs.configuration || 'Release' }}
