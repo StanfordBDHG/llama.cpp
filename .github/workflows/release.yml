@@ -9,9 +9,7 @@
 name: Create XCFramework and Release
 
 on: 
-  pull_request:
   workflow_dispatch:
-  workflow_call:
     inputs:
       version:
         description: 'The version number of the framework embedded in the XCArchives. This version number is also used as the release tag.'
