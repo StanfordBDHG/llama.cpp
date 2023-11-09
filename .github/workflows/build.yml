@@ -17,11 +17,6 @@ on:
         description: 'The version number of the framework embedded in the XCArchives.'
         type: string
         required: true
-      configuration:
-        description: 'The build configuration to use when archiving the scheme, either Debug or Release.'
-        type: string
-        required: false
-        default: 'Release'
 
 jobs:
   build-xcarchive:
@@ -31,5 +26,5 @@ jobs:
       xcArchiveName: 'llama'
       scheme: 'llama'
       version: ${{ inputs.version }}
-      configuration: ${{ inputs.configuration || 'Release' }}
+      configuration: 'Release'
       runsonlabels: '["macOS", "self-hosted"]'
