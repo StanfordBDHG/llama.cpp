@@ -26,8 +26,7 @@ jobs:
     uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@v2
     with:
       workspaceFile: 'llama.xcworkspace'
-      XCFrameworkName: 'llama'
-      XCArchiveName: 'llama'
+      xcFrameworkName: 'llama'
       scheme: 'llama'
       version: ${{ inputs.version }}
       configuration: ${{ inputs.configuration || 'Release' }}

@@ -9,7 +9,9 @@
 name: Build XCArchive
 
 on:
+  pull_request:
   workflow_dispatch:
+  workflow_call:
     inputs:
       version:
         description: 'The version number of the framework embedded in the XCArchives.'
