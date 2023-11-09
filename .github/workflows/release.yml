@@ -29,5 +29,5 @@ jobs:
       xcFrameworkName: 'llama'
       scheme: 'llama'
       version: ${{ inputs.version }}
-      configuration: ${{ inputs.configuration || 'Release' }}
+      configuration: ${{ inputs.configuration }}
       runsonlabels: '["macOS", "self-hosted"]'
