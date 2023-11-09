@@ -9,6 +9,7 @@
 name: Create XCFramework and Release
 
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       version:
@@ -28,6 +29,6 @@ jobs:
       workspaceFile: 'llama.xcworkspace'
       xcFrameworkName: 'llama'
       scheme: 'llama'
-      version: ${{ inputs.version }}
-      configuration: ${{ inputs.configuration }}
+      version: ${{ inputs.version || '0.1.0' }}
+      configuration: ${{ inputs.configuration || 'Release' }}
       runsonlabels: '["macOS", "self-hosted"]'
