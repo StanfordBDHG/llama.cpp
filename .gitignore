@@ -98,3 +98,27 @@ tests/test-tokenizer-0-llama
 tests/test-tokenizer-0-falcon
 tests/test-tokenizer-1-llama
 tests/test-tokenizer-1-bpe
+
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+.DS_Store
+*.pyc
+.build
+.swiftpm
