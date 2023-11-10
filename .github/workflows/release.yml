@@ -18,11 +18,14 @@ on:
 
 jobs:
   create-xcframework-and-release-workflow:
-    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@v2
+    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@feat/commit-xcframework-via-optional-pat
     with:
-      workspaceFile: 'llama.xcworkspace'
-      xcFrameworkName: 'llama'
-      scheme: 'llama'
+      workspaceFile: llama.xcworkspace
+      xcFrameworkName: llama
+      scheme: llama
       version: ${{ inputs.version }}
-      configuration: 'Release'
+      configuration: Release
       runsonlabels: '["macOS", "self-hosted"]'
+      user: PaulsAutomationBot
+    secrets:
+      access-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
