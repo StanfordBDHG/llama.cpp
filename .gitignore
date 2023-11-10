@@ -11,7 +11,6 @@
 *.gcda
 *.dot
 *.bat
-*.metallib
 .DS_Store
 .build/
 .cache/
