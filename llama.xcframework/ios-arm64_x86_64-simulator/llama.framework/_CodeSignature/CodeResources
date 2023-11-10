@@ -24,6 +24,10 @@
 		<data>
 		SzDNehNYd6pjaAr9z0Q8tveSeX4=
 		</data>
+		<key>ggml-metal.dat</key>
+		<data>
+		pobzdIhFbLUaVGaoDDFfiOYVaHE=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -53,6 +57,13 @@
 			<key>hash2</key>
 			<data>
 			hbelEQ6VDfWukgVk1i8EvVOnDPv0UwwSsYRv4PuiGJI=
+			</data>
+		</dict>
+		<key>ggml-metal.dat</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			NpLN5OAEKouGEYi1KEk6/n32zvcXfmmR7S8cmir4/Gg=
 			</data>
 		</dict>
 	</dict>
