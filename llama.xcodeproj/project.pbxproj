@@ -22,6 +22,9 @@
 		97F996DE2AFB2A3F00194A6F /* ggml.c in Sources */ = {isa = PBXBuildFile; fileRef = 97F996DD2AFB2A3F00194A6F /* ggml.c */; };
 		97F996DF2AFB2AE100194A6F /* ggml.h in Sources */ = {isa = PBXBuildFile; fileRef = 97F996D12AFB29C700194A6F /* ggml.h */; };
 		97F996E02AFB2AE100194A6F /* llama.h in Sources */ = {isa = PBXBuildFile; fileRef = 97F996DB2AFB29F900194A6F /* llama.h */; };
+		97FFE3082B056DD100B12DEC /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = 97FFE3052B056DD100B12DEC /* log.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97FFE3092B056DD100B12DEC /* grammar-parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 97FFE3062B056DD100B12DEC /* grammar-parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97FFE30A2B056DD100B12DEC /* sampling.h in Headers */ = {isa = PBXBuildFile; fileRef = 97FFE3072B056DD100B12DEC /* sampling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +42,9 @@
 		97F996D32AFB29C700194A6F /* llama.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llama.cpp; sourceTree = "<group>"; };
 		97F996DB2AFB29F900194A6F /* llama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llama.h; sourceTree = "<group>"; };
 		97F996DD2AFB2A3F00194A6F /* ggml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ggml.c; sourceTree = "<group>"; };
+		97FFE3052B056DD100B12DEC /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = log.h; path = common/log.h; sourceTree = "<group>"; };
+		97FFE3062B056DD100B12DEC /* grammar-parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "grammar-parser.h"; path = "common/grammar-parser.h"; sourceTree = "<group>"; };
+		97FFE3072B056DD100B12DEC /* sampling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sampling.h; path = common/sampling.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,9 @@
 		9720799C2AFAA818008A9E53 = {
 			isa = PBXGroup;
 			children = (
+				97FFE3062B056DD100B12DEC /* grammar-parser.h */,
+				97FFE3052B056DD100B12DEC /* log.h */,
+				97FFE3072B056DD100B12DEC /* sampling.h */,
 				974881952AFB3A14006CFC9D /* module.modulemap */,
 				97F217F82B044111008B81FE /* common.h */,
 				97F217FA2B044120008B81FE /* common.cpp */,
@@ -97,8 +106,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				97F996DC2AFB29F900194A6F /* llama.h in Headers */,
-				97F217F92B044111008B81FE /* common.h in Headers */,
 				97F996D82AFB29C700194A6F /* ggml.h in Headers */,
+				97F217F92B044111008B81FE /* common.h in Headers */,
+				97FFE30A2B056DD100B12DEC /* sampling.h in Headers */,
+				97FFE3092B056DD100B12DEC /* grammar-parser.h in Headers */,
+				97FFE3082B056DD100B12DEC /* log.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
