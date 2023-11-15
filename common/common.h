@@ -32,8 +32,9 @@
 } while(0)
 
 // build info
-extern int LLAMA_BUILD_NUMBER;
-extern char const *LLAMA_COMMIT;
+// Remove these external build flags as they are injected as preprocessor macro's from the Xcode project
+// extern int LLAMA_BUILD_NUMBER;
+// extern char const *LLAMA_COMMIT;
 extern char const *LLAMA_COMPILER;
 extern char const *LLAMA_BUILD_TARGET;
 
