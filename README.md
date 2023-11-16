@@ -32,7 +32,6 @@ You need to add Stanford BDHG llama.cpp Swift package to
 > For Xcode projects:
 > - Open your project settings in Xcode by selecting *PROJECT_NAME > TARGET_NAME > Build Settings*.
 > - Within the *Build Settings*, search for the `C++ and Objective-C Interoperability` setting and set it to `C++ / Objective-C++`. This enables the project to use the C++ headers from llama.cpp.
-
 > For SPM packages:
 > - Open the `Package.swift` file of your SPM package
 > - Within the package `target` that consumes the llama.cpp package, add the `:interoperabilityMode(_:)` Swift build setting like that:
