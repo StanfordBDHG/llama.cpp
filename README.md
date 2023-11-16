@@ -20,7 +20,7 @@ This project is a Stanford BDHG-maintained fork of the well-regarded [llama.cpp]
 
 ## Setup
 
-### Add Spezi Onboarding as a Dependency
+### Add Stanford BDHG llama.cpp as a Dependency
 
 You need to add Stanford BDHG llama.cpp Swift package to
 [your app in Xcode](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app#) or
@@ -29,13 +29,13 @@ You need to add Stanford BDHG llama.cpp Swift package to
 > [!IMPORTANT]
 > Important: In order to use the library, one needs to set build parameters in the consuming Xcode project or the consuming SPM package to enable the [Swift / C++ Interop](https://www.swift.org/documentation/cxx-interop/), introduced in Xcode 15 and Swift 5.9. Keep in mind that this is true for nested dependencies, one needs to set this configuration recursivly for the entire dependency tree towards the llama.cpp SPM package.
 > 
-> For Xcode projects:
+> **For Xcode projects:**
 > - Open your project settings in Xcode by selecting *PROJECT_NAME > TARGET_NAME > Build Settings*.
 > - Within the *Build Settings*, search for the `C++ and Objective-C Interoperability` setting and set it to `C++ / Objective-C++`. This enables the project to use the C++ headers from llama.cpp.
 >
-> For SPM packages:
+> **For SPM packages:**
 > - Open the `Package.swift` file of your SPM package
-> - Within the package `target` that consumes the llama.cpp package, add the `:interoperabilityMode(_:)` Swift build setting like that:
+> - Within the package `target` that consumes the llama.cpp package, add the `interoperabilityMode(_:)` Swift build setting like that:
 ```swift
 /// Adds the dependency to the Stanford BDHG llama.cpp SPM package
 dependencies: [
@@ -48,13 +48,13 @@ targets: [
       dependencies: [
           .product(name: "llama", package: "llama.cpp")
       ],
-      /// Important: Configure the `.interoperabilityMode(_:)` as a `swiftSettings`
+      /// Important: Configure the `.interoperabilityMode(_:)` within the `swiftSettings`
       swiftSettings: [
           .interoperabilityMode(.Cxx)
       ]
   )
 ]
-``````
+```
 
 ## Contributing
 
