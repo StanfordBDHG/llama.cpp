@@ -18,6 +18,10 @@ SPDX-License-Identifier: MIT
 
 This project is a Stanford BDHG-maintained fork of the well-regarded [llama.cpp](https://github.com/ggerganov/llama.cpp), tailored for deploying [LLaMA](https://arxiv.org/abs/2302.13971) models using C/C++. Our modifications package the library as an XCFramework for distribution as a binary compatible with multiple platforms. The inclusion of a `Package.swift` file facilitates the integration with the Swift Package Manager (SPM).
 
+> [!NOTE]
+> Should you have inquiries regarding the llama.cpp codebase this fork builds upon, please refer to the [upstream llama.cpp repository README](https://github.com/ggerganov/llama.cpp/blob/master/README.md) for comprehensive details and guidance.
+
+
 ## Setup
 
 ### Add Stanford BDHG llama.cpp as a Dependency
@@ -63,7 +67,7 @@ You can find a list of contributors in the [`CONTRIBUTORS.md`](https://github.co
 
 ## License
 
-This project is licensed under the MIT License. See [Licenses](https://github.com/StanfordBDHG/llama.cpp/blob/main/LICENSES) for more information.
+This project is a fork of an existing project that is licensed under the MIT License, and all changes made in this fork continue to be under the MIT License. For more information about the license terms, see the [Licenses folder](https://github.com/StanfordBDHG/llama.cpp/blob/main/LICENSES).
 
 ## Our Research
 
