@@ -32,7 +32,7 @@
 } while(0)
 
 // build info
-// If macro is not defined, then set the corresponding variable to defined in common.cpp
+// If macro is not defined (passed via Xcode), set the corresponding variable as defined via external variable.
 #ifndef LLAMA_BUILD_NUMBER
 extern int LLAMA_BUILD_NUMBER;
 #endif
