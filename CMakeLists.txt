@@ -43,6 +43,7 @@ else()
 endif()
 
 # general
+option(BUILD_SHARED_LIBS                "build shared libraries"                                OFF)
 option(LLAMA_STATIC                     "llama: static link libraries"                          OFF)
 option(LLAMA_NATIVE                     "llama: enable -march=native flag"                      ON)
 option(LLAMA_LTO                        "llama: enable link time optimization"                  OFF)
@@ -99,6 +100,9 @@ option(LLAMA_QKK_64                          "llama: use super-block size of 64 
 option(LLAMA_BUILD_TESTS                "llama: build tests"    ${LLAMA_STANDALONE})
 option(LLAMA_BUILD_EXAMPLES             "llama: build examples" ${LLAMA_STANDALONE})
 option(LLAMA_BUILD_SERVER               "llama: build server example"                           ON)
+
+# Required for relocatable CMake package
+include(${CMAKE_CURRENT_SOURCE_DIR}/scripts/build-info.cmake)
 
 #
 # Compile flags
@@ -161,7 +165,7 @@ if (LLAMA_METAL)
     #add_compile_definitions(GGML_METAL_DIR_KERNELS="${CMAKE_CURRENT_SOURCE_DIR}/")
 
     # copy ggml-metal.metal to bin directory
-    configure_file(ggml-metal.metal bin/ggml-metal.metal COPYONLY)
+    configure_file(ggml-metal.metal ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ggml-metal.metal COPYONLY)
 
     set(LLAMA_EXTRA_LIBS ${LLAMA_EXTRA_LIBS}
         ${FOUNDATION_LIBRARY}
