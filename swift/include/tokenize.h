@@ -10,7 +10,7 @@
 #define tokenize_hpp
 
 #include <vector>
-#include <common.h>
+#include "common.h"
 
 
 /// Tokenize a `String` via a given `llama_context`.
