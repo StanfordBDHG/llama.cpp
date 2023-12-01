@@ -11,6 +11,12 @@
 		9789E9FC2B0D49BA00EB6AD2 /* sampling.h in Sources */ = {isa = PBXBuildFile; fileRef = 97FFE3072B056DD100B12DEC /* sampling.h */; };
 		9789E9FD2B0D49BD00EB6AD2 /* grammar-parser.h in Sources */ = {isa = PBXBuildFile; fileRef = 97FFE3062B056DD100B12DEC /* grammar-parser.h */; };
 		9789E9FE2B0D49BF00EB6AD2 /* log.h in Sources */ = {isa = PBXBuildFile; fileRef = 97FFE3052B056DD100B12DEC /* log.h */; };
+		97B76BF72B199E890019D706 /* tokenize.h in Headers */ = {isa = PBXBuildFile; fileRef = 97B76BF32B199E890019D706 /* tokenize.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97B76BF82B199E890019D706 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 97B76BF42B199E890019D706 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		97B76BF92B199E890019D706 /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97B76BF52B199E890019D706 /* vector.cpp */; };
+		97B76BFB2B199EC60019D706 /* tokenize.h in Sources */ = {isa = PBXBuildFile; fileRef = 97B76BF32B199E890019D706 /* tokenize.h */; };
+		97B76BFC2B199EC60019D706 /* vector.h in Sources */ = {isa = PBXBuildFile; fileRef = 97B76BF42B199E890019D706 /* vector.h */; };
+		97B76BFD2B199EC60019D706 /* tokenize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97B76BF62B199E890019D706 /* tokenize.cpp */; };
 		97F217F92B044111008B81FE /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = 97F217F82B044111008B81FE /* common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97F217FB2B044120008B81FE /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97F217FA2B044120008B81FE /* common.cpp */; };
 		97F217FC2B04413F008B81FE /* common.h in Sources */ = {isa = PBXBuildFile; fileRef = 97F217F82B044111008B81FE /* common.h */; };
@@ -36,6 +42,10 @@
 		972079A62AFAA818008A9E53 /* llama.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = llama.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972079C32AFAACEF008A9E53 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		979D479D2B081F3E00EF8149 /* llama-module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "llama-module.modulemap"; sourceTree = "<group>"; };
+		97B76BF32B199E890019D706 /* tokenize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tokenize.h; sourceTree = "<group>"; };
+		97B76BF42B199E890019D706 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		97B76BF52B199E890019D706 /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
+		97B76BF62B199E890019D706 /* tokenize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tokenize.cpp; sourceTree = "<group>"; };
 		97F217F82B044111008B81FE /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = common/common.h; sourceTree = "<group>"; };
 		97F217FA2B044120008B81FE /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = common.cpp; path = common/common.cpp; sourceTree = "<group>"; };
 		97F996CD2AFB29C600194A6F /* ggml-metal.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
@@ -69,6 +79,7 @@
 		9720799C2AFAA818008A9E53 = {
 			isa = PBXGroup;
 			children = (
+				97B76BF12B199E040019D706 /* swift */,
 				97FAF1B12B0D4DA900E23209 /* grammar-parser.cpp */,
 				97FAF1B22B0D4DA900E23209 /* sampling.cpp */,
 				979D479D2B081F3E00EF8149 /* llama-module.modulemap */,
@@ -107,6 +118,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		97B76BF12B199E040019D706 /* swift */ = {
+			isa = PBXGroup;
+			children = (
+				97B76BF22B199E890019D706 /* include */,
+				97B76BF62B199E890019D706 /* tokenize.cpp */,
+				97B76BF52B199E890019D706 /* vector.cpp */,
+			);
+			path = swift;
+			sourceTree = "<group>";
+		};
+		97B76BF22B199E890019D706 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				97B76BF32B199E890019D706 /* tokenize.h */,
+				97B76BF42B199E890019D706 /* vector.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -120,6 +150,8 @@
 				97FFE30A2B056DD100B12DEC /* sampling.h in Headers */,
 				97FFE3092B056DD100B12DEC /* grammar-parser.h in Headers */,
 				97FFE3082B056DD100B12DEC /* log.h in Headers */,
+				97B76BF82B199E890019D706 /* vector.h in Headers */,
+				97B76BF72B199E890019D706 /* tokenize.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +239,10 @@
 				9789E9FD2B0D49BD00EB6AD2 /* grammar-parser.h in Sources */,
 				97FAF1B32B0D4DA900E23209 /* grammar-parser.cpp in Sources */,
 				9789E9FE2B0D49BF00EB6AD2 /* log.h in Sources */,
+				97B76BFB2B199EC60019D706 /* tokenize.h in Sources */,
+				97B76BFD2B199EC60019D706 /* tokenize.cpp in Sources */,
+				97B76BFC2B199EC60019D706 /* vector.h in Sources */,
+				97B76BF92B199E890019D706 /* vector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
