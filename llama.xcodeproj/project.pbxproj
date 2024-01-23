@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		972079C42AFAACEF008A9E53 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972079C32AFAACEF008A9E53 /* Accelerate.framework */; };
-		975AAE542B5F600F0079F713 /* ggml-backend.h in Headers */ = {isa = PBXBuildFile; fileRef = 975AAE532B5F600F0079F713 /* ggml-backend.h */; };
+		975AAE542B5F600F0079F713 /* ggml-backend.h in Headers */ = {isa = PBXBuildFile; fileRef = 975AAE532B5F600F0079F713 /* ggml-backend.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9789E9FC2B0D49BA00EB6AD2 /* sampling.h in Sources */ = {isa = PBXBuildFile; fileRef = 97FFE3072B056DD100B12DEC /* sampling.h */; };
 		9789E9FD2B0D49BD00EB6AD2 /* grammar-parser.h in Sources */ = {isa = PBXBuildFile; fileRef = 97FFE3062B056DD100B12DEC /* grammar-parser.h */; };
 		9789E9FE2B0D49BF00EB6AD2 /* log.h in Sources */ = {isa = PBXBuildFile; fileRef = 97FFE3052B056DD100B12DEC /* log.h */; };
+		979E9D0B2B60388300B5F255 /* ggml-alloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 979E9D0A2B60388300B5F255 /* ggml-alloc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97B76BF72B199E890019D706 /* tokenize.h in Headers */ = {isa = PBXBuildFile; fileRef = 97B76BF32B199E890019D706 /* tokenize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97B76BF82B199E890019D706 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 97B76BF42B199E890019D706 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97B76BF92B199E890019D706 /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97B76BF52B199E890019D706 /* vector.cpp */; };
@@ -44,6 +45,7 @@
 		972079C32AFAACEF008A9E53 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		975AAE532B5F600F0079F713 /* ggml-backend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-backend.h"; sourceTree = "<group>"; };
 		979D479D2B081F3E00EF8149 /* llama-module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "llama-module.modulemap"; sourceTree = "<group>"; };
+		979E9D0A2B60388300B5F255 /* ggml-alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-alloc.h"; sourceTree = "<group>"; };
 		97B76BF32B199E890019D706 /* tokenize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tokenize.h; sourceTree = "<group>"; };
 		97B76BF42B199E890019D706 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
 		97B76BF52B199E890019D706 /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
@@ -82,16 +84,17 @@
 			isa = PBXGroup;
 			children = (
 				97B76BF12B199E040019D706 /* swift */,
-				97FAF1B12B0D4DA900E23209 /* grammar-parser.cpp */,
-				97FAF1B22B0D4DA900E23209 /* sampling.cpp */,
 				979D479D2B081F3E00EF8149 /* llama-module.modulemap */,
 				97FFE3062B056DD100B12DEC /* grammar-parser.h */,
+				97FAF1B12B0D4DA900E23209 /* grammar-parser.cpp */,
 				97FFE3052B056DD100B12DEC /* log.h */,
 				97FFE3072B056DD100B12DEC /* sampling.h */,
+				97FAF1B22B0D4DA900E23209 /* sampling.cpp */,
 				97F217F82B044111008B81FE /* common.h */,
 				97F217FA2B044120008B81FE /* common.cpp */,
 				97F996D12AFB29C700194A6F /* ggml.h */,
 				97F996DD2AFB2A3F00194A6F /* ggml.c */,
+				979E9D0A2B60388300B5F255 /* ggml-alloc.h */,
 				97F996D22AFB29C700194A6F /* ggml-alloc.c */,
 				975AAE532B5F600F0079F713 /* ggml-backend.h */,
 				97F996D02AFB29C700194A6F /* ggml-backend.c */,
@@ -149,13 +152,14 @@
 			files = (
 				97F996DC2AFB29F900194A6F /* llama.h in Headers */,
 				97F996D82AFB29C700194A6F /* ggml.h in Headers */,
+				979E9D0B2B60388300B5F255 /* ggml-alloc.h in Headers */,
+				975AAE542B5F600F0079F713 /* ggml-backend.h in Headers */,
 				97F217F92B044111008B81FE /* common.h in Headers */,
 				97FFE30A2B056DD100B12DEC /* sampling.h in Headers */,
 				97FFE3092B056DD100B12DEC /* grammar-parser.h in Headers */,
 				97FFE3082B056DD100B12DEC /* log.h in Headers */,
 				97B76BF82B199E890019D706 /* vector.h in Headers */,
 				97B76BF72B199E890019D706 /* tokenize.h in Headers */,
-				975AAE542B5F600F0079F713 /* ggml-backend.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
