@@ -22,11 +22,13 @@
 .clang-tidy
 .vs/
 .vscode/
+.idea/
 
 lcov-report/
 gcovr-report/
 
-build*/
+build*
+cmake-build-*
 out/
 tmp/
 
@@ -88,24 +90,12 @@ examples/jeopardy/results.txt
 
 poetry.lock
 poetry.toml
+nppBackup
 
-# Test binaries
-/tests/test-grammar-parser
-/tests/test-llama-grammar
-/tests/test-double-float
-/tests/test-grad0
-/tests/test-opt
-/tests/test-quantize-fns
-/tests/test-quantize-perf
-/tests/test-sampling
-/tests/test-tokenizer-0-llama
-/tests/test-tokenizer-0-falcon
-/tests/test-tokenizer-1-llama
-/tests/test-tokenizer-1-bpe
-/tests/test-rope
-/tests/test-backend-ops
-/tests/test-autorelease
-
+.swiftpm
+.build
+*.pyc
+.DS_Store
 # Xcode
 build/
 *.pbxuser
@@ -123,8 +113,3 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-
-.DS_Store
-*.pyc
-.build
-.swiftpm
