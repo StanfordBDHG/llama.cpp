@@ -3653,23 +3653,6 @@ static bool llm_load_tensors(
         } else {
             std::copy(tensor_split, tensor_split + device_count, splits.begin());
         }
-        // assign the repeating layers
-        for (int64_t i = i_gpu_start; i < n_layer; ++i) {
-            model.buft_layer[i] = {
-                split_buft,
-                llama_default_buffer_type_offload(main_gpu)
-            };
-        }
-        // assign the output layer
-        if (n_gpu_layers > n_layer) {
-            model.buft_output = {
-                split_buft,
-                llama_default_buffer_type_offload(main_gpu)
-            };
-        } else {
-            model.buft_output = llama_default_buffer_type_cpu(true);
-        }
-    }
 
         // sum and normalize the splits to get the split points
         float split_sum = 0.0f;
@@ -4432,37 +4415,6 @@ static bool llm_load_tensors(
                         ggml_context * ctx_layer = ctx_for_layer(i);
                         ggml_context * ctx_split = ctx_for_layer_split(i);
 
-                        layer.wqkv = ml.create_tensor(ctx_split, tn(LLM_TENSOR_ATTN_QKV, "weight", i), {n_embd, n_embd + 2*n_embd_gqa});
-                        layer.bqkv = ml.create_tensor(ctx_layer, tn(LLM_TENSOR_ATTN_QKV, "bias", i),   {n_embd + 2*n_embd_gqa});
-
-                        layer.wo   = ml.create_tensor(ctx_split, tn(LLM_TENSOR_ATTN_OUT, "weight", i), {n_embd, n_embd});
-                        layer.bo   = ml.create_tensor(ctx_layer, tn(LLM_TENSOR_ATTN_OUT, "bias", i),   {n_embd});
-
-                        layer.ffn_norm   = ml.create_tensor(ctx_layer, tn(LLM_TENSOR_FFN_NORM, "weight", i), {n_embd});
-                        layer.ffn_norm_b = ml.create_tensor(ctx_layer, tn(LLM_TENSOR_FFN_NORM, "bias", i),   {n_embd});
-
-                        layer.ffn_down   = ml.create_tensor(ctx_split, tn(LLM_TENSOR_FFN_DOWN, "weight", i), {n_ff, n_embd});
-                        layer.ffn_down_b = ml.create_tensor(ctx_layer, tn(LLM_TENSOR_FFN_DOWN, "bias", i),   {n_embd});
-
-                        layer.ffn_up     = ml.create_tensor(ctx_split, tn(LLM_TENSOR_FFN_UP,   "weight", i), {n_embd, n_ff});
-                        layer.ffn_up_b   = ml.create_tensor(ctx_layer, tn(LLM_TENSOR_FFN_UP,   "bias", i),   {n_ff});
-                    }
-                } break;
-            case LLM_ARCH_CODESHELL:
-                {
-                    model.tok_embd = ml.create_tensor(ctx_input, tn(LLM_TENSOR_TOKEN_EMBD, "weight"), {n_embd, n_vocab});
-
-                    // output
-                    {
-                        model.output_norm   = ml.create_tensor(ctx_output,       tn(LLM_TENSOR_OUTPUT_NORM, "weight"), {n_embd});
-                        model.output_norm_b = ml.create_tensor(ctx_output,       tn(LLM_TENSOR_OUTPUT_NORM, "bias"),   {n_embd});
-                        model.output        = ml.create_tensor(ctx_output_split, tn(LLM_TENSOR_OUTPUT,      "weight"), {n_embd, n_vocab});
-                    }
-
-                    for (int i = 0; i < n_layer; ++i) {
-                        ggml_context * ctx_layer = ctx_for_layer(i);
-                        ggml_context * ctx_split = ctx_for_layer_split(i);
-
                         auto & layer = model.layers[i];
 
                         layer.attn_norm = ml.create_tensor(ctx_layer, tn(LLM_TENSOR_ATTN_NORM, "weight", i), {n_embd});
@@ -4964,13 +4916,6 @@ static struct ggml_tensor * llm_build_kqv(
 #endif
     {
         kq = ggml_soft_max_ext(ctx, kq, kq_mask, kq_pos, kq_scale, hparams.f_max_alibi_bias);
-        cb(kq, "kq_soft_max_ext", il);
-    }
-
-        kq = ggml_soft_max(ctx, kq);
-        cb(kq, "kq_soft_max", il);
-    } else {
-        kq = ggml_soft_max_ext(ctx, kq, kq_mask, kq_scale);
         cb(kq, "kq_soft_max_ext", il);
     }
 
@@ -7633,67 +7578,6 @@ static struct ggml_cgraph * llama_build_graph(
     struct ggml_cgraph * result = NULL;
 
     struct llm_build_context llm(lctx, batch, cb, worst_case);
-
-    //
-    // set input data
-    //
-
-    if (!ggml_tallocr_is_measure(lctx.alloc)) {
-        if (batch.token) {
-            const int64_t n_tokens = batch.n_tokens;
-
-            ggml_backend_tensor_set(lctx.inp_tokens, batch.token, 0, n_tokens*ggml_element_size(lctx.inp_tokens));
-        }
-
-        if (batch.embd) {
-            const int64_t n_embd   = llm.n_embd;
-            const int64_t n_tokens = batch.n_tokens;
-
-            ggml_backend_tensor_set(lctx.inp_embd, batch.embd, 0, n_tokens*n_embd*ggml_element_size(lctx.inp_embd));
-        }
-
-        if (batch.pos) {
-            const int64_t n_tokens = batch.n_tokens;
-
-            ggml_backend_tensor_set(lctx.inp_pos, batch.pos, 0, n_tokens*ggml_element_size(lctx.inp_pos));
-        }
-
-        {
-            const int64_t n_kv     = llm.n_kv;
-            const int64_t n_tokens = batch.n_tokens;
-
-            GGML_ASSERT(ggml_backend_buffer_is_host(lctx.inp_KQ_mask->buffer));
-            float * data = (float *) lctx.inp_KQ_mask->data;
-
-            for (int h = 0; h < 1; ++h) {
-                for (int j = 0; j < n_tokens; ++j) {
-                    const llama_pos    pos    = batch.pos[j];
-                    const llama_seq_id seq_id = batch.seq_id[j][0];
-
-                    for (int i = 0; i < n_kv; ++i) {
-                        float f;
-                        if (!lctx.kv_self.cells[i].has_seq_id(seq_id) || lctx.kv_self.cells[i].pos > pos) {
-                            f = -INFINITY;
-                        } else {
-                            f = 0;
-                        }
-                        data[h*(n_kv*n_tokens) + j*n_kv + i] = f;
-                    }
-                }
-            }
-        }
-
-        if (llm.do_rope_shift) {
-            const int64_t n_ctx = llm.n_ctx;
-
-            GGML_ASSERT(ggml_backend_buffer_is_host(lctx.inp_K_shift->buffer));
-            int32_t * data = (int32_t *) lctx.inp_K_shift->data;
-
-            for (int i = 0; i < n_ctx; ++i) {
-                data[i] = lctx.kv_self.cells[i].delta;
-            }
-        }
-    }
 
     llm.init();
 

@@ -6341,74 +6341,6 @@ static __global__ void soft_max_f32(const float * x, const float * mask, const f
         tmp = buf_iw[lane_id];
         tmp = warp_reduce_sum(tmp);
     }
-#else
-    (void) x; (void) y; (void) dst; (void) ncols_par; (void) nrows_y; (void) scale;
-    NO_DEVICE_CODE;
-#endif // !(defined(GGML_USE_HIPBLAS) && defined(__HIP_PLATFORM_AMD__)) && __CUDA_ARCH__ >= CC_PASCAL && CUDART_VERSION >= CUDART_HMAX
-}
-
-    const float inv_sum = 1.0f / tmp;
-
-#pragma unroll
-    for (int col0 = 0; col0 < ncols; col0 += block_size) {
-        const int col = col0 + tid;
-
-        if (ncols_template == 0 && col >= ncols) {
-            return;
-        }
-
-        const int idst = rowx*ncols + col;
-        dst[idst] = vals[col] * inv_sum;
-    }
-
-    // find the max value in the block
-    max_val = warp_reduce_max(max_val);
-    if (block_size > WARP_SIZE) {
-        if (warp_id == 0) {
-            buf_iw[lane_id] = -INFINITY;
-        }
-        __syncthreads();
-
-        if (lane_id == 0) {
-            buf_iw[warp_id] = max_val;
-        }
-        __syncthreads();
-
-        max_val = buf_iw[lane_id];
-        max_val = warp_reduce_max(max_val);
-    }
-
-    float tmp = 0.0f; // partial sum
-
-#pragma unroll
-    for (int col0 = 0; col0 < ncols; col0 += block_size) {
-        const int col = col0 + tid;
-
-        if (ncols_template == 0 && col >= ncols) {
-            break;
-        }
-
-        const float val = expf(vals[col] - max_val);
-        tmp += val;
-        vals[col] = val;
-    }
-
-    // find the sum of exps in the block
-    tmp = warp_reduce_sum(tmp);
-    if (block_size > WARP_SIZE) {
-        if (warp_id == 0) {
-            buf_iw[lane_id] = 0.0f;
-        }
-        __syncthreads();
-
-        if (lane_id == 0) {
-            buf_iw[warp_id] = tmp;
-        }
-        __syncthreads();
-
-        tmp = buf_iw[lane_id];
-        tmp = warp_reduce_sum(tmp);
-    }
 
     const float inv_sum = 1.0f / tmp;
 
@@ -8810,8 +8742,6 @@ static void ggml_cuda_op_mul_mat_vec_q(
     const char * src1_ddq_i, float * dst_dd_i, const int64_t row_low, const int64_t row_high, const int64_t src1_ncols,
     const int64_t src1_padded_row_size, cudaStream_t stream) {
 
-    GGML_ASSERT(ggml_nrows(src1) == 1);
-
     const int64_t ne00 = src0->ne[0];
     const int64_t row_diff = row_high - row_low;
 
@@ -9189,41 +9119,6 @@ static void ggml_cuda_op_alibi(
 }
 
 static void ggml_cuda_op_pool2d(
-    const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst,
-    const float * src0_dd, const float * src1_dd, float * dst_dd, cudaStream_t main_stream) {
-
-    GGML_ASSERT(src0->type == GGML_TYPE_F16);
-    GGML_ASSERT(src1->type == GGML_TYPE_F32);
-    GGML_ASSERT( dst->type == GGML_TYPE_F16);
-
-    const int32_t s0 = ((const int32_t*)(dst->op_params))[0];
-    const int32_t s1 = ((const int32_t*)(dst->op_params))[1];
-    const int32_t p0 = ((const int32_t*)(dst->op_params))[2];
-    const int32_t p1 = ((const int32_t*)(dst->op_params))[3];
-    const int32_t d0 = ((const int32_t*)(dst->op_params))[4];
-    const int32_t d1 = ((const int32_t*)(dst->op_params))[5];
-
-    const bool is_2D = ((const int32_t*)(dst->op_params))[6] == 1;
-
-    const int64_t IC = src1->ne[is_2D ? 2 : 1];
-    const int64_t IH = is_2D ? src1->ne[1] : 1;
-    const int64_t IW =         src1->ne[0];
-
-    const int64_t KH = is_2D ? src0->ne[1] : 1;
-    const int64_t KW =         src0->ne[0];
-
-    const int64_t OH = is_2D ? dst->ne[2] : 1;
-    const int64_t OW =         dst->ne[1];
-
-    const size_t delta_offset = src1->nb[is_2D ? 2 : 1] / 4; // nb is byte offset, src is type float32
-
-    im2col_f32_f16_cuda(src1_dd, (half*) dst_dd, IW, IH, OW, OH, KW, KH, IC, delta_offset, s0, s1, p0, p1, d0, d1, main_stream);
-
-    (void) src0;
-    (void) src0_dd;
-}
-
-static void ggml_cuda_op_sum_rows(
     const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst,
     const float * src0_dd, const float * src1_dd, float * dst_dd, cudaStream_t main_stream) {
 
@@ -10609,59 +10504,23 @@ static void ggml_cuda_mul_mat_id(const ggml_tensor * src0, const ggml_tensor * s
     }
 }
 
-#if 0
-template<typename ... Srcs>
-static __global__ void k_compute_batched_ptrs_id(
-        const void ** ptrs_src, void ** ptrs_dst,
-        int ne12, int ne13,
-        int ne23,
-        int nb02, int nb03,
-        int nb12, int nb13,
-        int nb2, int nb3,
-        int r2, int r3,
-        ggml_type src0_type, half * src0_as_f16, int64_t src0_ne,
-        const half * src1_f16, half * dst_f16,
-        const int32_t * ids, const int id,
-        Srcs... src0s) {
-
-    int i = ids[id];
-
-    half * src0_f16;
-    const void * srcs_ar[] = { (const half *) src0s... };
-    if (src0_type == GGML_TYPE_F16) {
-        src0_f16 = (half *) srcs_ar[i];
-    } else {
-        src0_f16 = src0_as_f16;
-        if (threadIdx.x == 0 && threadIdx.y == 0) {
-            const to_fp16_cuda_t to_fp16 = ggml_get_to_fp16_cuda(src0_type);
-            to_fp16(srcs_ar[i], src0_f16, src0_ne, cudaStreamFireAndForget);
-        }
-    }
-
-    int i13 = blockIdx.x * blockDim.x + threadIdx.x;
-    int i12 = blockIdx.y * blockDim.y + threadIdx.y;
-
-    if (i13 >= ne13 || i12 >= ne12) {
-        return;
-    }
-
-    int i03 = i13 / r3;
-    int i02 = i12 / r2;
-
-    ptrs_src[0*ne23 + i12 + i13*ne12] = (const char *) src0_f16 + i02*nb02   + i03*nb03;
-    ptrs_src[1*ne23 + i12 + i13*ne12] = (const char *) src1_f16 + i12*nb12/2 + i13*nb13/2;
-    ptrs_dst[0*ne23 + i12 + i13*ne12] = (      char *)  dst_f16 + i12* nb2/2 + i13* nb3/2;
+static void ggml_cuda_scale(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+    ggml_cuda_op_flatten(src0, src1, dst, ggml_cuda_op_scale);
 }
 
-static void ggml_cuda_mul_mat_id_cublas(ggml_tensor * dst) {
-    const struct ggml_tensor * ids = dst->src[0];
-    const struct ggml_tensor * src1 = dst->src[1];
-    const struct ggml_tensor * src00 = dst->src[2];
+static void ggml_cuda_clamp(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+    ggml_cuda_op_flatten(src0, src1, dst, ggml_cuda_op_clamp);
+}
 
-    const int id = dst->op_params[0];
+static void ggml_cuda_cpy(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+    const int64_t ne = ggml_nelements(src0);
+    GGML_ASSERT(ne == ggml_nelements(src1));
 
-    GGML_ASSERT(!ggml_is_transposed(src00));
-    GGML_ASSERT(!ggml_is_transposed(src1));
+    GGML_ASSERT(src0->backend == GGML_BACKEND_GPU);
+    GGML_ASSERT(src1->backend == GGML_BACKEND_GPU);
+
+    GGML_ASSERT(ggml_nbytes(src0) <= INT_MAX);
+    GGML_ASSERT(ggml_nbytes(src1) <= INT_MAX);
 
     const int64_t ne00 = src0->ne[0];
     const int64_t ne01 = src0->ne[1];
@@ -10673,10 +10532,6 @@ static void ggml_cuda_mul_mat_id_cublas(ggml_tensor * dst) {
     const int64_t nb01 = src0->nb[1];
     const int64_t nb02 = src0->nb[2];
     const int64_t nb03 = src0->nb[3];
-
-    //const int64_t nb01 = src00->nb[1];
-    const int64_t nb02 = src00->nb[2]; GGML_UNUSED(nb02);
-    const int64_t nb03 = src00->nb[3]; GGML_UNUSED(nb03);
 
     const int64_t ne10 = src1->ne[0];
     const int64_t ne11 = src1->ne[1];
@@ -10692,11 +10547,11 @@ static void ggml_cuda_mul_mat_id_cublas(ggml_tensor * dst) {
     ggml_cuda_set_device(g_main_device);
     cudaStream_t main_stream = g_cudaStreams[g_main_device][0];
 
-    CUBLAS_CHECK(cublasSetStream(g_cublas_handles[g_main_device], main_stream));
+    const ggml_tensor_extra_gpu * src0_extra = (ggml_tensor_extra_gpu *) src0->extra;
+    const ggml_tensor_extra_gpu * src1_extra = (ggml_tensor_extra_gpu *) src1->extra;
 
-    //ggml_tensor_extra_gpu * src0_extra = (ggml_tensor_extra_gpu *) src0->extra;
-    //void * src0_ddq = src0_extra->data_device[g_main_device];
-    //half * src0_as_f16 = (half *) src0_ddq;
+    char * src0_ddc = (char *) src0_extra->data_device[g_main_device];
+    char * src1_ddc = (char *) src1_extra->data_device[g_main_device];
 
     if (src0->type == GGML_TYPE_F32 && src1->type == GGML_TYPE_F32) {
         ggml_cpy_f32_f32_cuda (src0_ddc, src1_ddc, ne, ne00, ne01, ne02, nb00, nb01, nb02, nb03, ne10, ne11, ne12, nb10, nb11, nb12, nb13, main_stream);
@@ -10718,25 +10573,8 @@ static void ggml_cuda_mul_mat_id_cublas(ggml_tensor * dst) {
         GGML_ASSERT(false);
     }
 
-    static_assert(GGML_MAX_SRC == 6, "GGML_MAX_SRC == 6");
-    dim3 block_dims(ne13, ne12);
-    k_compute_batched_ptrs_id<<<1, block_dims, 0, main_stream>>>(
-            ptrs_src, ptrs_dst,
-            ne12, ne13,
-            ne23,
-            ne00*ne01*sizeof(half), ne00*ne01*ne02*sizeof(half),
-            nb12, nb13,
-            dst->nb[2], dst->nb[3],
-            r2, r3,
-            src00->type, src0_as_f16, src0_ne,
-            src1_as_f16, dst_f16,
-            (const int *)((ggml_tensor_extra_gpu *)ids->extra)->data_device[g_main_device], id,
-            dst->src[2] ? (const half *)((ggml_tensor_extra_gpu *)dst->src[2]->extra)->data_device[g_main_device] : nullptr,
-            dst->src[3] ? (const half *)((ggml_tensor_extra_gpu *)dst->src[3]->extra)->data_device[g_main_device] : nullptr,
-            dst->src[4] ? (const half *)((ggml_tensor_extra_gpu *)dst->src[4]->extra)->data_device[g_main_device] : nullptr,
-            dst->src[5] ? (const half *)((ggml_tensor_extra_gpu *)dst->src[5]->extra)->data_device[g_main_device] : nullptr
-    );
-    CUDA_CHECK(cudaGetLastError());
+    (void) dst;
+}
 
 static void ggml_cuda_dup(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
     // TODO: why do we pass dst as src1 here?
@@ -10744,29 +10582,22 @@ static void ggml_cuda_dup(const ggml_tensor * src0, const ggml_tensor * src1, gg
     (void) src1;
 }
 
-    if (src0_as != 0) {
-        ggml_cuda_pool_free(src0_as_f16, src0_as);
-    }
-    if (ptrs_src_s != 0) {
-        ggml_cuda_pool_free(ptrs_src, ptrs_src_s);
-    }
-    if (ptrs_dst_s != 0) {
-        ggml_cuda_pool_free(ptrs_dst, ptrs_dst_s);
-    }
-
-    const to_fp32_cuda_t to_fp32_cuda = ggml_get_to_fp32_cuda(GGML_TYPE_F16);
-    to_fp32_cuda(dst_f16, dst_ddf, ne, main_stream);
-
-    ggml_cuda_pool_free(src1_as_f16, src1_as);
-    ggml_cuda_pool_free(dst_f16, dst_as);
+static void ggml_cuda_diag_mask_inf(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+    ggml_cuda_op_flatten(src0, src1, dst, ggml_cuda_op_diag_mask_inf);
 }
-#endif
 
-static void ggml_cuda_mul_mat_id(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
-#if 0
-    ggml_cuda_mul_mat_id_cublas(dst);
-    // TODO: mmq/mmv support
-#endif
+static void ggml_cuda_soft_max(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+    ggml_cuda_op_flatten(src0, src1, dst, ggml_cuda_op_soft_max);
+}
+
+static void ggml_cuda_rope(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+    GGML_ASSERT(ggml_is_contiguous(src0)); // TODO: this restriction is temporary until non-cont support is implemented
+    ggml_cuda_op_flatten(src0, src1, dst, ggml_cuda_op_rope);
+}
+
+static void ggml_cuda_alibi(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
+    ggml_cuda_op_flatten(src0, src1, dst, ggml_cuda_op_alibi);
+}
 
 static void ggml_cuda_pool2d(const ggml_tensor * src0, const ggml_tensor * src1, ggml_tensor * dst) {
     ggml_cuda_op_flatten(src0, src1, dst, ggml_cuda_op_pool2d);

@@ -128,7 +128,6 @@ struct free_block {
 
 struct ggml_dyn_tallocr {
     size_t alignment;
-
     int n_free_blocks;
     struct free_block free_blocks[MAX_FREE_BLOCKS];
     size_t max_size;
@@ -575,8 +574,8 @@ static void ggml_gallocr_alloc_graph_impl(ggml_gallocr_t galloc, struct ggml_cgr
             if (src->flags & GGML_TENSOR_FLAG_INPUT || src->op == GGML_OP_NONE) {
                 ggml_gallocr_allocate_node(galloc, src, get_node_buffer_id(node_buffer_ids, i));
             }
-            AT_PRINTF("\n");
         }
+    }
 
     // allocate the remaining leafs that are unused on the graph
     // these are effectively static tensors that the application is not using in the graph, but may still want to allocate for other purposes
@@ -737,11 +736,6 @@ bool ggml_gallocr_reserve_n(ggml_gallocr_t galloc, struct ggml_cgraph * graph, c
             if (galloc->buffers[i] == NULL) {
                 fprintf(stderr, "%s: failed to allocate %s buffer of size %zu\n", __func__, ggml_backend_buft_name(galloc->bufts[i]), new_size);
                 return false;
-            }
-        } else {
-            if (t->view_src != NULL) {
-                // view of a pre-allocated tensor
-                ggml_backend_view_init(buffer, t);
             }
         }
     }
