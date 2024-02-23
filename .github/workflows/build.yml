@@ -25,6 +25,7 @@ jobs:
       workspaceFile: 'llama.xcworkspace'
       xcArchiveName: 'llama'
       scheme: 'llama'
+      sdk: '["iphoneos", "iphonesimulator", "macosx", "xros", "xrsimulator"]'
       version: ${{ inputs.version }}
       configuration: 'Release'
       runsonlabels: '["macOS", "self-hosted"]'
