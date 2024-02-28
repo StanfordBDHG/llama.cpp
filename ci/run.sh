@@ -249,6 +249,8 @@ function gg_run_open_llama_3b_v2 {
 
     wiki_test_60="${path_wiki}/wiki.test-60.raw"
 
+    ./bin/test-autorelease ${model_f16}
+
     ./bin/quantize ${model_f16} ${model_q8_0} q8_0
     ./bin/quantize ${model_f16} ${model_q4_0} q4_0
     ./bin/quantize ${model_f16} ${model_q4_1} q4_1
@@ -285,6 +287,8 @@ function gg_run_open_llama_3b_v2 {
     (time ./bin/perplexity --model ${model_q6_k} -f ${wiki_test_60} -c 128 -b 128 --chunks 1 ) 2>&1 | tee -a $OUT/${ci}-tg-q6_k.log
 
     (time ./bin/imatrix --model ${model_f16} -f ${wiki_test_60} -c 128 -b 128 --chunks 1 ) 2>&1 | tee -a $OUT/${ci}-imatrix.log
+
+    (time ./bin/imatrix --model ${model_f16} -f ${wiki_test_60} -c 128 -b 128 --chunks 2 ) 2>&1 | tee -a $OUT/${ci}-imatrix.log
 
     (time ./bin/save-load-state --model ${model_q4_0} ) 2>&1 | tee -a $OUT/${ci}-save-load-state.log
 
