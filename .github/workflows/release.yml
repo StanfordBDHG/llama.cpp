@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'The version number of the framework embedded in the XCFramework. Also used as the release tag.'
+        description: 'The version number of the framework embedded in the XCFramework. This version number is also used as the release tag.'
         type: string
         required: true
 
@@ -23,7 +23,7 @@ jobs:
       workspaceFile: llama.xcworkspace
       xcFrameworkName: llama
       scheme: llama
-      sdk: '["macosx"]'
+      sdk: '["iphoneos", "iphonesimulator", "macosx", "xros", "xrsimulator"]'
       version: ${{ inputs.version }}
       dryRun: true
       configuration: Release
