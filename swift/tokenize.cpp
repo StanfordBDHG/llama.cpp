@@ -18,6 +18,15 @@ std::vector<llama_token> llama_tokenize_with_context(
     return llama_tokenize(ctx, text, add_bos, special);
 }
 
+/// Tokenize a `char` array via a given `llama_context`.
+std::vector<llama_token> llama_tokenize_with_context_from_char_array(
+     const struct llama_context * ctx,
+     const char* text,
+     bool add_bos,
+     bool special) {
+    return llama_tokenize(ctx, std::string(text), add_bos, special);
+}
+
 /// Tokenize a `String` via a given `llama_model`.
 std::vector<llama_token> llama_tokenize_with_model(
      const struct llama_model * model,

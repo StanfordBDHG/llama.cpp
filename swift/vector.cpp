@@ -14,3 +14,8 @@ const std::vector<llama_seq_id> getLlamaSeqIdVector() {
     const std::vector<llama_seq_id> vec = { 0 };
     return vec;
 }
+
+/// Get `array` representation of C++ `vector`.
+const int* vectorToIntArray(const std::vector<int>& vec) {
+    return vec.data();
+}

@@ -10,6 +10,7 @@
 #define tokenize_hpp
 
 #include <vector>
+#include <string>
 #include "common.h"
 
 
@@ -20,12 +21,18 @@ std::vector<llama_token> llama_tokenize_with_context(
      bool add_bos,
      bool special = false);
 
+/// Tokenize a `char` array via a given `llama_context`.
+std::vector<llama_token> llama_tokenize_with_context_from_char_array(
+     const struct llama_context * ctx,
+     const char* text,
+     bool add_bos,
+     bool special = false);
+
 /// Tokenize a `String` via a given `llama_model`.
 std::vector<llama_token> llama_tokenize_with_model(
      const struct llama_model * model,
      const std::string & text,
      bool add_bos,
      bool special = false);
-
 
 #endif

@@ -16,5 +16,7 @@
 /// Create an empty `vector` of `llama_seq_id`s that serve as a buffer for batch processing.
 const std::vector<llama_seq_id> getLlamaSeqIdVector();
 
+/// Get `array` representation of C++ `vector`.
+const int* vectorToIntArray(const std::vector<int>& vec);
 
 #endif
