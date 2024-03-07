@@ -25,6 +25,7 @@ jobs:
       workspaceFile: llama.xcworkspace
       xcFrameworkName: llama
       scheme: llama
+      dryRun: true
       sdk: '["iphoneos", "iphonesimulator", "macosx", "xros", "xrsimulator"]'
       version: 0.1.0
       configuration: Release
