@@ -18,14 +18,13 @@ on:
 
 jobs:
   create-xcframework-and-release-workflow:
-    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@fix/xcarchive-macos
+    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@v2
     with:
       workspaceFile: llama.xcworkspace
       xcFrameworkName: llama
       scheme: llama
       sdk: '["iphoneos", "iphonesimulator", "macosx", "xros", "xrsimulator"]'
       version: ${{ inputs.version }}
-      dryRun: true
       configuration: Release
       runsonlabels: '["macOS", "self-hosted"]'
       user: PaulsAutomationBot
