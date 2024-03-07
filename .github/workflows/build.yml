@@ -19,13 +19,16 @@ on:
         required: true
 
 jobs:
-  build-xcarchive:
-    uses: StanfordBDHG/.github/.github/workflows/archive.yml@v2
+  create-xcframework-and-release-workflow:
+    uses: StanfordBDHG/.github/.github/workflows/xcframework.yml@v2
     with:
-      workspaceFile: 'llama.xcworkspace'
-      xcArchiveName: 'llama'
-      scheme: 'llama'
+      workspaceFile: llama.xcworkspace
+      xcFrameworkName: llama
+      scheme: llama
       sdk: '["iphoneos", "iphonesimulator", "macosx", "xros", "xrsimulator"]'
-      version: ${{ inputs.version }}
-      configuration: 'Release'
+      version: 0.1.0
+      configuration: Release
       runsonlabels: '["macOS", "self-hosted"]'
+      user: PaulsAutomationBot
+    secrets:
+      access-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
