@@ -127,25 +127,8 @@ int main(int argc, char ** argv) {
 
 
     // Tokenize the prompt
-<<<<<<< HEAD
-    const bool add_bos_tgt = llama_should_add_bos_token(model_tgt);
-    LOG("add_bos tgt: %d\n", add_bos_tgt);
-
-    const bool add_bos_dft = llama_should_add_bos_token(model_dft);
-    LOG("add_bos dft: %d\n", add_bos_dft);
-
-    if (add_bos_tgt != add_bos_dft) {
-        fprintf(stderr, "%s: error: draft model add_bos must match target model to use speculation but ", __func__);
-        fprintf(stderr, "add_bos_dft = %d while add_bos_tgt = %d\n", add_bos_dft, add_bos_tgt);
-        return 1;
-    }
-
-    std::vector<llama_token> inp;
-    inp = ::llama_tokenize(ctx_tgt, params.prompt, add_bos_tgt, true);
-=======
     std::vector<llama_token> inp;
     inp = ::llama_tokenize(ctx_tgt, params.prompt, true, true);
->>>>>>> b2776
 
     const int max_context_size     = llama_n_ctx(ctx_tgt);
     const int max_tokens_list_size = max_context_size - 4;
@@ -237,29 +220,6 @@ int main(int argc, char ** argv) {
 
         // loop until we fail to accept a drafted token or we run out of drafted tokens
         while (true) {
-<<<<<<< HEAD
-            LOG("sampling target: s_keep = %3d, i_dft = %3d, i_batch_tgt = %3d\n", s_keep, i_dft, drafts[s_keep].i_batch_tgt[i_dft]);
-
-            // sample from the target model
-            llama_token id = llama_sampling_sample(ctx_sampling, ctx_tgt, NULL, drafts[s_keep].i_batch_tgt[i_dft]);
-
-            llama_sampling_accept(ctx_sampling, ctx_tgt, id, true);
-
-            //LOG("last: %s\n", LOG_TOKENS_TOSTR_PRETTY(ctx_tgt, ctx_sampling->prev).c_str());
-
-            const std::string token_str = llama_token_to_piece(ctx_tgt, id);
-
-            if (!params.use_color) {
-                printf("%s", token_str.c_str());
-            }
-
-            if (id == llama_token_eos(model_tgt)) {
-                has_eos = true;
-            }
-
-            ++n_predict;
-=======
->>>>>>> b2776
 
             // check if the target token matches any of the drafts
             // for stochastic sampling, attempt to match the token with the drafted tokens
@@ -413,15 +373,10 @@ int main(int argc, char ** argv) {
                     if (params.use_color) {
                         // Color token according to its origin sequence
                         printf("\u001b[%dm%s\u001b[37m", (36 - s_keep % 6), token_str.c_str());
-<<<<<<< HEAD
-                        fflush(stdout);
-                    }
-=======
                     } else {
                         printf("%s", token_str.c_str());
                     }
                     fflush(stdout);
->>>>>>> b2776
                     continue;
                 } else {
                     printf("%s", token_str.c_str());
@@ -429,14 +384,7 @@ int main(int argc, char ** argv) {
                     break;
                 }
             }
-<<<<<<< HEAD
-            if (params.use_color) {
-                printf("%s", token_str.c_str());
-            }
-            fflush(stdout);
-=======
         }
->>>>>>> b2776
 
         {
             LOG("the sampled target token (%d, '%s') did not match, or we ran out of drafted tokens\n", token_id, token_str.c_str());

@@ -1,20 +1,13 @@
 # MobileVLM
 
-<<<<<<< HEAD
-Currently this implementation supports [MobileVLM-v1.7](https://huggingface.co/mtgv/MobileVLM-1.7B) variants.
-=======
 Currently this implementation supports [MobileVLM-1.7B](https://huggingface.co/mtgv/MobileVLM-1.7B) / [MobileVLM_V2-1.7B](https://huggingface.co/mtgv/MobileVLM_V2-1.7B) variants.
->>>>>>> b2776
 
 for more information, please go to [Meituan-AutoML/MobileVLM](https://github.com/Meituan-AutoML/MobileVLM)
 
 The implementation is based on llava, and is compatible with llava and mobileVLM. The usage is basically same as llava.
 
-<<<<<<< HEAD
-=======
 Notice: The overall process of model inference for both **MobileVLM** and **MobileVLM_V2** models is the same, but the process of model conversion is a little different. Therefore, using **MobileVLM-1.7B** as an example, the different conversion step will be shown.
 
->>>>>>> b2776
 ## Usage
 Build with cmake or run `make llava-cli` to build it.
 
@@ -29,11 +22,7 @@ After building, run: `./llava-cli` to see the usage. For example:
 
 ## Model conversion
 
-<<<<<<< HEAD
-- Clone `mobileVLM-1.7B` and `clip-vit-large-patch14-336` locally:
-=======
 1. Clone `mobileVLM-1.7B` and `clip-vit-large-patch14-336` locally:
->>>>>>> b2776
 
 ```sh
 git clone https://huggingface.co/mtgv/MobileVLM-1.7B
@@ -47,11 +36,7 @@ git clone https://huggingface.co/openai/clip-vit-large-patch14-336
 python ./examples/llava/llava-surgery.py -m path/to/MobileVLM-1.7B
 ```
 
-<<<<<<< HEAD
-3. Use `convert-image-encoder-to-gguf.py` with `--projector-type ldp` to convert the LLaVA image encoder to GGUF:
-=======
 3. Use `convert-image-encoder-to-gguf.py` with `--projector-type ldp` (for **V2** please use `--projector-type ldpv2`) to convert the LLaVA image encoder to GGUF:
->>>>>>> b2776
 
 ```sh
 python ./examples/llava/convert-image-encoder-to-gguf \
@@ -61,8 +46,6 @@ python ./examples/llava/convert-image-encoder-to-gguf \
     --projector-type ldp
 ```
 
-<<<<<<< HEAD
-=======
 ```sh
 python ./examples/llava/convert-image-encoder-to-gguf \
     -m path/to/clip-vit-large-patch14-336 \
@@ -71,7 +54,6 @@ python ./examples/llava/convert-image-encoder-to-gguf \
     --projector-type ldpv2
 ```
 
->>>>>>> b2776
 4. Use `convert.py` to convert the LLaMA part of LLaVA to GGUF:
 
 ```sh
@@ -96,11 +78,7 @@ cd examples/llava/android/build_64
 ### run on Android
 refer to `android/adb_run.sh`, modify resources' `name` and `path`
 
-<<<<<<< HEAD
-## some result on Android with `Snapdragon 888` chip
-=======
 ## Some result on Android with `Snapdragon 888` chip
->>>>>>> b2776
 ### case 1
 **input**
 ```sh
@@ -131,10 +109,6 @@ llama_print_timings:       total time =   34731.93 ms
     --image /data/local/tmp/cat.jpeg \
     -p "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. USER: <image>\nWhat is in the image? ASSISTANT:"
 ```
-<<<<<<< HEAD
-
-=======
->>>>>>> b2776
 **output**
 ```sh
 encode_image_with_clip: image encoded in 21149.51 ms by CLIP (  146.87 ms per image patch)
@@ -146,14 +120,6 @@ llama_print_timings:        eval time =    1279.03 ms /    18 runs   (   71.06 m
 llama_print_timings:       total time =   34570.79 ms
 ```
 
-<<<<<<< HEAD
-## Orin compile and run
-### compile
-```sh
-make LLAMA_CUBLAS=1 CUDA_DOCKER_ARCH=sm_87 LLAMA_CUDA_F16=1 -j 32
-```
-
-=======
 
 ## Some result on Android with `Snapdragon 778G` chip
 ### MobileVLM-1.7B case
@@ -230,7 +196,6 @@ llama_print_timings:       total time =   44411.01 ms /   377 tokens
 ```sh
 make LLAMA_CUDA=1 CUDA_DOCKER_ARCH=sm_87 LLAMA_CUDA_F16=1 -j 32
 ```
->>>>>>> b2776
 ### run on Orin
 ### case 1
 **input**
@@ -279,10 +244,6 @@ llama_print_timings:        eval time =     166.65 ms /    11 runs   (   15.15 m
 llama_print_timings:       total time =    1365.47 ms /   243 tokens
 ```
 
-<<<<<<< HEAD
-## Minor shortcomings
-The `n_patch` of output in `ldp` is 1/4 of the input. In order to implement quickly, we uniformly modified `clip_n_patches` function to a quarter. when counting the time consumption, the calculated time will be 4 times bigger than the real cost.
-=======
 ## Running on Intel(R) Core(TM) i7-10750H
 ### Operating system
 Ubuntu22.04
@@ -398,7 +359,6 @@ llama_print_timings: prompt eval time =    2052.45 ms /   191 tokens (   10.75 m
 llama_print_timings:        eval time =    7259.43 ms /   255 runs   (   28.47 ms per token,    35.13 tokens per second)
 llama_print_timings:       total time =   14371.19 ms /   446 tokens
 ```
->>>>>>> b2776
 
 ## TODO
 
@@ -413,9 +373,5 @@ llama_print_timings:       total time =   14371.19 ms /   446 tokens
 
 ## contributor
 ```sh
-<<<<<<< HEAD
-zhangjidong05, yangyang260, huyiming03, chenxiaotao03
-=======
 zhangjidong05, yangyang260, huyiming03, chenxiaotao03, ZiangWu-77
->>>>>>> b2776
 ```

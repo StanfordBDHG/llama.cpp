@@ -6,12 +6,8 @@ import struct
 import tempfile
 from enum import Enum, auto
 from io import BufferedWriter
-<<<<<<< HEAD
-from typing import IO, Any, Sequence
-=======
 from typing import IO, Any, Sequence, Mapping
 from string import ascii_letters, digits
->>>>>>> b2776
 
 import numpy as np
 
@@ -67,10 +63,7 @@ class GGUFWriter:
         self.kv_data_count = 0
         self.ti_data = bytearray()
         self.ti_data_count = 0
-<<<<<<< HEAD
-=======
         self.ti_names = set()
->>>>>>> b2776
         self.use_temp_file = use_temp_file
         self.temp_file = None
         self.tensors = []
@@ -205,14 +198,9 @@ class GGUFWriter:
         if self.state is not WriterState.EMPTY:
             raise ValueError(f'Expected output file to be empty, got {self.state}')
 
-<<<<<<< HEAD
-        if raw_dtype is None and tensor_dtype not in (np.float32, np.float16):
-            raise ValueError("Only F32 and F16 tensors are supported for now")
-=======
         if name in self.ti_names:
             raise ValueError(f'Duplicated tensor name {name}')
         self.ti_names.add(name)
->>>>>>> b2776
 
         encoded_name = name.encode("utf8")
         self.ti_data += self._pack("Q", len(encoded_name))
@@ -222,9 +210,6 @@ class GGUFWriter:
         for i in range(n_dims):
             self.ti_data += self._pack("Q", tensor_shape[n_dims - 1 - i])
         if raw_dtype is None:
-<<<<<<< HEAD
-            dtype = GGMLQuantizationType.F32 if tensor_dtype == np.float32 else GGMLQuantizationType.F16
-=======
             if tensor_dtype == np.float16:
                 dtype = GGMLQuantizationType.F16
             elif tensor_dtype == np.float32:
@@ -241,7 +226,6 @@ class GGUFWriter:
                 dtype = GGMLQuantizationType.I64
             else:
                 raise ValueError("Only F16, F32, F64, I8, I16, I32, I64 tensors are supported for now")
->>>>>>> b2776
         else:
             dtype = raw_dtype
         self.ti_data += self._pack("I", dtype)
@@ -318,12 +302,9 @@ class GGUFWriter:
     def add_author(self, author: str) -> None:
         self.add_string(Keys.General.AUTHOR, author)
 
-<<<<<<< HEAD
-=======
     def add_version(self, version: str) -> None:
         self.add_string(Keys.General.VERSION, version)
 
->>>>>>> b2776
     def add_tensor_data_layout(self, layout: str) -> None:
         self.add_string(Keys.LLM.TENSOR_DATA_LAYOUT.format(arch=self.arch), layout)
 
@@ -333,12 +314,9 @@ class GGUFWriter:
     def add_description(self, description: str) -> None:
         self.add_string(Keys.General.DESCRIPTION, description)
 
-<<<<<<< HEAD
-=======
     def add_licence(self, licence: str) -> None:
         self.add_string(Keys.General.LICENSE, licence)
 
->>>>>>> b2776
     def add_source_url(self, url: str) -> None:
         self.add_string(Keys.General.SOURCE_URL, url)
 
@@ -359,12 +337,9 @@ class GGUFWriter:
         self.data_alignment = alignment
         self.add_uint32(Keys.General.ALIGNMENT, alignment)
 
-<<<<<<< HEAD
-=======
     def add_vocab_size(self, size: int) -> None:
         self.add_uint32(Keys.LLM.VOCAB_SIZE.format(arch=self.arch), size)
 
->>>>>>> b2776
     def add_context_length(self, length: int) -> None:
         self.add_uint32(Keys.LLM.CONTEXT_LENGTH.format(arch=self.arch), length)
 
@@ -398,12 +373,9 @@ class GGUFWriter:
     def add_clamp_kqv(self, value: float) -> None:
         self.add_float32(Keys.Attention.CLAMP_KQV.format(arch=self.arch), value)
 
-<<<<<<< HEAD
-=======
     def add_logit_scale(self, value: float) -> None:
         self.add_float32(Keys.LLM.LOGIT_SCALE.format(arch=self.arch), value)
 
->>>>>>> b2776
     def add_expert_count(self, count: int) -> None:
         self.add_uint32(Keys.LLM.EXPERT_COUNT.format(arch=self.arch), count)
 
@@ -420,11 +392,7 @@ class GGUFWriter:
         self.add_bool(Keys.Attention.CAUSAL.format(arch=self.arch), value)
 
     def add_pooling_type(self, value: PoolingType) -> None:
-<<<<<<< HEAD
-        self.add_uint32(Keys.LLM.POOLING_TYPE.format(arch=self.arch), value)
-=======
         self.add_uint32(Keys.LLM.POOLING_TYPE.format(arch=self.arch), value.value)
->>>>>>> b2776
 
     def add_rope_dimension_count(self, count: int) -> None:
         self.add_uint32(Keys.Rope.DIMENSION_COUNT.format(arch=self.arch), count)
@@ -444,11 +412,6 @@ class GGUFWriter:
     def add_rope_scaling_finetuned(self, value: bool) -> None:
         self.add_bool(Keys.Rope.SCALING_FINETUNED.format(arch=self.arch), value)
 
-<<<<<<< HEAD
-    def add_tokenizer_model(self, model: str) -> None:
-        self.add_string(Keys.Tokenizer.MODEL, model)
-
-=======
     def add_ssm_conv_kernel(self, value: int) -> None:
         self.add_uint32(Keys.SSM.CONV_KERNEL.format(arch=self.arch), value)
 
@@ -467,7 +430,6 @@ class GGUFWriter:
     def add_tokenizer_pre(self, pre: str) -> None:
         self.add_string(Keys.Tokenizer.PRE, pre)
 
->>>>>>> b2776
     def add_token_list(self, tokens: Sequence[str] | Sequence[bytes] | Sequence[bytearray]) -> None:
         self.add_array(Keys.Tokenizer.LIST, tokens)
 
@@ -513,11 +475,6 @@ class GGUFWriter:
     def add_add_space_prefix(self, value: bool) -> None:
         self.add_bool(Keys.Tokenizer.ADD_PREFIX, value)
 
-<<<<<<< HEAD
-    def add_chat_template(self, value: str) -> None:
-        self.add_string(Keys.Tokenizer.CHAT_TEMPLATE, value)
-
-=======
     def add_chat_template(self, value: str | Sequence[Mapping[str, str]]) -> None:
         if isinstance(value, list):
             template_default = None
@@ -559,7 +516,6 @@ class GGUFWriter:
     def add_eot_token_id(self, id: int) -> None:
         self.add_uint32(Keys.Tokenizer.EOT_ID, id)
 
->>>>>>> b2776
     def _pack(self, fmt: str, value: Any, skip_pack_prefix: bool = False) -> bytes:
         pack_prefix = ''
         if not skip_pack_prefix:

@@ -1,6 +1,3 @@
 -r ./requirements-convert.txt
 torch~=2.1.1
-<<<<<<< HEAD
-=======
 einops~=0.7.0
->>>>>>> b2776

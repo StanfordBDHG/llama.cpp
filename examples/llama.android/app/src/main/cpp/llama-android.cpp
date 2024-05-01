@@ -33,8 +33,6 @@ jclass la_int_var;
 jmethodID la_int_var_value;
 jmethodID la_int_var_inc;
 
-<<<<<<< HEAD
-=======
 std::string cached_token_chars;
 
 bool is_valid_utf8(const char * string) {
@@ -74,7 +72,6 @@ bool is_valid_utf8(const char * string) {
     return true;
 }
 
->>>>>>> b2776
 static void log_callback(ggml_log_level level, const char * fmt, void * data) {
     if (level == GGML_LOG_LEVEL_ERROR)     __android_log_print(ANDROID_LOG_ERROR, TAG, fmt, data);
     else if (level == GGML_LOG_LEVEL_INFO) __android_log_print(ANDROID_LOG_INFO, TAG, fmt, data);
@@ -337,11 +334,8 @@ Java_com_example_llama_Llm_completion_1init(
         jint n_len
     ) {
 
-<<<<<<< HEAD
-=======
     cached_token_chars.clear();
 
->>>>>>> b2776
     const auto text = env->GetStringUTFChars(jtext, 0);
     const auto context = reinterpret_cast<llama_context *>(context_pointer);
     const auto batch = reinterpret_cast<llama_batch *>(batch_pointer);
@@ -414,19 +408,11 @@ Java_com_example_llama_Llm_completion_1loop(
     const auto new_token_id = llama_sample_token_greedy(context, &candidates_p);
 
     const auto n_cur = env->CallIntMethod(intvar_ncur, la_int_var_value);
-<<<<<<< HEAD
-    if (new_token_id == llama_token_eos(model) || n_cur == n_len) {
-=======
     if (llama_token_is_eog(model, new_token_id) || n_cur == n_len) {
->>>>>>> b2776
         return env->NewStringUTF("");
     }
 
     auto new_token_chars = llama_token_to_piece(context, new_token_id);
-<<<<<<< HEAD
-    LOGi("new_token_chars: `%s`", new_token_chars.c_str());
-    auto new_token = env->NewStringUTF(new_token_chars.c_str());
-=======
     cached_token_chars += new_token_chars;
 
     jstring new_token = nullptr;
@@ -437,7 +423,6 @@ Java_com_example_llama_Llm_completion_1loop(
     } else {
         new_token = env->NewStringUTF("");
     }
->>>>>>> b2776
 
     llama_batch_clear(*batch);
     llama_batch_add(*batch, new_token_id, n_cur, { 0 }, true);

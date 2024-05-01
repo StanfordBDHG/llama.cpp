@@ -10,11 +10,7 @@ class TensorNameMap:
         # Token embeddings
         MODEL_TENSOR.TOKEN_EMBD: (
             "gpt_neox.embed_in",                         # gptneox
-<<<<<<< HEAD
-            "transformer.wte",                           # gpt2 gpt-j mpt refact qwen
-=======
             "transformer.wte",                           # gpt2 gpt-j mpt refact qwen dbrx
->>>>>>> b2776
             "transformer.word_embeddings",               # falcon
             "word_embeddings",                           # bloom
             "model.embed_tokens",                        # llama-hf
@@ -24,13 +20,10 @@ class TensorNameMap:
             "wte",                                       # gpt2
             "transformer.embd.wte",                      # phi2
             "model.tok_embeddings",                      # internlm2
-<<<<<<< HEAD
-=======
             "model.embedding",                           # mamba-qbert
             "backbone.embedding",                        # mamba
             "backbone.embeddings",                       # mamba-hf
             "transformer.in_out_embed",                  # Grok
->>>>>>> b2776
         ),
 
         # Token type embeddings
@@ -55,11 +48,7 @@ class TensorNameMap:
         # Output
         MODEL_TENSOR.OUTPUT: (
             "embed_out",                 # gptneox
-<<<<<<< HEAD
-            "lm_head",                   # gpt2 mpt falcon llama-hf baichuan qwen
-=======
             "lm_head",                   # gpt2 mpt falcon llama-hf baichuan qwen mamba dbrx
->>>>>>> b2776
             "output",                    # llama-pth bloom internlm2
             "word_embeddings_for_head",  # persimmon
             "lm_head.linear",            # phi2
@@ -71,21 +60,14 @@ class TensorNameMap:
             "transformer.ln_f",                        # gpt2 gpt-j falcon
             "model.norm",                              # llama-hf baichuan internlm2
             "norm",                                    # llama-pth
-<<<<<<< HEAD
-            "transformer.norm_f",                      # mpt
-=======
             "transformer.norm_f",                      # mpt dbrx
->>>>>>> b2776
             "ln_f",                                    # refact bloom qwen gpt2
             "language_model.encoder.final_layernorm",  # persimmon
             "model.final_layernorm",                   # persimmon
             "lm_head.ln",                              # phi2
-<<<<<<< HEAD
-=======
             "model.norm_f",                            # mamba-qbert
             "backbone.norm_f",                         # mamba
             "transformer.rms_norm",                    # Grok
->>>>>>> b2776
         ),
 
         # Rope frequencies
@@ -111,13 +93,10 @@ class TensorNameMap:
             "transformer.h.{bid}.ln",                               # phi2
             "model.layers.layers.{bid}.norm",                       # plamo
             "model.layers.{bid}.attention_norm",                    # internlm2
-<<<<<<< HEAD
-=======
             "model.layers.{bid}.norm",                              # mamba-qbert
             "backbone.layers.{bid}.norm",                           # mamba
             "transformer.decoder_layer.{bid}.rms_norm",             # Grok
             "transformer.blocks.{bid}.norm_attn_norm.norm_1",       # dbrx
->>>>>>> b2776
         ),
 
         # Attention norm 2
@@ -130,10 +109,7 @@ class TensorNameMap:
             "gpt_neox.layers.{bid}.attention.query_key_value",                     # gptneox
             "transformer.h.{bid}.attn.c_attn",                                     # gpt2 qwen
             "transformer.blocks.{bid}.attn.Wqkv",                                  # mpt
-<<<<<<< HEAD
-=======
             "transformer.blocks.{bid}.norm_attn_norm.attn.Wqkv",                   # dbrx
->>>>>>> b2776
             "transformer.h.{bid}.self_attention.query_key_value",                  # falcon
             "h.{bid}.self_attention.query_key_value",                              # bloom
             "language_model.encoder.layers.{bid}.self_attention.query_key_value",  # persimmon
@@ -141,22 +117,11 @@ class TensorNameMap:
             "h.{bid}.attn.c_attn",                                                 # gpt2
             "transformer.h.{bid}.mixer.Wqkv",                                      # phi2
             "encoder.layers.{bid}.attn.Wqkv",                                      # nomic-bert
-<<<<<<< HEAD
-=======
             "model.layers.{bid}.self_attn.qkv_proj"                                # phi3
->>>>>>> b2776
         ),
 
         # Attention query
         MODEL_TENSOR.ATTN_Q: (
-<<<<<<< HEAD
-            "model.layers.{bid}.self_attn.q_proj",         # llama-hf
-            "layers.{bid}.attention.wq",                   # llama-pth
-            "encoder.layer.{bid}.attention.self.query",    # bert
-            "transformer.h.{bid}.attn.q_proj",             # gpt-j
-            "model.layers.layers.{bid}.self_attn.q_proj",  # plamo
-            "model.layers.{bid}.attention.wq"             # internlm2
-=======
             "model.layers.{bid}.self_attn.q_proj",                       # llama-hf
             "layers.{bid}.attention.wq",                                 # llama-pth
             "encoder.layer.{bid}.attention.self.query",                  # bert
@@ -164,19 +129,10 @@ class TensorNameMap:
             "model.layers.layers.{bid}.self_attn.q_proj",                # plamo
             "model.layers.{bid}.attention.wq",                           # internlm2
             "transformer.decoder_layer.{bid}.multi_head_attention.query" # Grok
->>>>>>> b2776
         ),
 
         # Attention key
         MODEL_TENSOR.ATTN_K: (
-<<<<<<< HEAD
-            "model.layers.{bid}.self_attn.k_proj",         # llama-hf
-            "layers.{bid}.attention.wk",                   # llama-pth
-            "encoder.layer.{bid}.attention.self.key",      # bert
-            "transformer.h.{bid}.attn.k_proj",             # gpt-j
-            "model.layers.layers.{bid}.self_attn.k_proj",  # plamo
-            "model.layers.{bid}.attention.wk"             # internlm2
-=======
             "model.layers.{bid}.self_attn.k_proj",                     # llama-hf
             "layers.{bid}.attention.wk",                               # llama-pth
             "encoder.layer.{bid}.attention.self.key",                  # bert
@@ -184,19 +140,10 @@ class TensorNameMap:
             "model.layers.layers.{bid}.self_attn.k_proj",              # plamo
             "model.layers.{bid}.attention.wk",                         # internlm2
             "transformer.decoder_layer.{bid}.multi_head_attention.key" # Grok
->>>>>>> b2776
         ),
 
         # Attention value
         MODEL_TENSOR.ATTN_V: (
-<<<<<<< HEAD
-            "model.layers.{bid}.self_attn.v_proj",         # llama-hf
-            "layers.{bid}.attention.wv",                   # llama-pth
-            "encoder.layer.{bid}.attention.self.value",    # bert
-            "transformer.h.{bid}.attn.v_proj",             # gpt-j
-            "model.layers.layers.{bid}.self_attn.v_proj",  # plamo
-            "model.layers.{bid}.attention.wv"             # internlm2
-=======
             "model.layers.{bid}.self_attn.v_proj",                       # llama-hf
             "layers.{bid}.attention.wv",                                 # llama-pth
             "encoder.layer.{bid}.attention.self.value",                  # bert
@@ -204,29 +151,10 @@ class TensorNameMap:
             "model.layers.layers.{bid}.self_attn.v_proj",                # plamo
             "model.layers.{bid}.attention.wv",                           # internlm2
             "transformer.decoder_layer.{bid}.multi_head_attention.value" # Grok
->>>>>>> b2776
         ),
 
         # Attention output
         MODEL_TENSOR.ATTN_OUT: (
-<<<<<<< HEAD
-            "gpt_neox.layers.{bid}.attention.dense",                     # gptneox
-            "transformer.h.{bid}.attn.c_proj",                           # gpt2 refact qwen
-            "transformer.blocks.{bid}.attn.out_proj",                    # mpt
-            "transformer.h.{bid}.self_attention.dense",                  # falcon
-            "h.{bid}.self_attention.dense",                              # bloom
-            "model.layers.{bid}.self_attn.o_proj",                       # llama-hf
-            "layers.{bid}.attention.wo",                                 # llama-pth
-            "encoder.layer.{bid}.attention.output.dense",                # bert
-            "transformer.h.{bid}.attn.out_proj",                         # gpt-j
-            "language_model.encoder.layers.{bid}.self_attention.dense",  # persimmon
-            "model.layers.{bid}.self_attn.dense",                        # persimmon
-            "h.{bid}.attn.c_proj",                                       # gpt2
-            "transformer.h.{bid}.mixer.out_proj",                        # phi2
-            "model.layers.layers.{bid}.self_attn.o_proj",                # plamo
-            "model.layers.{bid}.attention.wo",                           # internlm2
-            "encoder.layers.{bid}.attn.out_proj",                        # nomic-bert
-=======
             "gpt_neox.layers.{bid}.attention.dense",                        # gptneox
             "transformer.h.{bid}.attn.c_proj",                              # gpt2 refact qwen
             "transformer.blocks.{bid}.attn.out_proj",                       # mpt
@@ -245,18 +173,14 @@ class TensorNameMap:
             "encoder.layers.{bid}.attn.out_proj",                           # nomic-bert
             "transformer.decoder_layer.{bid}.multi_head_attention.linear",  # Grok
             "transformer.blocks.{bid}.norm_attn_norm.attn.out_proj",        # dbrx
->>>>>>> b2776
         ),
 
         # Attention output norm
         MODEL_TENSOR.ATTN_OUT_NORM: (
             "encoder.layer.{bid}.attention.output.LayerNorm",  # bert
             "encoder.layers.{bid}.norm1",                      # nomic-bert
-<<<<<<< HEAD
-=======
             "transformer.decoder_layer.{bid}.rms_norm_1",      # Grok
             "transformer.blocks.{bid}.norm_attn_norm.norm_2",  # dbrx
->>>>>>> b2776
         ),
 
         # Rotary embeddings
@@ -279,13 +203,6 @@ class TensorNameMap:
             "model.layers.{bid}.ln2",                                        # yi
             "h.{bid}.ln_2",                                                  # gpt2
             "model.layers.{bid}.ffn_norm",                                   # internlm2
-<<<<<<< HEAD
-        ),
-
-        MODEL_TENSOR.FFN_GATE_INP: (
-            "layers.{bid}.feed_forward.gate",           # mixtral
-            "model.layers.{bid}.block_sparse_moe.gate", # mixtral
-=======
             "transformer.decoder_layer.{bid}.rms_norm_2",                    # Grok
         ),
 
@@ -299,7 +216,6 @@ class TensorNameMap:
 
         MODEL_TENSOR.FFN_GATE_INP_SHEXP: (
             "model.layers.{bid}.mlp.shared_expert_gate", # qwen2moe
->>>>>>> b2776
         ),
 
         # Feed-forward up
@@ -319,16 +235,6 @@ class TensorNameMap:
             "h.{bid}.mlp.c_fc",                                       # gpt2
             "transformer.h.{bid}.mlp.fc1",                            # phi2
             "model.layers.{bid}.mlp.fc1",                             # phi2
-<<<<<<< HEAD
-            "model.layers.layers.{bid}.mlp.up_proj",                  # plamo
-            "model.layers.{bid}.feed_forward.w3",                     # internlm2
-            "encoder.layers.{bid}.mlp.fc11",                          # nomic-bert
-        ),
-
-        MODEL_TENSOR.FFN_UP_EXP: (
-            "layers.{bid}.feed_forward.experts.{xid}.w3",           # mixtral
-            "model.layers.{bid}.block_sparse_moe.experts.{xid}.w3", # mixtral
-=======
             "model.layers.{bid}.mlp.gate_up_proj",                    # phi3
             "model.layers.layers.{bid}.mlp.up_proj",                  # plamo
             "model.layers.{bid}.feed_forward.w3",                     # internlm2
@@ -345,7 +251,6 @@ class TensorNameMap:
 
         MODEL_TENSOR.FFN_UP_SHEXP: (
             "model.layers.{bid}.mlp.shared_expert.up_proj",  # qwen2moe
->>>>>>> b2776
         ),
 
         # AWQ-activation gate
@@ -364,10 +269,6 @@ class TensorNameMap:
         ),
 
         MODEL_TENSOR.FFN_GATE_EXP: (
-<<<<<<< HEAD
-            "layers.{bid}.feed_forward.experts.{xid}.w1",           # mixtral
-            "model.layers.{bid}.block_sparse_moe.experts.{xid}.w1", # mixtral
-=======
             "layers.{bid}.feed_forward.experts.w1",         # mixtral (merged)
             "transformer.decoder_layer.{bid}.moe.linear",   # Grok (merged)
             "transformer.blocks.{bid}.ffn.experts.mlp.w1",  # dbrx
@@ -376,7 +277,6 @@ class TensorNameMap:
 
         MODEL_TENSOR.FFN_GATE_SHEXP: (
             "model.layers.{bid}.mlp.shared_expert.gate_proj",  # qwen2moe
->>>>>>> b2776
         ),
 
         # Feed-forward down
@@ -398,13 +298,6 @@ class TensorNameMap:
             "model.layers.layers.{bid}.mlp.down_proj",                # plamo
             "model.layers.{bid}.feed_forward.w2",                     # internlm2
             "encoder.layers.{bid}.mlp.fc2",                           # nomic-bert
-<<<<<<< HEAD
-        ),
-
-        MODEL_TENSOR.FFN_DOWN_EXP: (
-            "layers.{bid}.feed_forward.experts.{xid}.w2",           # mixtral
-            "model.layers.{bid}.block_sparse_moe.experts.{xid}.w2", # mixtral
-=======
             "model.layers.{bid}.mlp.c_proj",                          # starcoder2
         ),
 
@@ -417,27 +310,20 @@ class TensorNameMap:
 
         MODEL_TENSOR.FFN_DOWN_SHEXP: (
             "model.layers.{bid}.mlp.shared_expert.down_proj",  # qwen2moe
->>>>>>> b2776
         ),
 
         MODEL_TENSOR.ATTN_Q_NORM: (
             "language_model.encoder.layers.{bid}.self_attention.q_layernorm",
             "model.layers.{bid}.self_attn.q_layernorm",                       # persimmon
-<<<<<<< HEAD
-=======
             "model.layers.{bid}.self_attn.q_norm",                            # cohere
             "transformer.blocks.{bid}.attn.q_ln",                             # sea-lion
->>>>>>> b2776
         ),
 
         MODEL_TENSOR.ATTN_K_NORM: (
             "language_model.encoder.layers.{bid}.self_attention.k_layernorm",
             "model.layers.{bid}.self_attn.k_layernorm",                       # persimmon
-<<<<<<< HEAD
-=======
             "model.layers.{bid}.self_attn.k_norm",                            # cohere
             "transformer.blocks.{bid}.attn.k_ln",                             # sea-lion
->>>>>>> b2776
         ),
 
         MODEL_TENSOR.ROPE_FREQS: (
@@ -445,11 +331,6 @@ class TensorNameMap:
         ),
 
         MODEL_TENSOR.LAYER_OUT_NORM: (
-<<<<<<< HEAD
-            "encoder.layer.{bid}.output.LayerNorm",  # bert
-            "encoder.layers.{bid}.norm2",            # nomic-bert
-        )
-=======
             "encoder.layer.{bid}.output.LayerNorm",         # bert
             "encoder.layers.{bid}.norm2",                   # nomic-bert
             "transformer.decoder_layer.{bid}.rms_norm_3",   # Grok
@@ -489,7 +370,6 @@ class TensorNameMap:
             "model.layers.{bid}.out_proj",
             "backbone.layers.{bid}.mixer.out_proj",
         ),
->>>>>>> b2776
     }
 
     mapping: dict[str, tuple[MODEL_TENSOR, str]]
@@ -508,11 +388,7 @@ class TensorNameMap:
                 if tensor not in MODEL_TENSORS[arch]:
                     continue
                 # TODO: make this configurable
-<<<<<<< HEAD
-                n_experts = 8
-=======
                 n_experts = 60
->>>>>>> b2776
                 for xid in range(n_experts):
                     tensor_name = TENSOR_NAMES[tensor].format(bid = bid, xid = xid)
                     self.mapping[tensor_name] = (tensor, tensor_name)

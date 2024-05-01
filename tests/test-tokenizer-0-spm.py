@@ -27,11 +27,8 @@ tests = [
     "   ",
     "\t",
     "\n",
-<<<<<<< HEAD:tests/test-tokenizer-0-llama.py
-=======
     "\n\n",
     "\n\n\n",
->>>>>>> b2776:tests/test-tokenizer-0-spm.py
     "\t\n",
     "Hello world",
     " Hello world",
@@ -51,8 +48,6 @@ tests = [
     "   Hello",
     "    Hello",
     "    Hello\n    Hello",
-<<<<<<< HEAD:tests/test-tokenizer-0-llama.py
-=======
     " (",
     "\n =",
     "' era",
@@ -66,7 +61,6 @@ tests = [
     "3333333",
     "33333333",
     "333333333",
->>>>>>> b2776:tests/test-tokenizer-0-spm.py
 ]
 
 

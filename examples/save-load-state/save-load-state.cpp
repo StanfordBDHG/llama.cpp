@@ -45,13 +45,8 @@ int main(int argc, char ** argv) {
 
     // save state (rng, logits, embedding and kv_cache) to file
     {
-<<<<<<< HEAD
-        std::vector<uint8_t> state_mem(llama_get_state_size(ctx));
-        const size_t written = llama_copy_state_data(ctx, state_mem.data());
-=======
         std::vector<uint8_t> state_mem(llama_state_get_size(ctx));
         const size_t written = llama_state_get_data(ctx, state_mem.data());
->>>>>>> b2776
 
         FILE *fp_write = fopen("dump_state.bin", "wb");
         fwrite(state_mem.data(), 1, written, fp_write);
@@ -109,11 +104,7 @@ int main(int argc, char ** argv) {
         const size_t read = fread(state_mem.data(), 1, state_mem.size(), fp_read);
         fclose(fp_read);
 
-<<<<<<< HEAD
-        if (read != llama_set_state_data(ctx2, state_mem.data())) {
-=======
         if (read != llama_state_set_data(ctx2, state_mem.data())) {
->>>>>>> b2776
             fprintf(stderr, "\n%s : failed to read state\n", __func__);
             llama_free(ctx2);
             llama_free_model(model);

@@ -8,10 +8,6 @@
 #include <unordered_map>
 #include <fstream>
 #include <cmath>
-<<<<<<< HEAD
-#include <algorithm>
-=======
->>>>>>> b2776
 
 struct quant_option {
     std::string name;
@@ -29,10 +25,7 @@ static const std::vector<struct quant_option> QUANT_OPTIONS = {
     { "IQ2_S",  LLAMA_FTYPE_MOSTLY_IQ2_S,  " 2.5  bpw quantization",            },
     { "IQ2_M",  LLAMA_FTYPE_MOSTLY_IQ2_M,  " 2.7  bpw quantization",            },
     { "IQ1_S",  LLAMA_FTYPE_MOSTLY_IQ1_S,  " 1.56 bpw quantization",            },
-<<<<<<< HEAD
-=======
     { "IQ1_M",  LLAMA_FTYPE_MOSTLY_IQ1_M,  " 1.75 bpw quantization",            },
->>>>>>> b2776
     { "Q2_K",   LLAMA_FTYPE_MOSTLY_Q2_K,   " 2.63G, +0.6717 ppl @ LLaMA-v1-7B", },
     { "Q2_K_S", LLAMA_FTYPE_MOSTLY_Q2_K_S, " 2.16G, +9.0634 ppl @ LLaMA-v1-7B", },
     { "IQ3_XXS",LLAMA_FTYPE_MOSTLY_IQ3_XXS," 3.06 bpw quantization",            },
@@ -98,25 +91,18 @@ static bool try_parse_ftype(const std::string & ftype_str_in, llama_ftype & ftyp
 //
 [[noreturn]]
 static void usage(const char * executable) {
-<<<<<<< HEAD
-    printf("usage: %s [--help] [--allow-requantize] [--leave-output-tensor] [--pure] [--imatrix] [--include-weights] [--exclude-weights] model-f32.gguf [model-quant.gguf] type [nthreads]\n\n", executable);
-=======
     printf("usage: %s [--help] [--allow-requantize] [--leave-output-tensor] [--pure] [--imatrix] [--include-weights] [--exclude-weights] [--output-tensor-type] [--token-embedding-type] [--override-kv] model-f32.gguf [model-quant.gguf] type [nthreads]\n\n", executable);
->>>>>>> b2776
     printf("  --allow-requantize: Allows requantizing tensors that have already been quantized. Warning: This can severely reduce quality compared to quantizing from 16bit or 32bit\n");
     printf("  --leave-output-tensor: Will leave output.weight un(re)quantized. Increases model size but may also increase quality, especially when requantizing\n");
     printf("  --pure: Disable k-quant mixtures and quantize all tensors to the same type\n");
     printf("  --imatrix file_name: use data in file_name as importance matrix for quant optimizations\n");
     printf("  --include-weights tensor_name: use importance matrix for this/these tensor(s)\n");
     printf("  --exclude-weights tensor_name: use importance matrix for this/these tensor(s)\n");
-<<<<<<< HEAD
-=======
     printf("  --output-tensor-type ggml_type: use this ggml_type for the output.weight tensor\n");
     printf("  --token-embedding-type ggml_type: use this ggml_type for the token embeddings tensor\n");
     printf("  --keep-split: will generate quatized model in the same shards as input");
     printf("  --override-kv KEY=TYPE:VALUE\n");
     printf("      Advanced option to override model metadata by key in the quantized model. May be specified multiple times.\n");
->>>>>>> b2776
     printf("Note: --include-weights and --exclude-weights cannot be used together\n");
     printf("\nAllowed quantization types:\n");
     for (auto & it : QUANT_OPTIONS) {
@@ -130,19 +116,6 @@ static void usage(const char * executable) {
     exit(1);
 }
 
-<<<<<<< HEAD
-static void load_imatrix(const std::string& imatrix_file, std::unordered_map<std::string, std::vector<float>>& imatrix_data) {
-    std::ifstream in(imatrix_file.c_str(), std::ios::binary);
-    if (!in) {
-        printf("%s: failed to open %s\n",__func__,imatrix_file.c_str());
-        return;
-    }
-    int n_entries;
-    in.read((char*)&n_entries, sizeof(n_entries));
-    if (in.fail() || n_entries < 1) {
-        printf("%s: no data in file %s\n", __func__, imatrix_file.c_str());
-        return;
-=======
 static int load_imatrix(const std::string & imatrix_file, std::string & imatrix_dataset, std::unordered_map<std::string, std::vector<float>> & imatrix_data) {
     std::ifstream in(imatrix_file.c_str(), std::ios::binary);
     if (!in) {
@@ -154,36 +127,12 @@ static int load_imatrix(const std::string & imatrix_file, std::string & imatrix_
     if (in.fail() || n_entries < 1) {
         printf("%s: no data in file %s\n", __func__, imatrix_file.c_str());
         exit(1);
->>>>>>> b2776
     }
     for (int i = 0; i < n_entries; ++i) {
         int len; in.read((char *)&len, sizeof(len));
         std::vector<char> name_as_vec(len+1);
         in.read((char *)name_as_vec.data(), len);
         if (in.fail()) {
-<<<<<<< HEAD
-            printf("%s: failed reading name for entry %d from %s\n",__func__,i+1,imatrix_file.c_str());
-            return;
-        }
-        name_as_vec[len] = 0;
-        std::string name{name_as_vec.data()};
-        auto& e = imatrix_data[std::move(name)];
-        int ncall;
-        in.read((char*)&ncall, sizeof(ncall));
-        int nval;
-        in.read((char *)&nval, sizeof(nval));
-        if (in.fail() || nval < 1) {
-            printf("%s: failed reading number of values for entry %d\n",__func__,i);
-            imatrix_data = {};
-            return;
-        }
-        e.resize(nval);
-        in.read((char*)e.data(), nval*sizeof(float));
-        if (in.fail()) {
-            printf("%s: failed reading data for entry %d\n",__func__,i);
-            imatrix_data = {};
-            return;
-=======
             printf("%s: failed reading name for entry %d from %s\n", __func__, i+1, imatrix_file.c_str());
             exit(1);
         }
@@ -205,26 +154,10 @@ static int load_imatrix(const std::string & imatrix_file, std::string & imatrix_
             printf("%s: failed reading data for entry %d\n", __func__, i);
             imatrix_data = {};
             exit(1);
->>>>>>> b2776
         }
         if (ncall > 0) {
             for (auto& v : e) v /= ncall;
         }
-<<<<<<< HEAD
-    }
-    printf("%s: loaded %d importance matrix entries from %s\n",__func__,int(imatrix_data.size()),imatrix_file.c_str());
-}
-
-static void prepare_imatrix(const std::string& imatrix_file,
-        const std::vector<std::string>& included_weights,
-        const std::vector<std::string>& excluded_weights,
-        std::unordered_map<std::string, std::vector<float>>& imatrix_data) {
-    if (!imatrix_file.empty()) {
-        load_imatrix(imatrix_file, imatrix_data);
-    }
-    if (imatrix_data.empty()) {
-        return;
-=======
 
         if (getenv("LLAMA_TRACE")) {
             printf("%s: loaded data (size = %6d, ncall = %6d) for '%s'\n", __func__, int(e.size()), ncall, name.c_str());
@@ -257,7 +190,6 @@ static int prepare_imatrix(const std::string & imatrix_file,
     }
     if (imatrix_data.empty()) {
         return m_last_call;
->>>>>>> b2776
     }
     if (!excluded_weights.empty()) {
         for (auto& name : excluded_weights) {
@@ -283,8 +215,6 @@ static int prepare_imatrix(const std::string & imatrix_file,
     if (!imatrix_data.empty()) {
         printf("%s: have %d importance matrix entries\n", __func__, int(imatrix_data.size()));
     }
-<<<<<<< HEAD
-=======
     return m_last_call;
 }
 
@@ -298,7 +228,6 @@ static ggml_type parse_ggml_type(const char * arg) {
         }
     }
     return result;
->>>>>>> b2776
 }
 
 int main(int argc, char ** argv) {
@@ -311,10 +240,7 @@ int main(int argc, char ** argv) {
     int arg_idx = 1;
     std::string imatrix_file;
     std::vector<std::string> included_weights, excluded_weights;
-<<<<<<< HEAD
-=======
     std::vector<llama_model_kv_override> kv_overrides;
->>>>>>> b2776
 
     for (; arg_idx < argc && strncmp(argv[arg_idx], "--", 2) == 0; arg_idx++) {
         if (strcmp(argv[arg_idx], "--leave-output-tensor") == 0) {
@@ -357,11 +283,8 @@ int main(int argc, char ** argv) {
             } else {
                 usage(argv[0]);
             }
-<<<<<<< HEAD
-=======
         } else if (strcmp(argv[arg_idx], "--keep-split")) {
             params.keep_split = true;
->>>>>>> b2776
         } else {
             usage(argv[0]);
         }
@@ -375,12 +298,6 @@ int main(int argc, char ** argv) {
         usage(argv[0]);
     }
 
-<<<<<<< HEAD
-    std::unordered_map<std::string, std::vector<float>> imatrix_data;
-    prepare_imatrix(imatrix_file, included_weights, excluded_weights, imatrix_data);
-    if (!imatrix_data.empty()) {
-        params.imatrix = &imatrix_data;
-=======
     std::string imatrix_dataset;
     std::unordered_map<std::string, std::vector<float>> imatrix_data;
     int m_last_call = prepare_imatrix(imatrix_file, imatrix_dataset, included_weights, excluded_weights, imatrix_data);
@@ -423,7 +340,6 @@ int main(int argc, char ** argv) {
         kv_overrides.emplace_back();
         kv_overrides.back().key[0] = 0;
         params.kv_overrides = &kv_overrides;
->>>>>>> b2776
     }
 
     llama_backend_init();
@@ -485,19 +401,12 @@ int main(int argc, char ** argv) {
 
     if ((params.ftype == LLAMA_FTYPE_MOSTLY_IQ2_XS || params.ftype == LLAMA_FTYPE_MOSTLY_IQ2_XXS ||
          params.ftype == LLAMA_FTYPE_MOSTLY_IQ2_S  ||
-<<<<<<< HEAD
-         params.ftype == LLAMA_FTYPE_MOSTLY_Q2_K_S || params.ftype == LLAMA_FTYPE_MOSTLY_IQ1_S) && imatrix_data.empty()) {
-        fprintf(stderr, "\n===============================================================================================\n");
-        fprintf(stderr, "Please do not use IQ1_S, IQ2_XXS, IQ2_XS or Q2_K_S quantization without an importance matrix\n");
-        fprintf(stderr, "===============================================================================================\n\n\n");
-=======
          params.ftype == LLAMA_FTYPE_MOSTLY_Q2_K_S ||
          params.ftype == LLAMA_FTYPE_MOSTLY_IQ1_S  ||
          params.ftype == LLAMA_FTYPE_MOSTLY_IQ1_M) && imatrix_data.empty()) {
         fprintf(stderr, "\n==========================================================================================================\n");
         fprintf(stderr, "Please do not use IQ1_S, IQ1_M, IQ2_S, IQ2_XXS, IQ2_XS or Q2_K_S quantization without an importance matrix\n");
         fprintf(stderr, "==========================================================================================================\n\n\n");
->>>>>>> b2776
         return 1;
     }
 

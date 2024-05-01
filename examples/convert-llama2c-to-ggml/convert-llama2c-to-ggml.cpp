@@ -318,16 +318,6 @@ struct train_params {
 };
 
 static void print_params(struct my_llama_hparams * params) {
-<<<<<<< HEAD
-    printf("%s: n_vocab: %u\n", __func__, params->n_vocab);
-    printf("%s: n_ctx:   %u\n", __func__, params->n_ctx);
-    printf("%s: n_embd:  %u\n", __func__, params->n_embd);
-    printf("%s: n_mult:  %u\n", __func__, params->n_mult);
-    printf("%s: n_head:  %u\n", __func__, params->n_head);
-    printf("%s: n_ff:    %u\n", __func__, params->n_ff);
-    printf("%s: n_layer: %u\n", __func__, params->n_layer);
-    printf("%s: n_rot:   %u\n", __func__, params->n_rot);
-=======
     LOG("%s: n_vocab:   %u\n", __func__, params->n_vocab);
     LOG("%s: n_ctx:     %u\n", __func__, params->n_ctx);
     LOG("%s: n_embd:    %u\n", __func__, params->n_embd);
@@ -352,7 +342,6 @@ static void print_tensor_info(const struct ggml_context * ctx) {
         if (i > 1) LOG("= [%" PRId64 "] ", total);
         LOG("float space for %s\n", ggml_get_name(t));
     }
->>>>>>> b2776
 }
 
 static void init_model(struct my_llama_model * model) {
@@ -372,30 +361,8 @@ static void init_model(struct my_llama_model * model) {
     model->train_tokens = 0;
 
     model->tok_embeddings = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, n_embd, n_vocab);
-<<<<<<< HEAD
-    printf("[%s:GG] Allocating [%u] x [%u] = [%u] float space for model->tok_embeddings\n",__func__,n_embd , n_vocab, n_embd * n_vocab);
-
-    model->norm           = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_embd);
-    printf("[%s:GG] Allocating [%u] float space for model->norm\n",__func__,n_embd);
-
-    model->output         = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, n_embd, n_vocab);
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for model->output\n",__func__,n_embd, n_vocab, n_embd * n_vocab);
-
-    // printing the per-layer allocations here so we dont print in the for loop.
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for layer.wq for [%u] layers\n",__func__, n_embd, n_embd, n_embd * n_embd, n_layer);
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for layer.wk for [%u] layers\n",__func__, n_embd, n_embd, n_embd * n_embd, n_layer);
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for layer.wv for [%u] layers\n",__func__, n_embd, n_embd, n_embd * n_embd, n_layer);
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for layer.wo for [%u] layers\n",__func__, n_embd, n_embd, n_embd * n_embd, n_layer);
-
-    printf("[%s:GG] Allocating [%u] float space for layer.ffn_norm for [%u] layers\n",__func__,n_embd, n_layer);
-
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for layer.w1 for [%u] layers\n",__func__, n_ff, n_embd, n_embd * n_ff, n_layer);
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for layer.w2 for [%u] layers\n",__func__, n_embd, n_ff, n_ff * n_embd, n_layer);
-    printf("[%s:GG] Allocating [%u] x[%u] = [%u] float space for layer.w3 for [%u] layers\n",__func__, n_ff, n_embd, n_embd * n_ff, n_layer);
-=======
     model->norm           = ggml_new_tensor_1d(ctx, GGML_TYPE_F32, n_embd);
     model->output         = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, n_embd, n_vocab);
->>>>>>> b2776
 
     ggml_set_name(model->tok_embeddings, "tok_embeddings.weight");
     ggml_set_name(model->norm,           "norm.weight");
@@ -650,40 +617,6 @@ static void load_vocab(const char * filename, const Config * config, struct llam
 }
 
 static void convert_weights_ak_to_gg(struct ggml_tensor * gg_weights, const float * karpathy_weights) {
-<<<<<<< HEAD
-    int ct;
-    switch (ggml_n_dims(gg_weights)) {
-        case 1:
-            ct = 0;
-            for (int i0 = 0; i0 < gg_weights->ne[0]; i0++){
-                float * ptr = (float *) ((char *) gg_weights->data + i0*gg_weights->nb[0]);
-                *ptr = karpathy_weights[ct];
-                ct++;
-            }
-            break;
-        case 2:
-            ct = 0;
-            for (int i1 = 0; i1 < gg_weights->ne[1]; i1++) {
-                for (int i0 = 0; i0 < gg_weights->ne[0]; i0++) {
-                    float * ptr = (float *) ((char *) gg_weights->data + i0*gg_weights->nb[0] + i1*gg_weights->nb[1]);
-                    *ptr = karpathy_weights[ct];
-                    ct++;
-                }
-            }
-            break;
-        case 3:
-            ct = 0;
-            for (int i2 = 0; i2 < gg_weights->ne[2]; i2++) {
-                for (int i1 = 0; i1 < gg_weights->ne[1]; i1++) {
-                    for (int i0 = 0; i0 < gg_weights->ne[0]; i0++) {
-                        float * ptr = (float *) ((char *) gg_weights->data + i0*gg_weights->nb[0] + i1*gg_weights->nb[1] + i2*gg_weights->nb[2]);
-                        *ptr = karpathy_weights[ct];
-                        ct++;
-                    }
-                }
-            }
-            break;
-=======
     int size = 1;
     for (int dim = 0; dim < ggml_n_dims(gg_weights); ++dim) {
         size *= gg_weights->ne[dim];
@@ -693,7 +626,6 @@ static void convert_weights_ak_to_gg(struct ggml_tensor * gg_weights, const floa
         int64_t i2 = 0; int64_t i3 = 0;
         ggml_unravel_index(gg_weights, ct, &i0, &i1, &i2, &i3);
         ggml_set_f32_nd(gg_weights, i0, i1, i2, i3, karpathy_weights[ct]);
->>>>>>> b2776
     }
 }
 

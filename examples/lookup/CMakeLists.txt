@@ -3,8 +3,6 @@ add_executable(${TARGET} lookup.cpp)
 install(TARGETS ${TARGET} RUNTIME)
 target_link_libraries(${TARGET} PRIVATE common llama ${CMAKE_THREAD_LIBS_INIT})
 target_compile_features(${TARGET} PRIVATE cxx_std_11)
-<<<<<<< HEAD
-=======
 
 set(TARGET lookup-create)
 add_executable(${TARGET} lookup-create.cpp)
@@ -23,4 +21,3 @@ add_executable(${TARGET} lookup-stats.cpp)
 install(TARGETS ${TARGET} RUNTIME)
 target_link_libraries(${TARGET} PRIVATE common llama ${CMAKE_THREAD_LIBS_INIT})
 target_compile_features(${TARGET} PRIVATE cxx_std_11)
->>>>>>> b2776

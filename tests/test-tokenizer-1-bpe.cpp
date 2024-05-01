@@ -97,11 +97,7 @@ int main(int argc, char **argv) {
                         continue;
                     }
 
-<<<<<<< HEAD
-                    std::string str = codepoint_to_utf8(cp);
-=======
                     std::string str = unicode_cpt_to_utf8(cp);
->>>>>>> b2776
                     std::vector<llama_token> tokens = llama_tokenize(ctx, str, false);
                     std::string check = llama_detokenize_bpe(ctx, tokens);
                     if (cp != 9601 && str != check) {

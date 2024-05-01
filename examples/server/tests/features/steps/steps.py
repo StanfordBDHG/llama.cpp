@@ -5,44 +5,20 @@ import os
 import re
 import socket
 import subprocess
-<<<<<<< HEAD
-=======
 import sys
 import threading
->>>>>>> b2776
 import time
 from contextlib import closing
 from re import RegexFlag
 
 import aiohttp
-<<<<<<< HEAD
-=======
 import numpy as np
->>>>>>> b2776
 import openai
 from behave import step
 from behave.api.async_step import async_run_until_complete
 from prometheus_client import parser
 
 
-<<<<<<< HEAD
-@step(u"a server listening on {server_fqdn}:{server_port}")
-def step_server_config(context, server_fqdn, server_port):
-    context.server_fqdn = server_fqdn
-    context.server_port = int(server_port)
-    if 'PORT' in os.environ:
-        context.server_port = int(os.environ['PORT'])
-        print(f"$PORT set, overriding server port with to {context.server_port}")
-
-    context.base_url = f'http://{context.server_fqdn}:{context.server_port}'
-
-    context.debug = 'DEBUG' in os.environ and os.environ['DEBUG'] == 'ON'
-    context.model_alias = None
-    context.n_ctx = None
-    context.n_predict = None
-    context.n_server_predict = None
-    context.n_slots = None
-=======
 @step("a server listening on {server_fqdn}:{server_port}")
 def step_server_config(context, server_fqdn, server_port):
     context.server_fqdn = server_fqdn
@@ -79,31 +55,22 @@ def step_server_config(context, server_fqdn, server_port):
     context.n_slots = None
     context.prompt_prefix = None
     context.prompt_suffix = None
->>>>>>> b2776
     context.server_api_key = None
     context.server_continuous_batching = False
     context.server_embeddings = False
     context.server_metrics = False
     context.server_process = None
-<<<<<<< HEAD
-    context.server_seed = None
-    context.user_api_key = None
-=======
     context.seed = None
     context.draft = None
     context.server_seed = None
     context.user_api_key = None
     context.response_format = None
->>>>>>> b2776
 
     context.tasks_result = []
     context.concurrent_tasks = []
     context.prompts = []
 
 
-<<<<<<< HEAD
-@step(u'a model file {model_file}')
-=======
 @step('a model file {hf_file} from HF repo {hf_repo}')
 def step_download_hf_model(context, hf_file, hf_repo):
     context.model_hf_repo = hf_repo
@@ -112,48 +79,20 @@ def step_download_hf_model(context, hf_file, hf_repo):
 
 
 @step('a model file {model_file}')
->>>>>>> b2776
 def step_model_file(context, model_file):
     context.model_file = model_file
 
 
-<<<<<<< HEAD
-@step(u'a model alias {model_alias}')
-=======
 @step('a model url {model_url}')
 def step_model_url(context, model_url):
     context.model_url = model_url
 
 
 @step('a model alias {model_alias}')
->>>>>>> b2776
 def step_model_alias(context, model_alias):
     context.model_alias = model_alias
 
 
-<<<<<<< HEAD
-@step(u'{seed} as server seed')
-def step_seed(context, seed):
-    context.server_seed = int(seed)
-
-
-@step(u'{n_ctx} KV cache size')
-def step_n_ctx(context, n_ctx):
-    context.n_ctx = int(n_ctx)
-
-
-@step(u'{n_slots} slots')
-def step_n_slots(context, n_slots):
-    context.n_slots = int(n_slots)
-
-
-@step(u'{n_predict} server max tokens to predict')
-def step_server_n_predict(context, n_predict):
-    context.n_server_predict = int(n_predict)
-
-
-@step(u'continuous batching')
-=======
 @step('{seed:d} as server seed')
 def step_seed(context, seed):
     context.server_seed = seed
@@ -205,38 +144,20 @@ def step_enable_prompt_cache(context):
 
 
 @step('continuous batching')
->>>>>>> b2776
 def step_server_continuous_batching(context):
     context.server_continuous_batching = True
 
 
-<<<<<<< HEAD
-@step(u'embeddings extraction')
-=======
 @step('embeddings extraction')
->>>>>>> b2776
 def step_server_embeddings(context):
     context.server_embeddings = True
 
 
-<<<<<<< HEAD
-@step(u'prometheus compatible metrics exposed')
-=======
 @step('prometheus compatible metrics exposed')
->>>>>>> b2776
 def step_server_metrics(context):
     context.server_metrics = True
 
 
-<<<<<<< HEAD
-@step(u"the server is starting")
-def step_start_server(context):
-    start_server_background(context)
-    attempts = 0
-    while True:
-        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
-            result = sock.connect_ex((context.server_fqdn, context.server_port))
-=======
 @step("the server is starting")
 def step_start_server(context):
     start_server_background(context)
@@ -251,53 +172,33 @@ def step_start_server(context):
     while True:
         with closing(socket.socket(family, typ, proto)) as sock:
             result = sock.connect_ex(sockaddr)
->>>>>>> b2776
             if result == 0:
                 print("\x1b[33;46mserver started!\x1b[0m")
                 return
             attempts += 1
-<<<<<<< HEAD
-            if attempts > 20:
-=======
             if attempts > max_attempts:
->>>>>>> b2776
                 assert False, "server not started"
             print(f"waiting for server to start, connect error code = {result}...")
             time.sleep(0.1)
 
 
-<<<<<<< HEAD
-@step(u"the server is {expecting_status}")
-=======
 @step("the server is {expecting_status}")
->>>>>>> b2776
 @async_run_until_complete
 async def step_wait_for_the_server_to_be_started(context, expecting_status):
     match expecting_status:
         case 'healthy':
-<<<<<<< HEAD
-            await wait_for_health_status(context, context.base_url, 200, 'ok')
-
-        case 'ready' | 'idle':
-            await wait_for_health_status(context, context.base_url, 200, 'ok',
-=======
             await wait_for_health_status(context, context.base_url, 200, 'ok',
                                          timeout=30)
 
         case 'ready' | 'idle':
             await wait_for_health_status(context, context.base_url, 200, 'ok',
                                          timeout=10,
->>>>>>> b2776
                                          params={'fail_on_no_slot': 0, 'include_slots': 0},
                                          slots_idle=context.n_slots,
                                          slots_processing=0,
                                          expected_slots=[{'id': slot_id, 'state': 0}
-<<<<<<< HEAD
-                                                         for slot_id in range(context.n_slots)])
-=======
                                                          for slot_id in
                                                          range(context.n_slots if context.n_slots else 1)])
->>>>>>> b2776
         case 'busy':
             await wait_for_health_status(context, context.base_url, 503,
                                          'no slot available',
@@ -305,21 +206,13 @@ async def step_wait_for_the_server_to_be_started(context, expecting_status):
                                          slots_idle=0,
                                          slots_processing=context.n_slots,
                                          expected_slots=[{'id': slot_id, 'state': 1}
-<<<<<<< HEAD
-                                                         for slot_id in range(context.n_slots)])
-=======
                                                          for slot_id in
                                                          range(context.n_slots if context.n_slots else 1)])
->>>>>>> b2776
         case _:
             assert False, "unknown status"
 
 
-<<<<<<< HEAD
-@step(u'all slots are {expected_slot_status_string}')
-=======
 @step('all slots are {expected_slot_status_string}')
->>>>>>> b2776
 @async_run_until_complete
 async def step_all_slots_status(context, expected_slot_status_string):
     match expected_slot_status_string:
@@ -335,11 +228,7 @@ async def step_all_slots_status(context, expected_slot_status_string):
     await request_slots_status(context, expected_slots)
 
 
-<<<<<<< HEAD
-@step(u'a completion request with {api_error} api error')
-=======
 @step('a completion request with {api_error} api error')
->>>>>>> b2776
 @async_run_until_complete
 async def step_request_completion(context, api_error):
     expect_api_error = api_error == 'raised'
@@ -347,13 +236,9 @@ async def step_request_completion(context, api_error):
                                           context.base_url,
                                           debug=context.debug,
                                           n_predict=context.n_predict,
-<<<<<<< HEAD
-                                          server_seed=context.server_seed,
-=======
                                           cache_prompt=context.cache_prompt,
                                           id_slot=context.id_slot,
                                           seed=await completions_seed(context),
->>>>>>> b2776
                                           expect_api_error=expect_api_error,
                                           user_api_key=context.user_api_key)
     context.tasks_result.append(completion)
@@ -363,24 +248,6 @@ async def step_request_completion(context, api_error):
         assert completion == 401, f"completion must be an 401 status code: {completion}"
 
 
-<<<<<<< HEAD
-@step(u'{predicted_n} tokens are predicted matching {re_content}')
-def step_n_tokens_predicted_with_content(context, predicted_n, re_content):
-    assert_n_tokens_predicted(context.tasks_result.pop(), int(predicted_n), re_content)
-
-
-@step(u'{predicted_n} tokens are predicted')
-def step_n_tokens_predicted(context, predicted_n):
-    assert_n_tokens_predicted(context.tasks_result.pop(), int(predicted_n))
-
-
-@step(u'a user prompt {user_prompt}')
-def step_user_prompt(context, user_prompt):
-    context.prompts.append(user_prompt)
-
-
-@step(u'a system prompt {system_prompt}')
-=======
 @step('{predicted_n:d} tokens are predicted matching {re_content}')
 def step_n_tokens_predicted_with_content(context, predicted_n, re_content):
     context.completion = context.tasks_result.pop()
@@ -425,28 +292,15 @@ def step_user_prompt(context, user_prompt):
 
 
 @step('a system prompt {system_prompt}')
->>>>>>> b2776
 def step_system_prompt(context, system_prompt):
     context.system_prompt = system_prompt
 
 
-<<<<<<< HEAD
-@step(u'a model {model}')
-=======
 @step('a model {model}')
->>>>>>> b2776
 def step_model(context, model):
     context.model = model
 
 
-<<<<<<< HEAD
-@step(u'{max_tokens} max tokens to predict')
-def step_max_tokens(context, max_tokens):
-    context.n_predict = int(max_tokens)
-
-
-@step(u'streaming is {enable_streaming}')
-=======
 @step('{max_tokens:d} max tokens to predict')
 def step_max_tokens(context, max_tokens):
     context.n_predict = max_tokens
@@ -458,50 +312,30 @@ def step_response_format(context, response_format):
 
 
 @step('streaming is {enable_streaming}')
->>>>>>> b2776
 def step_streaming(context, enable_streaming):
     context.enable_streaming = enable_streaming == 'enabled'
 
 
-<<<<<<< HEAD
-@step(u'a user api key {user_api_key}')
-=======
 @step('a user api key {user_api_key}')
->>>>>>> b2776
 def step_user_api_key(context, user_api_key):
     context.user_api_key = user_api_key
 
 
-<<<<<<< HEAD
-@step(u'no user api key')
-=======
 @step('no user api key')
->>>>>>> b2776
 def step_no_user_api_key(context):
     context.user_api_key = None
 
 
-<<<<<<< HEAD
-@step(u'a user api key ')
-=======
 @step('a user api key ')
->>>>>>> b2776
 def step_no_user_api_key_space(context):
     context.user_api_key = None
 
 
-<<<<<<< HEAD
-@step(u'a server api key {server_api_key}')
-=======
 @step('a server api key {server_api_key}')
->>>>>>> b2776
 def step_server_api_key(context, server_api_key):
     context.server_api_key = server_api_key
 
 
-<<<<<<< HEAD
-@step(u'an OAI compatible chat completions request with {api_error} api error')
-=======
 @step('{n_junk:d} as number of junk')
 def step_n_junk(context, n_junk):
     context.n_junk = n_junk
@@ -574,7 +408,6 @@ def step_prompt_passkey(context, passkey, i_pos):
 
 
 @step('an OAI compatible chat completions request with {api_error} api error')
->>>>>>> b2776
 @async_run_until_complete
 async def step_oai_chat_completions(context, api_error):
     if context.debug:
@@ -593,15 +426,10 @@ async def step_oai_chat_completions(context, api_error):
                                             enable_streaming=context.enable_streaming
                                             if hasattr(context, 'enable_streaming') else None,
 
-<<<<<<< HEAD
-                                            server_seed=context.server_seed
-                                            if hasattr(context, 'server_seed') else None,
-=======
                                             response_format=context.response_format
                                             if hasattr(context, 'response_format') else None,
 
                                             seed=await completions_seed(context),
->>>>>>> b2776
 
                                             user_api_key=context.user_api_key
                                             if hasattr(context, 'user_api_key') else None,
@@ -617,19 +445,6 @@ async def step_oai_chat_completions(context, api_error):
         print(f"Completion response: {completion}")
 
 
-<<<<<<< HEAD
-@step(u'a prompt')
-def step_a_prompt(context):
-    context.prompts.append(context.text)
-
-
-@step(u'a prompt {prompt}')
-def step_a_prompt_prompt(context, prompt):
-    context.prompts.append(prompt)
-
-
-@step(u'concurrent completion requests')
-=======
 @step('a prompt')
 def step_a_prompt(context):
     context.prompts.append(context_text(context))
@@ -643,7 +458,6 @@ def step_a_prompt_prompt(context, prompt):
 
 
 @step('concurrent completion requests')
->>>>>>> b2776
 @async_run_until_complete()
 async def step_concurrent_completion_requests(context):
     await concurrent_requests(context,
@@ -651,24 +465,15 @@ async def step_concurrent_completion_requests(context):
                               # prompt is inserted automatically
                               context.base_url,
                               debug=context.debug,
-<<<<<<< HEAD
-                              n_predict=context.n_predict if hasattr(context, 'n_predict') else None,
-                              server_seed=context.server_seed if hasattr(context, 'server_seed') else None,
-=======
                               prompt_prefix=context.prompt_prefix,
                               prompt_suffix=context.prompt_suffix,
                               n_predict=context.n_predict if hasattr(context, 'n_predict') else None,
                               seed=await completions_seed(context),
->>>>>>> b2776
                               user_api_key=context.user_api_key if hasattr(context,
                                                                            'user_api_key') else None)
 
 
-<<<<<<< HEAD
-@step(u'concurrent OAI completions requests')
-=======
 @step('concurrent OAI completions requests')
->>>>>>> b2776
 @async_run_until_complete
 async def step_oai_chat_completions(context):
     await concurrent_requests(context, oai_chat_completions,
@@ -683,23 +488,14 @@ async def step_oai_chat_completions(context):
                               if hasattr(context, 'n_predict') else None,
                               enable_streaming=context.enable_streaming
                               if hasattr(context, 'enable_streaming') else None,
-<<<<<<< HEAD
-                              server_seed=context.server_seed
-                              if hasattr(context, 'server_seed') else None,
-=======
                               response_format=context.response_format
                               if hasattr(context, 'response_format') else None,
                               seed=await completions_seed(context),
->>>>>>> b2776
                               user_api_key=context.user_api_key
                               if hasattr(context, 'user_api_key') else None)
 
 
-<<<<<<< HEAD
-@step(u'concurrent OAI completions requests no v1')
-=======
 @step('concurrent OAI completions requests no v1')
->>>>>>> b2776
 @async_run_until_complete
 async def step_oai_chat_completions(context):
     await concurrent_requests(context, oai_chat_completions,
@@ -714,42 +510,26 @@ async def step_oai_chat_completions(context):
                               if hasattr(context, 'n_predict') else None,
                               enable_streaming=context.enable_streaming
                               if hasattr(context, 'enable_streaming') else None,
-<<<<<<< HEAD
-                              server_seed=context.server_seed
-=======
                               response_format=context.response_format
                               if hasattr(context, 'response_format') else None,
                               seed=context.seed
                               if hasattr(context, 'seed') else
                               context.server_seed
->>>>>>> b2776
                               if hasattr(context, 'server_seed') else None,
                               user_api_key=context.user_api_key
                               if hasattr(context, 'user_api_key') else None)
 
 
-<<<<<<< HEAD
-@step(u'all prompts are predicted')
-=======
 @step('all prompts are predicted')
->>>>>>> b2776
 @async_run_until_complete
 async def step_all_prompts_are_predicted(context):
     await all_prompts_are_predicted(context)
 
 
-<<<<<<< HEAD
-@step(u'all prompts are predicted with {n_predict} tokens')
-@async_run_until_complete
-async def step_all_prompts_are_predicted_with_n_tokens(context, n_predict):
-    expected_predicted_n = int(n_predict)
-    await all_prompts_are_predicted(context, expected_predicted_n)
-=======
 @step('all prompts are predicted with {n_expected_predicted:d} tokens')
 @async_run_until_complete
 async def step_all_prompts_are_predicted_with_n_tokens(context, n_expected_predicted):
     await all_prompts_are_predicted(context, n_expected_predicted)
->>>>>>> b2776
 
 
 async def all_prompts_are_predicted(context, expected_predicted_n=None):
@@ -760,31 +540,6 @@ async def all_prompts_are_predicted(context, expected_predicted_n=None):
     assert len(context.concurrent_tasks) == 0, f"{len(context.concurrent_tasks)} pending requests"
 
 
-<<<<<<< HEAD
-@step(u'embeddings are computed for')
-@async_run_until_complete
-async def step_compute_embedding(context):
-    context.embeddings = await request_embedding(context.text, base_url=context.base_url)
-
-
-@step(u'embeddings are generated')
-def step_assert_embeddings(context):
-    if len(context.prompts) == 0:
-        assert_embeddings(context.embeddings)
-    else:
-        assert len(context.embeddings) == len(context.prompts), (f"unexpected response:\n"
-                                                                 f"context.prompts={context.prompts}\n"
-                                                                 f"context.embeddings={context.embeddings}")
-        for embedding in context.embeddings:
-            context.prompts.pop()
-            assert_embeddings(embedding)
-
-
-@step(u'an OAI compatible embeddings computation request for')
-@async_run_until_complete
-async def step_oai_compute_embeddings(context):
-    context.embeddings = await request_oai_embeddings(context.text,
-=======
 @step('embeddings are computed for')
 @async_run_until_complete
 async def step_compute_embedding(context):
@@ -831,33 +586,22 @@ def step_assert_embeddings(context):
 async def step_oai_compute_embeddings(context):
     context.n_prompts = 1
     context.embeddings = await request_oai_embeddings(context_text(context),
->>>>>>> b2776
                                                       base_url=context.base_url,
                                                       user_api_key=context.user_api_key,
                                                       model=context.model)
 
 
-<<<<<<< HEAD
-@step(u'an OAI compatible embeddings computation request for multiple inputs')
-=======
 @step('an OAI compatible embeddings computation request for multiple inputs')
->>>>>>> b2776
 @async_run_until_complete
 async def step_oai_compute_embeddings_multiple_inputs(context):
     context.embeddings = await request_oai_embeddings(context.prompts,
                                                       base_url=context.base_url,
                                                       user_api_key=context.user_api_key,
                                                       model=context.model)
-<<<<<<< HEAD
-
-
-@step(u'concurrent embedding requests')
-=======
     context.prompts.clear()
 
 
 @step('concurrent embedding requests')
->>>>>>> b2776
 @async_run_until_complete()
 async def step_concurrent_embedding_requests(context):
     await concurrent_requests(context,
@@ -866,11 +610,7 @@ async def step_concurrent_embedding_requests(context):
                               base_url=context.base_url)
 
 
-<<<<<<< HEAD
-@step(u'concurrent OAI embedding requests')
-=======
 @step('concurrent OAI embedding requests')
->>>>>>> b2776
 @async_run_until_complete()
 async def step_concurrent_oai_embedding_requests(context):
     await concurrent_requests(context,
@@ -881,21 +621,6 @@ async def step_concurrent_oai_embedding_requests(context):
                               model=context.model)
 
 
-<<<<<<< HEAD
-@step(u'all embeddings are generated')
-@async_run_until_complete()
-async def all_embeddings_are_generated(context):
-    n_embedding_requests = await gather_tasks_results(context)
-    assert n_embedding_requests > 0
-    for i in range(n_embedding_requests):
-        assert_embeddings(context.tasks_result.pop())
-
-
-@step(u'tokenizing')
-@async_run_until_complete
-async def step_tokenize(context):
-    context.tokenized_text = context.text
-=======
 @step('all embeddings are generated')
 @async_run_until_complete()
 async def all_embeddings_are_generated(context):
@@ -909,7 +634,6 @@ async def all_embeddings_are_generated(context):
 @async_run_until_complete
 async def step_tokenize(context):
     context.tokenized_text = context_text(context)
->>>>>>> b2776
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{context.base_url}/tokenize',
                                 json={
@@ -920,11 +644,7 @@ async def step_tokenize(context):
             context.tokens = tokenize_json['tokens']
 
 
-<<<<<<< HEAD
-@step(u'tokens can be detokenize')
-=======
 @step('tokens can be detokenize')
->>>>>>> b2776
 @async_run_until_complete
 async def step_detokenize(context):
     assert len(context.tokens) > 0
@@ -939,14 +659,6 @@ async def step_detokenize(context):
             assert context.tokenized_text == detokenize_json['content'].strip()
 
 
-<<<<<<< HEAD
-@step(u'an OPTIONS request is sent from {origin}')
-@async_run_until_complete
-async def step_options_request(context, origin):
-    async with aiohttp.ClientSession() as session:
-        async with session.options(f'{context.base_url}/v1/chat/completions',
-                                   headers={"Origin": origin}) as response:
-=======
 @step('an OPTIONS request is sent from {origin}')
 @async_run_until_complete
 async def step_options_request(context, origin):
@@ -954,25 +666,16 @@ async def step_options_request(context, origin):
         headers = {'Authorization': f'Bearer {context.user_api_key}', 'Origin': origin}
         async with session.options(f'{context.base_url}/v1/chat/completions',
                                     headers=headers) as response:
->>>>>>> b2776
             assert response.status == 200
             context.options_response = response
 
 
-<<<<<<< HEAD
-@step(u'CORS header {cors_header} is set to {cors_header_value}')
-=======
 @step('CORS header {cors_header} is set to {cors_header_value}')
->>>>>>> b2776
 def step_check_options_header_value(context, cors_header, cors_header_value):
     assert context.options_response.headers[cors_header] == cors_header_value
 
 
-<<<<<<< HEAD
-@step(u'prometheus metrics are exposed')
-=======
 @step('prometheus metrics are exposed')
->>>>>>> b2776
 @async_run_until_complete
 async def step_prometheus_metrics_exported(context):
     async with aiohttp.ClientSession() as session:
@@ -981,28 +684,14 @@ async def step_prometheus_metrics_exported(context):
             assert metrics_response.headers['Content-Type'] == "text/plain; version=0.0.4"
             metrics_raw = await metrics_response.text()
             metric_exported = False
-<<<<<<< HEAD
-=======
             if context.debug:
                 print(f"/metrics answer:\n{metrics_raw}")
             context.metrics = {}
->>>>>>> b2776
             for metric in parser.text_string_to_metric_families(metrics_raw):
                 match metric.name:
                     case "llamacpp:kv_cache_usage_ratio":
                         assert len(metric.samples) > 0
                         metric_exported = True
-<<<<<<< HEAD
-            assert metric_exported, "No metrics exported"
-
-
-async def concurrent_requests(context, f_completion, *args, **kwargs):
-    n_prompts = len(context.prompts)
-    if context.debug:
-        print(f"starting {n_prompts} concurrent completion requests...")
-    assert n_prompts > 0
-    for prompt_no in range(n_prompts):
-=======
                 context.metrics[metric.name] = metric
             assert int(metrics_response.headers["Process-Start-Time-Unix"]) > 0, "no header process start time"
             assert metric_exported, "No metrics exported"
@@ -1052,19 +741,11 @@ async def concurrent_requests(context, f_completion, *args, **kwargs):
         print(f"starting {context.n_prompts} concurrent completion requests...")
     assert context.n_prompts > 0
     for prompt_no in range(context.n_prompts):
->>>>>>> b2776
         shifted_args = [context.prompts.pop(), *args]
         context.concurrent_tasks.append(asyncio.create_task(f_completion(*shifted_args, **kwargs)))
     await asyncio.sleep(0.1)
 
 
-<<<<<<< HEAD
-async def request_completion(prompt,
-                             base_url,
-                             debug=False,
-                             n_predict=None,
-                             server_seed=None,
-=======
 @step('the slot {slot_id:d} is saved with filename "{filename}"')
 @async_run_until_complete
 async def step_save_slot(context, slot_id, filename):
@@ -1108,7 +789,6 @@ async def request_completion(prompt,
                              cache_prompt=False,
                              id_slot=None,
                              seed=None,
->>>>>>> b2776
                              expect_api_error=None,
                              user_api_key=None):
     if debug:
@@ -1125,13 +805,6 @@ async def request_completion(prompt,
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{base_url}/completion',
                                 json={
-<<<<<<< HEAD
-                                    "prompt": prompt,
-                                    "n_predict": int(n_predict) if n_predict is not None else -1,
-                                    "seed": server_seed if server_seed is not None else 42
-                                },
-                                headers=headers) as response:
-=======
                                     "input_prefix": prompt_prefix,
                                     "prompt": prompt,
                                     "input_suffix": prompt_suffix,
@@ -1142,7 +815,6 @@ async def request_completion(prompt,
                                 },
                                 headers=headers,
                                 timeout=3600) as response:
->>>>>>> b2776
             if expect_api_error is None or not expect_api_error:
                 assert response.status == 200
                 assert response.headers['Access-Control-Allow-Origin'] == origin
@@ -1160,23 +832,15 @@ async def oai_chat_completions(user_prompt,
                                model=None,
                                n_predict=None,
                                enable_streaming=None,
-<<<<<<< HEAD
-                               server_seed=None,
-=======
                                response_format=None,
                                seed=None,
->>>>>>> b2776
                                user_api_key=None,
                                expect_api_error=None):
     if debug:
         print(f"Sending OAI Chat completions request: {user_prompt}")
     # openai client always expects an api key
     user_api_key = user_api_key if user_api_key is not None else 'nope'
-<<<<<<< HEAD
-    seed = server_seed if server_seed is not None else 42
-=======
     seed = seed if seed is not None else 42
->>>>>>> b2776
     enable_streaming = enable_streaming if enable_streaming is not None else False
     payload = {
         "messages": [
@@ -1194,12 +858,6 @@ async def oai_chat_completions(user_prompt,
         "stream": enable_streaming,
         "seed": seed
     }
-<<<<<<< HEAD
-    completion_response = {
-        'content': '',
-        'timings': {
-            'predicted_n': 0
-=======
     if response_format is not None:
         payload['response_format'] = response_format
     completion_response = {
@@ -1207,7 +865,6 @@ async def oai_chat_completions(user_prompt,
         'timings': {
             'predicted_n': 0,
             'prompt_n': 0
->>>>>>> b2776
         }
     }
     if async_client:
@@ -1248,12 +905,8 @@ async def oai_chat_completions(user_prompt,
                         completion_response = {
                             'content': chat_completion_raw['choices'][0]['message'],
                             'timings': {
-<<<<<<< HEAD
-                                'predicted_n': chat_completion_raw['usage']['completion_tokens']
-=======
                                 'predicted_n': chat_completion_raw['usage']['completion_tokens'],
                                 'prompt_n': chat_completion_raw['usage']['prompt_tokens']
->>>>>>> b2776
                             }
                         }
                     else:
@@ -1267,16 +920,10 @@ async def oai_chat_completions(user_prompt,
                 model=model,
                 max_tokens=n_predict,
                 stream=enable_streaming,
-<<<<<<< HEAD
-                seed=seed
-            )
-        except openai.error.APIError as e:
-=======
                 response_format=payload.get('response_format'),
                 seed=seed
             )
         except openai.error.AuthenticationError as e:
->>>>>>> b2776
             if expect_api_error is not None and expect_api_error:
                 return 401
             else:
@@ -1289,24 +936,16 @@ async def oai_chat_completions(user_prompt,
                 if 'content' in delta:
                     completion_response['content'] += delta['content']
                     completion_response['timings']['predicted_n'] += 1
-<<<<<<< HEAD
-=======
                 completion_response['truncated'] = chunk.choices[0].finish_reason != 'stop'
->>>>>>> b2776
         else:
             assert len(chat_completion.choices) == 1
             completion_response = {
                 'content': chat_completion.choices[0].message.content,
                 'timings': {
-<<<<<<< HEAD
-                    'predicted_n': chat_completion.usage.completion_tokens
-                }
-=======
                     'predicted_n': chat_completion.usage.completion_tokens,
                     'prompt_n': chat_completion.usage.prompt_tokens
                     },
                 'truncated': chat_completion.choices[0].finish_reason != 'stop'
->>>>>>> b2776
             }
     if debug:
         print("OAI response formatted to llama.cpp:", completion_response)
@@ -1321,11 +960,7 @@ async def request_embedding(content, base_url=None):
                                 }) as response:
             assert response.status == 200
             response_json = await response.json()
-<<<<<<< HEAD
-            return response_json['embedding']
-=======
             return [response_json['embedding']]
->>>>>>> b2776
 
 
 async def request_oai_embeddings(input,
@@ -1335,10 +970,7 @@ async def request_oai_embeddings(input,
     user_api_key = user_api_key if user_api_key is not None else 'nope'
     if async_client:
         origin = 'llama.cpp'
-<<<<<<< HEAD
-=======
         headers=[]
->>>>>>> b2776
         if user_api_key is not None:
             headers = {'Authorization': f'Bearer {user_api_key}', 'Origin': origin}
         async with aiohttp.ClientSession() as session:
@@ -1347,21 +979,14 @@ async def request_oai_embeddings(input,
                                         "input": input,
                                         "model": model,
                                     },
-<<<<<<< HEAD
-                                    headers=headers) as response:
-=======
                                     headers=headers,
                                     timeout=3600) as response:
->>>>>>> b2776
                 assert response.status == 200, f"received status code not expected: {response.status}"
                 assert response.headers['Access-Control-Allow-Origin'] == origin
                 assert response.headers['Content-Type'] == "application/json; charset=utf-8"
                 response_json = await response.json()
                 assert response_json['model'] == model, f"invalid model received: {response_json['model']}"
                 assert response_json['object'] == 'list'
-<<<<<<< HEAD
-                return response_json['data']
-=======
                 if isinstance(input, collections.abc.Sequence):
                     embeddings = []
                     for an_oai_embeddings in response_json['data']:
@@ -1369,7 +994,6 @@ async def request_oai_embeddings(input,
                 else:
                     embeddings = [response_json['data']['embedding']]
                 return embeddings
->>>>>>> b2776
     else:
         openai.api_key = user_api_key
         openai.api_base = f'{base_url}/v1'
@@ -1383,11 +1007,7 @@ async def request_oai_embeddings(input,
             for an_oai_embeddings in oai_embeddings.data:
                 embeddings.append(an_oai_embeddings.embedding)
         else:
-<<<<<<< HEAD
-            embeddings = oai_embeddings.data.embedding
-=======
             embeddings = [oai_embeddings.data.embedding]
->>>>>>> b2776
         return embeddings
 
 
@@ -1395,16 +1015,6 @@ def assert_n_tokens_predicted(completion_response, expected_predicted_n=None, re
     content = completion_response['content']
     n_predicted = completion_response['timings']['predicted_n']
     assert len(content) > 0, "no token predicted"
-<<<<<<< HEAD
-    if expected_predicted_n is not None:
-        assert n_predicted == expected_predicted_n, (f'invalid number of tokens predicted:'
-                                                     f' {n_predicted} <> {expected_predicted_n}')
-    if re_content is not None:
-        re_content = '^.*' + re_content.replace('<or>', '|') + '.*$'
-        assert re.match(re_content, content, flags=RegexFlag.IGNORECASE | RegexFlag.MULTILINE | RegexFlag.DOTALL), (
-            f'invalid tokens predicted:'
-            f' ```\n{content}\n``` do not match /{re_content}/')
-=======
     if re_content is not None:
         p = re.compile(re_content, flags=RegexFlag.IGNORECASE | RegexFlag.MULTILINE | RegexFlag.DOTALL)
         matches = p.finditer(content)
@@ -1441,7 +1051,6 @@ def assert_all_predictions_equal(completion_responses):
         assert content == content_0, "contents not equal"
 
         i += 1
->>>>>>> b2776
 
 
 async def gather_tasks_results(context):
@@ -1458,29 +1067,18 @@ async def wait_for_health_status(context,
                                  base_url,
                                  expected_http_status_code,
                                  expected_health_status,
-<<<<<<< HEAD
-=======
                                  timeout=3,
->>>>>>> b2776
                                  params=None,
                                  slots_idle=None,
                                  slots_processing=None,
                                  expected_slots=None):
     if context.debug:
         print(f"Starting checking for health for expected_health_status={expected_health_status}")
-<<<<<<< HEAD
-    timeout = 3  # seconds
-    if expected_health_status == 'ok':
-        timeout = 10 # CI slow inference
-    interval = 0.5
-    counter = 0
-=======
     interval = 0.5
     counter = 0
     if 'GITHUB_ACTIONS' in os.environ:
         timeout *= 2
 
->>>>>>> b2776
     async with aiohttp.ClientSession() as session:
         while True:
             async with await session.get(f'{base_url}/health', params=params) as health_response:
@@ -1488,11 +1086,7 @@ async def wait_for_health_status(context,
                 health = await health_response.json()
                 if context.debug:
                     print(f"HEALTH - response for expected health status='{expected_health_status}' on "
-<<<<<<< HEAD
-                          f"'{base_url}/health'?{params} is {health}")
-=======
                           f"'{base_url}/health'?{params} is {health}\n")
->>>>>>> b2776
                 if (status_code == expected_http_status_code
                         and health['status'] == expected_health_status
                         and (slots_idle is None or health['slots_idle'] == slots_idle)
@@ -1515,11 +1109,7 @@ async def wait_for_health_status(context,
                 if expected_http_status_code == 503:
                     if len(context.tasks_result) == 0:
                         print("\x1b[5;37;43mWARNING: forcing concurrent tasks,"
-<<<<<<< HEAD
-                              " busy health check missed, probably too fast inference\x1b[0m")
-=======
                               " busy health check missed, probably too fast inference\x1b[0m\n")
->>>>>>> b2776
                         n_completions = await gather_tasks_results(context)
                         if n_completions > 0:
                             return
@@ -1531,11 +1121,8 @@ def assert_embeddings(embeddings):
     assert len(embeddings) > 0
     embeddings_computed = False
     for emb in embeddings:
-<<<<<<< HEAD
-=======
         if not isinstance(emb, float):
             assert False, f"Bad embeddings: {embeddings}"
->>>>>>> b2776
         if emb != 0:
             embeddings_computed = True
     assert embeddings_computed, f"Embeddings: {embeddings}"
@@ -1558,17 +1145,6 @@ def assert_slots_status(slots, expected_slots):
                                                 f" = {expected[key]} != {slot[key]}")
 
 
-<<<<<<< HEAD
-def start_server_background(context):
-    context.server_path = '../../../build/bin/server'
-    if 'LLAMA_SERVER_BIN_PATH' in os.environ:
-        context.server_path = os.environ['LLAMA_SERVER_BIN_PATH']
-    server_args = [
-        '--host', context.server_fqdn,
-        '--port', context.server_port,
-        '--model', context.model_file
-    ]
-=======
 async def completions_seed(context):
     return context.seed if hasattr(context, 'seed') and context.seed is not None \
         else context.server_seed if hasattr(context, 'server_seed') else None
@@ -1606,25 +1182,12 @@ def start_server_background(context):
         server_args.extend(['--n-gpu-layers', context.n_gpu_layer])
     if context.draft is not None:
         server_args.extend(['--draft', context.draft])
->>>>>>> b2776
     if context.server_continuous_batching:
         server_args.append('--cont-batching')
     if context.server_embeddings:
         server_args.append('--embedding')
     if context.server_metrics:
         server_args.append('--metrics')
-<<<<<<< HEAD
-    if context.model_alias is not None:
-        server_args.extend(['--alias', context.model_alias])
-    if context.n_ctx is not None:
-        server_args.extend(['--ctx-size', context.n_ctx])
-    if context.n_slots is not None:
-        server_args.extend(['--parallel', context.n_slots])
-    if context.n_server_predict is not None:
-        server_args.extend(['--n-predict', context.n_server_predict])
-    if context.server_api_key is not None:
-        server_args.extend(['--api-key', context.server_api_key])
-=======
     if context.model_alias:
         server_args.extend(['--alias', context.model_alias])
     if context.n_ctx:
@@ -1641,18 +1204,10 @@ def start_server_background(context):
         server_args.extend(['--grp-attn-n', context.n_ga])
     if context.n_ga_w:
         server_args.extend(['--grp-attn-w', context.n_ga_w])
->>>>>>> b2776
     if context.debug:
         server_args.append('--verbose')
     if 'SERVER_LOG_FORMAT_JSON' not in os.environ:
         server_args.extend(['--log-format', "text"])
-<<<<<<< HEAD
-    print(f"starting server with: {context.server_path}", *server_args)
-    context.server_process = subprocess.Popen(
-        [str(arg) for arg in [context.server_path, *server_args]],
-        close_fds=True)
-    print(f"server pid={context.server_process.pid}")
-=======
 
     args = [str(arg) for arg in [context.server_path, *server_args]]
     print(f"bench: starting server with: {' '.join(args)}")
@@ -1683,4 +1238,3 @@ def start_server_background(context):
     thread_stderr.start()
 
     print(f"server pid={context.server_process.pid}, behave pid={os.getpid()}")
->>>>>>> b2776

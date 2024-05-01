@@ -1,17 +1,10 @@
 @llama.cpp
-<<<<<<< HEAD
-=======
 @security
->>>>>>> b2776
 Feature: Security
 
   Background: Server startup with an api key defined
     Given a server listening on localhost:8080
-<<<<<<< HEAD
-    And   a model file stories260K.gguf
-=======
     And   a model file tinyllamas/stories260K.gguf from HF repo ggml-org/models
->>>>>>> b2776
     And   a server api key llama.cpp
     Then  the server is starting
     Then  the server is healthy
@@ -44,12 +37,6 @@ Feature: Security
       | llama.cpp | no        |
       | hackme    | raised    |
 
-<<<<<<< HEAD
-
-  Scenario Outline: CORS Options
-    When an OPTIONS request is sent from <origin>
-    Then CORS header <cors_header> is set to <cors_header_value>
-=======
   Scenario Outline: OAI Compatibility (invalid response formats)
     Given a system prompt test
     And   a user prompt test
@@ -71,7 +58,6 @@ Feature: Security
     Given a user api key llama.cpp
     When  an OPTIONS request is sent from <origin>
     Then  CORS header <cors_header> is set to <cors_header_value>
->>>>>>> b2776
 
     Examples: Headers
       | origin          | cors_header                      | cors_header_value |

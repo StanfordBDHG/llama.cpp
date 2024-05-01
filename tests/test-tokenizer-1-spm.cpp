@@ -85,11 +85,7 @@ int main(int argc, char ** argv) {
                         continue;
                     }
 
-<<<<<<< HEAD:tests/test-tokenizer-1-llama.cpp
-                    std::string str = codepoint_to_utf8(cp);
-=======
                     std::string str = unicode_cpt_to_utf8(cp);
->>>>>>> b2776:tests/test-tokenizer-1-spm.cpp
                     std::vector<llama_token> tokens = llama_tokenize(ctx, str, false);
                     std::string check = llama_detokenize_spm(ctx, tokens);
                     if (cp != 9601 && str != check) {

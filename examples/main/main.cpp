@@ -240,19 +240,12 @@ int main(int argc, char ** argv) {
                 return 1;
             }
             session_tokens.resize(n_token_count_out);
-<<<<<<< HEAD
-            llama_set_rng_seed(ctx, params.seed);
-=======
->>>>>>> b2776
             LOG_TEE("%s: loaded a session with prompt size of %d tokens\n", __func__, (int)session_tokens.size());
         }
     }
 
     const bool add_bos = llama_should_add_bos_token(model);
-<<<<<<< HEAD
-=======
     GGML_ASSERT(llama_add_eos_token(model) != 1);
->>>>>>> b2776
     LOG("add_bos: %d\n", add_bos);
 
     std::vector<llama_token> embd_inp;
@@ -262,11 +255,7 @@ int main(int argc, char ** argv) {
         if (params.chatml) {
             params.prompt = "<|im_start|>system\n" + params.prompt + "<|im_end|>";
         }
-<<<<<<< HEAD
-        embd_inp = ::llama_tokenize(ctx, params.prompt, add_bos, true);
-=======
         embd_inp = ::llama_tokenize(ctx, params.prompt, true, true);
->>>>>>> b2776
     } else {
         LOG("use session tokens\n");
         embd_inp = session_tokens;
@@ -357,11 +346,7 @@ int main(int argc, char ** argv) {
     LOG("inp_sfx: %s\n", LOG_TOKENS_TOSTR_PRETTY(ctx, inp_sfx).c_str());
 
     // chatml prefix & suffix
-<<<<<<< HEAD
-    const auto cml_pfx = ::llama_tokenize(ctx, "\n<|im_start|>user\n", add_bos, true);
-=======
     const auto cml_pfx = ::llama_tokenize(ctx, "\n<|im_start|>user\n", true, true);
->>>>>>> b2776
     const auto cml_sfx = ::llama_tokenize(ctx, "<|im_end|>\n<|im_start|>assistant\n", false, true);
 
     LOG("cml_pfx: %s\n", LOG_TOKENS_TOSTR_PRETTY(ctx, cml_pfx).c_str());
@@ -934,13 +919,8 @@ int main(int argc, char ** argv) {
             }
         }
 
-<<<<<<< HEAD
-        // end of text token
-        if (!embd.empty() && embd.back() == llama_token_eos(model) && !(params.instruct || params.interactive || params.chatml)) {
-=======
         // end of generation
         if (!embd.empty() && llama_token_is_eog(model, embd.back()) && !(params.instruct || params.interactive || params.chatml)) {
->>>>>>> b2776
             LOG_TEE(" [end of text]\n");
             break;
         }

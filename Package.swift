@@ -60,28 +60,6 @@ let package = Package(
     products: [
         .library(name: "llama", targets: ["llama"]),
     ],
-    products: [
-        .library(
-            name: "llama",
-            path: ".",
-            exclude: [
-               "cmake",
-               "examples",
-               "scripts",
-               "models",
-               "tests",
-               "CMakeLists.txt",
-               "ggml-cuda.cu",
-               "ggml-cuda.h",
-               "Makefile"
-            ],
-            sources: sources,
-            resources: resources,
-            publicHeadersPath: "spm-headers",
-            cSettings: cSettings,
-            linkerSettings: linkerSettings
-        )
-    ],
     targets: [
         .binaryTarget(
             name: "llama",

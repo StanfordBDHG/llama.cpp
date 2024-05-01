@@ -113,13 +113,8 @@ struct llava_context {
 };
 
 static void show_additional_info(int /*argc*/, char ** argv) {
-<<<<<<< HEAD
-    fprintf(stderr, "\n example usage: %s -m <llava-v1.5-7b/ggml-model-q5_k.gguf> --mmproj <llava-v1.5-7b/mmproj-model-f16.gguf> --image <path/to/an/image.jpg> [--temp 0.1] [-p \"describe the image in detail.\"]\n", argv[0]);
-    fprintf(stderr, "  note: a lower temperature value like 0.1 is recommended for better quality.\n");
-=======
     LOG_TEE("\n example usage: %s -m <llava-v1.5-7b/ggml-model-q5_k.gguf> --mmproj <llava-v1.5-7b/mmproj-model-f16.gguf> --image <path/to/an/image.jpg> --image <path/to/another/image.jpg> [--temp 0.1] [-p \"describe the image in detail.\"]\n", argv[0]);
     LOG_TEE("  note: a lower temperature value like 0.1 is recommended for better quality.\n");
->>>>>>> b2776
 }
 
 static struct llava_image_embed * load_image(llava_context * ctx_llava, gpt_params * params, const std::string & fname) {
@@ -129,11 +124,7 @@ static struct llava_image_embed * load_image(llava_context * ctx_llava, gpt_para
     auto prompt = params->prompt;
     if (prompt_contains_image(prompt)) {
         if (!params->image.empty()) {
-<<<<<<< HEAD
-            fprintf(stderr, "using base64 encoded image instead of command line image path\n");
-=======
             LOG_TEE("using base64 encoded image instead of command line image path\n");
->>>>>>> b2776
         }
         embed = llava_image_embed_make_with_prompt_base64(ctx_llava->ctx_clip, params->n_threads, prompt);
         if (!embed) {
@@ -164,20 +155,6 @@ static void process_prompt(struct llava_context * ctx_llava, struct llava_image_
         // new templating mode: Provide the full prompt including system message and use <image> as a placeholder for the image
         system_prompt = prompt.substr(0, image_pos);
         user_prompt = prompt.substr(image_pos + std::string("<image>").length());
-<<<<<<< HEAD
-        printf("system_prompt: %s\n", system_prompt.c_str());
-        if (params->verbose_prompt) {
-            auto tmp = ::llama_tokenize(ctx_llava->ctx_llama, system_prompt, true, true);
-            for (int i = 0; i < (int) tmp.size(); i++) {
-                printf("%6d -> '%s'\n", tmp[i], llama_token_to_piece(ctx_llava->ctx_llama, tmp[i]).c_str());
-            }
-        }
-        printf("user_prompt: %s\n", user_prompt.c_str());
-        if (params->verbose_prompt) {
-            auto tmp = ::llama_tokenize(ctx_llava->ctx_llama, user_prompt, true, true);
-            for (int i = 0; i < (int) tmp.size(); i++) {
-                printf("%6d -> '%s'\n", tmp[i], llama_token_to_piece(ctx_llava->ctx_llama, tmp[i]).c_str());
-=======
         LOG_TEE("system_prompt: %s\n", system_prompt.c_str());
         if (params->verbose_prompt) {
             auto tmp = ::llama_tokenize(ctx_llava->ctx_llama, system_prompt, true, true);
@@ -190,7 +167,6 @@ static void process_prompt(struct llava_context * ctx_llava, struct llava_image_
             auto tmp = ::llama_tokenize(ctx_llava->ctx_llama, user_prompt, true, true);
             for (int i = 0; i < (int) tmp.size(); i++) {
                 LOG_TEE("%6d -> '%s'\n", tmp[i], llama_token_to_piece(ctx_llava->ctx_llama, tmp[i]).c_str());
->>>>>>> b2776
             }
         }
     } else {
@@ -200,30 +176,18 @@ static void process_prompt(struct llava_context * ctx_llava, struct llava_image_
         if (params->verbose_prompt) {
             auto tmp = ::llama_tokenize(ctx_llava->ctx_llama, user_prompt, true, true);
             for (int i = 0; i < (int) tmp.size(); i++) {
-<<<<<<< HEAD
-                printf("%6d -> '%s'\n", tmp[i], llama_token_to_piece(ctx_llava->ctx_llama, tmp[i]).c_str());
-=======
                 LOG_TEE("%6d -> '%s'\n", tmp[i], llama_token_to_piece(ctx_llava->ctx_llama, tmp[i]).c_str());
->>>>>>> b2776
             }
         }
     }
 
-<<<<<<< HEAD
-    eval_string(ctx_llava->ctx_llama, system_prompt.c_str(), params->n_batch, &n_past, add_bos);
-=======
     eval_string(ctx_llava->ctx_llama, system_prompt.c_str(), params->n_batch, &n_past, true);
->>>>>>> b2776
     llava_eval_image_embed(ctx_llava->ctx_llama, image_embed, params->n_batch, &n_past);
     eval_string(ctx_llava->ctx_llama, user_prompt.c_str(), params->n_batch, &n_past, false);
 
     // generate the response
 
-<<<<<<< HEAD
-    fprintf(stderr, "\n");
-=======
     LOG_TEE("\n");
->>>>>>> b2776
 
     struct llama_sampling_context * ctx_sampling = llama_sampling_init(params->sparams);
     std::string response = "";
@@ -268,19 +232,6 @@ static struct llava_context * llava_init_context(gpt_params * params, llama_mode
 
     auto ctx_clip = clip_model_load(clip_path, /*verbosity=*/ 1);
 
-<<<<<<< HEAD
-    llama_backend_init();
-    llama_numa_init(params->numa);
-
-    llama_model_params model_params = llama_model_params_from_gpt_params(*params);
-
-    llama_model * model = llama_load_model_from_file(params->model.c_str(), model_params);
-    if (model == NULL) {
-        fprintf(stderr , "%s: error: unable to load model\n" , __func__);
-        return NULL;
-    }
-=======
->>>>>>> b2776
 
     llama_context_params ctx_params = llama_context_params_from_gpt_params(*params);
     ctx_params.n_ctx           = params->n_ctx < 2048 ? 2048 : params->n_ctx; // we need a longer context size to process image embeddings
@@ -345,15 +296,8 @@ int main(int argc, char ** argv) {
         return 1;
     }
 
-<<<<<<< HEAD
-    auto image_embed = load_image(ctx_llava, &params);
-    if (!image_embed) {
-        return 1;
-    }
-=======
     for (auto & image : params.image) {
         auto ctx_llava = llava_init_context(&params, model);
->>>>>>> b2776
 
         auto image_embed = load_image(ctx_llava, &params, image);
         if (!image_embed) {

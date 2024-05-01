@@ -54,11 +54,7 @@ static std::pair<int, int> select_best_resolution(const std::pair<int, int>& ori
         int downscaled_height = static_cast<int>(original_height * scale);
         int effective_resolution = std::min(downscaled_width * downscaled_height, original_width * original_height);
         int wasted_resolution = (width * height) - effective_resolution;
-<<<<<<< HEAD
-        // fprintf(stderr, "resolution: %d %d, scale: %f, downscaled: %d %d, effective: %d, wasted: %d\n", width, height, scale, downscaled_width, downscaled_height, effective_resolution, wasted_resolution);
-=======
         // LOG_TEE("resolution: %d %d, scale: %f, downscaled: %d %d, effective: %d, wasted: %d\n", width, height, scale, downscaled_width, downscaled_height, effective_resolution, wasted_resolution);
->>>>>>> b2776
         if (effective_resolution > max_effective_resolution || (effective_resolution == max_effective_resolution && wasted_resolution < min_wasted_resolution)) {
             max_effective_resolution = effective_resolution;
             min_wasted_resolution = wasted_resolution;
@@ -158,21 +154,13 @@ static bool clip_llava_handle_patches(clip_ctx * ctx_clip, std::vector<float *> 
     model.newline = ggml_new_tensor_1d(model.ctx, GGML_TYPE_F32, newline_tmp->ne[0]);
     if (newline_tmp->backend != GGML_BACKEND_TYPE_CPU) {
         if (newline_tmp->buffer == NULL) {
-<<<<<<< HEAD
-            printf("newline_tmp tensor buffer is NULL\n");
-=======
             LOG_TEE("newline_tmp tensor buffer is NULL\n");
->>>>>>> b2776
         }
         ggml_backend_tensor_get(newline_tmp, model.newline->data, 0, ggml_nbytes(newline_tmp));
     } else {
         model.newline->data = newline_tmp->data;
         if (model.newline->data == NULL) {
-<<<<<<< HEAD
-            printf("newline_tmp tensor data is NULL\n");
-=======
             LOG_TEE("newline_tmp tensor data is NULL\n");
->>>>>>> b2776
         }
     }
 
@@ -235,13 +223,8 @@ static bool encode_image_with_clip(clip_ctx * ctx_clip, int n_threads, const cli
     clip_image_f32_batch img_res_v;
     img_res_v.size = 0;
     img_res_v.data = nullptr;
-<<<<<<< HEAD
-    if (!clip_image_preprocess(ctx_clip, img, img_res_v)) {
-        fprintf(stderr, "%s: unable to preprocess image\n", __func__);
-=======
     if (!clip_image_preprocess(ctx_clip, img, &img_res_v)) {
         LOG_TEE("%s: unable to preprocess image\n", __func__);
->>>>>>> b2776
         delete[] img_res_v.data;
         return false;
     }
@@ -256,11 +239,7 @@ static bool encode_image_with_clip(clip_ctx * ctx_clip, int n_threads, const cli
         bool encoded = clip_image_encode(ctx_clip, n_threads, &img_res_v.data[0], image_embd); // image_embd shape is 576 x 4096
         delete[] img_res_v.data;
         if (!encoded) {
-<<<<<<< HEAD
-            fprintf(stderr, "Unable to encode image\n");
-=======
             LOG_TEE("Unable to encode image\n");
->>>>>>> b2776
 
             return false;
         }
@@ -273,20 +252,12 @@ static bool encode_image_with_clip(clip_ctx * ctx_clip, int n_threads, const cli
             image_embd_v[i] = (float *)malloc(clip_embd_nbytes(ctx_clip)); // 576 patches * 4096 embeddings * 4 bytes = 9437184
             const bool encoded = clip_image_encode(ctx_clip, n_threads, &img_res_v.data[i], image_embd_v[i]); // image data is in 3x336x336 format and will be converted to 336x336x3 inside
             if (!encoded) {
-<<<<<<< HEAD
-                fprintf(stderr, "Unable to encode image - spatial_unpad - subimage %d of %d\n", (int) i+1, (int) img_res_v.size);
-=======
                 LOG_TEE("Unable to encode image - spatial_unpad - subimage %d of %d\n", (int) i+1, (int) img_res_v.size);
->>>>>>> b2776
                 return false;
             }
         }
         const int64_t t_img_enc_batch_us = ggml_time_us();
-<<<<<<< HEAD
-        printf("%s: %d segments encoded in %8.2f ms\n", __func__, (int)img_res_v.size, (t_img_enc_batch_us - t_img_enc_start_us) / 1000.0);
-=======
         LOG_TEE("%s: %d segments encoded in %8.2f ms\n", __func__, (int)img_res_v.size, (t_img_enc_batch_us - t_img_enc_start_us) / 1000.0);
->>>>>>> b2776
 
         const int32_t * image_grid = clip_image_grid(ctx_clip);
 
@@ -319,11 +290,7 @@ static bool encode_image_with_clip(clip_ctx * ctx_clip, int n_threads, const cli
         // clip_image_save_to_bmp(*tmp, "image_feature.bmp");
     }
 
-<<<<<<< HEAD
-    printf("%s: image embedding created: %d tokens\n", __func__, *n_img_pos);
-=======
     LOG_TEE("%s: image embedding created: %d tokens\n", __func__, *n_img_pos);
->>>>>>> b2776
 
     const int64_t t_img_enc_end_us = ggml_time_us();
     float t_img_enc_ms = (t_img_enc_end_us - t_img_enc_start_us) / 1000.0;
@@ -347,11 +314,7 @@ bool llava_validate_embed_size(const llama_context * ctx_llama, const clip_ctx *
 bool llava_image_embed_make_with_clip_img(clip_ctx * ctx_clip, int n_threads, const clip_image_u8 * img, float ** image_embd_out, int * n_img_pos_out) {
     float * image_embd = (float *)malloc(clip_embd_nbytes(ctx_clip)*6); // TODO: base on gridsize/llava model
     if (!image_embd) {
-<<<<<<< HEAD
-        fprintf(stderr, "Unable to allocate memory for image embeddings\n");
-=======
         LOG_TEE("Unable to allocate memory for image embeddings\n");
->>>>>>> b2776
         return false;
     }
 

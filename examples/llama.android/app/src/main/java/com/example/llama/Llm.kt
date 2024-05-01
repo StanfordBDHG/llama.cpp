@@ -71,11 +71,7 @@ class Llm {
         batch: Long,
         nLen: Int,
         ncur: IntVar
-<<<<<<< HEAD
-    ): String
-=======
     ): String?
->>>>>>> b2776
 
     private external fun kv_cache_clear(context: Long)
 
@@ -119,11 +115,7 @@ class Llm {
                 val ncur = IntVar(completion_init(state.context, state.batch, message, nlen))
                 while (ncur.value <= nlen) {
                     val str = completion_loop(state.context, state.batch, nlen, ncur)
-<<<<<<< HEAD
-                    if (str.isEmpty()) {
-=======
                     if (str == null) {
->>>>>>> b2776
                         break
                     }
                     emit(str)

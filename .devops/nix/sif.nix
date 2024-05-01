@@ -7,11 +7,7 @@
 }:
 
 let
-<<<<<<< HEAD
-    optionalInt = cond: x: if cond then x else 0;
-=======
   optionalInt = cond: x: if cond then x else 0;
->>>>>>> b2776
 in
 singularity-tools.buildImage rec {
   inherit (llama-cpp) name;

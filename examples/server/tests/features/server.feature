@@ -1,34 +1,20 @@
 @llama.cpp
-<<<<<<< HEAD
-=======
 @server
->>>>>>> b2776
 Feature: llama.cpp server
 
   Background: Server startup
     Given a server listening on localhost:8080
-<<<<<<< HEAD
-    And   a model file stories260K.gguf
-=======
     And   a model file tinyllamas/stories260K.gguf from HF repo ggml-org/models
     And   a model file test-model.gguf
->>>>>>> b2776
     And   a model alias tinyllama-2
     And   42 as server seed
       # KV Cache corresponds to the total amount of tokens
       # that can be stored across all independent sequences: #4130
       # see --ctx-size and #5568
-<<<<<<< HEAD
-    And   32 KV cache size
-    And   1 slots
-    And   embeddings extraction
-    And   32 server max tokens to predict
-=======
     And   256 KV cache size
     And   32 as batch size
     And   2 slots
     And   64 server max tokens to predict
->>>>>>> b2776
     And   prometheus compatible metrics exposed
     Then  the server is starting
     Then  the server is healthy
@@ -37,23 +23,11 @@ Feature: llama.cpp server
     Then the server is ready
     And  all slots are idle
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b2776
   Scenario Outline: Completion
     Given a prompt <prompt>
     And   <n_predict> max tokens to predict
     And   a completion request with no api error
     Then  <n_predicted> tokens are predicted matching <re_content>
-<<<<<<< HEAD
-    And   prometheus metrics are exposed
-
-    Examples: Prompts
-      | prompt                           | n_predict | re_content                             | n_predicted |
-      | I believe the meaning of life is | 8         | (read<or>going)+                       | 8           |
-      | Write a joke about AI            | 64        | (park<or>friends<or>scared<or>always)+ | 32          |
-=======
     And   the completion is <truncated> truncated
     And   <n_prompt> prompt tokens are processed
     And   prometheus metrics are exposed
@@ -77,7 +51,6 @@ Feature: llama.cpp server
     And   the completion is  truncated
     And   109 prompt tokens are processed
 
->>>>>>> b2776
 
   Scenario Outline: OAI Compatibility
     Given a model <model>
@@ -87,41 +60,6 @@ Feature: llama.cpp server
     And   streaming is <enable_streaming>
     Given an OAI compatible chat completions request with no api error
     Then  <n_predicted> tokens are predicted matching <re_content>
-<<<<<<< HEAD
-
-    Examples: Prompts
-      | model        | system_prompt               | user_prompt                          | max_tokens | re_content                 | n_predicted | enable_streaming |
-      | llama-2      | Book                        | What is the best book                | 8          | (Mom<or>what)+             | 8           | disabled         |
-      | codellama70b | You are a coding assistant. | Write the fibonacci function in c++. | 64         | (thanks<or>happy<or>bird)+ | 32          | enabled          |
-
-  Scenario: Embedding
-    When embeddings are computed for:
-    """
-    What is the capital of Bulgaria ?
-    """
-    Then embeddings are generated
-
-  Scenario: OAI Embeddings compatibility
-    Given a model tinyllama-2
-    When an OAI compatible embeddings computation request for:
-    """
-    What is the capital of Spain ?
-    """
-    Then embeddings are generated
-
-  Scenario: OAI Embeddings compatibility with multiple inputs
-    Given a model tinyllama-2
-    Given a prompt:
-      """
-      In which country Paris is located ?
-      """
-    And a prompt:
-      """
-      Is Madrid the capital of Spain ?
-      """
-    When an OAI compatible embeddings computation request for multiple inputs
-    Then embeddings are generated
-=======
     And   <n_prompt> prompt tokens are processed
     And   the completion is <truncated> truncated
 
@@ -145,7 +83,6 @@ Feature: llama.cpp server
       | {"type": "json_object", "schema": {"const": "42"}}                  | 5           | "42"                   |
       | {"type": "json_object", "schema": {"items": [{"type": "integer"}]}} | 10          | \[ -300 \]             |
       | {"type": "json_object"}                                             | 10          | \{ " Jacky.            |
->>>>>>> b2776
 
 
   Scenario: Tokenize / Detokenize
@@ -154,12 +91,9 @@ Feature: llama.cpp server
     What is the capital of France ?
     """
     Then tokens can be detokenize
-<<<<<<< HEAD
-=======
 
   Scenario: Models available
     Given available models
     Then  1 models are supported
     Then  model 0 is identified by tinyllama-2
     Then  model 0 is trained on 128 tokens context
->>>>>>> b2776
