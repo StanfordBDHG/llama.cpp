@@ -22,7 +22,11 @@ For faster computation, make sure to use GPU offloading via the `-ngl` argument
 ## Example
 
 ```bash
+<<<<<<< HEAD
 LLAMA_CUBLAS=1 make -j
+=======
+LLAMA_CUDA=1 make -j
+>>>>>>> b2776
 
 # generate importance matrix (imatrix.dat)
 ./imatrix -m ggml-model-f16.gguf -f train-data.txt -ngl 99

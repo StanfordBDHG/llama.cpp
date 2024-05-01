@@ -1,14 +1,27 @@
 @llama.cpp
+<<<<<<< HEAD
+=======
+@parallel
+>>>>>>> b2776
 Feature: Parallel
 
   Background: Server startup
     Given a server listening on localhost:8080
+<<<<<<< HEAD
     And   a model file stories260K.gguf
     And   a model alias tinyllama-2
     And   42 as server seed
     And   64 KV cache size
     And   2 slots
     And   embeddings extraction
+=======
+    And   a model file tinyllamas/split/stories15M-00001-of-00003.gguf from HF repo ggml-org/models
+    And   a model file test-model-00001-of-00003.gguf
+    And   42 as server seed
+    And   128 as batch size
+    And   256 KV cache size
+    And   2 slots
+>>>>>>> b2776
     And   continuous batching
     Then  the server is starting
     Then  the server is healthy
@@ -76,6 +89,10 @@ Feature: Parallel
       | disabled  | 128       |
       | enabled   | 64        |
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b2776
   Scenario:  Multi users with total number of tokens to predict exceeds the KV Cache size #3969
     Given a prompt:
       """
@@ -98,6 +115,7 @@ Feature: Parallel
     Then the server is busy
     Then the server is idle
     Then all prompts are predicted
+<<<<<<< HEAD
 
   Scenario: Multi users embeddings
     Given a prompt:
@@ -143,3 +161,5 @@ Feature: Parallel
     Then the server is busy
     Then the server is idle
     Then all embeddings are generated
+=======
+>>>>>>> b2776

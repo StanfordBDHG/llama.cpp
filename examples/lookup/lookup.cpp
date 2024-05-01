@@ -1,12 +1,26 @@
+<<<<<<< HEAD
 #include "common.h"
 #include "ggml.h"
 #include "llama.h"
+=======
+#include "ggml.h"
+#include "llama.h"
+#include "common.h"
+#include "ngram-cache.h"
+>>>>>>> b2776
 
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
+<<<<<<< HEAD
 #include <string>
 #include <vector>
+=======
+#include <fstream>
+#include <string>
+#include <vector>
+#include <unordered_map>
+>>>>>>> b2776
 
 int main(int argc, char ** argv){
     gpt_params params;
@@ -15,11 +29,15 @@ int main(int argc, char ** argv){
         return 1;
     }
 
+<<<<<<< HEAD
     // max/min n-grams size to search for in prompt
     const int ngram_max = 4;
     const int ngram_min = 1;
 
     // length of the candidate / draft sequence, if match is found
+=======
+    // max. number of additional tokens to draft if match is found
+>>>>>>> b2776
     const int n_draft = params.n_draft;
 
     const bool dump_kv_cache = params.dump_kv_cache;
@@ -39,6 +57,7 @@ int main(int argc, char ** argv){
 
     // load the model
     std::tie(model, ctx) = llama_init_from_gpt_params(params);
+<<<<<<< HEAD
 
     // tokenize the prompt
     const bool add_bos = llama_should_add_bos_token(model);
@@ -46,6 +65,42 @@ int main(int argc, char ** argv){
 
     std::vector<llama_token> inp;
     inp = ::llama_tokenize(ctx, params.prompt, add_bos, true);
+=======
+    GGML_ASSERT(llama_n_vocab(model) < (1 << 16));
+
+    // tokenize the prompt
+    std::vector<llama_token> inp;
+    inp = ::llama_tokenize(ctx, params.prompt, true, true);
+
+    llama_ngram_cache ngram_cache_context;
+    llama_ngram_cache ngram_cache_dynamic;
+    llama_ngram_cache ngram_cache_static;
+    int64_t t_draft_flat_us = 0;
+    int64_t t_draft_us = 0;
+
+    {
+        // Fill up context ngram cache with tokens from user input:
+        const int64_t t_start_draft_us = ggml_time_us();
+        llama_ngram_cache_update(ngram_cache_context, LLAMA_NGRAM_MIN, LLAMA_NGRAM_MAX, inp, inp.size(), false);
+
+        if (!params.lookup_cache_static.empty()) {
+            try {
+                ngram_cache_static = llama_ngram_cache_load(params.lookup_cache_static);
+            } catch (std::ifstream::failure const &) {
+                fprintf(stderr, "error: failed to open static lookup cache: %s", params.lookup_cache_static.c_str());
+                exit(1);
+            }
+        }
+
+        if (!params.lookup_cache_dynamic.empty()) {
+            try {
+                ngram_cache_dynamic = llama_ngram_cache_load(params.lookup_cache_dynamic);
+            } catch (std::ifstream::failure const &) {} // if the file does not exist it will simply be created at the end of the program
+        }
+
+        t_draft_flat_us += ggml_time_us() - t_start_draft_us;
+    }
+>>>>>>> b2776
 
     const int max_context_size     = llama_n_ctx(ctx);
     const int max_tokens_list_size = max_context_size - 4;
@@ -76,8 +131,11 @@ int main(int argc, char ** argv){
     int n_drafted = 0;
     int n_accept  = 0;
 
+<<<<<<< HEAD
     int64_t t_draft_us = 0;
 
+=======
+>>>>>>> b2776
     int n_past = inp.size();
 
     bool has_eos = false;
@@ -116,7 +174,11 @@ int main(int argc, char ** argv){
                 printf("%s", token_str.c_str());
             }
 
+<<<<<<< HEAD
             if (id == llama_token_eos(model)) {
+=======
+            if (llama_token_is_eog(model, id)) {
+>>>>>>> b2776
                 has_eos = true;
             }
 
@@ -129,6 +191,15 @@ int main(int argc, char ** argv){
                 ++n_past;
                 ++i_dft;
                 inp.push_back(id);
+<<<<<<< HEAD
+=======
+                {
+                    // Update context ngram cache with the newly accepted token:
+                    const int64_t t_start_draft_us = ggml_time_us();
+                    llama_ngram_cache_update(ngram_cache_context, LLAMA_NGRAM_MIN, LLAMA_NGRAM_MAX, inp, 1, false);
+                    t_draft_us += ggml_time_us() - t_start_draft_us;
+                }
+>>>>>>> b2776
 
                 if (params.use_color) {
                     // color accepted draft token
@@ -149,6 +220,15 @@ int main(int argc, char ** argv){
             draft.clear();
             draft.push_back(id);
             inp.push_back(id);
+<<<<<<< HEAD
+=======
+            {
+                // Update context ngram cache with the newly accepted token:
+                const int64_t t_start_draft_us = ggml_time_us();
+                llama_ngram_cache_update(ngram_cache_context, LLAMA_NGRAM_MIN, LLAMA_NGRAM_MAX, inp, 1, false);
+                t_draft_us += ggml_time_us() - t_start_draft_us;
+            }
+>>>>>>> b2776
             break;
         }
 
@@ -163,6 +243,7 @@ int main(int argc, char ** argv){
         llama_batch_clear(batch_tgt);
         llama_batch_add(batch_tgt, draft[0], n_past, { 0 }, true);
 
+<<<<<<< HEAD
         // generate n_pred tokens through prompt lookup
         auto prompt_lookup = [&]() -> void {
             const int inp_size = inp.size();
@@ -201,6 +282,21 @@ int main(int argc, char ** argv){
         prompt_lookup();
 
         t_draft_us += ggml_time_us() - t_start_draft_us;
+=======
+        // Draft already contains a single token sampled from the model:
+        GGML_ASSERT(draft.size() == 1);
+        GGML_ASSERT(draft[0] == inp.back());
+        const int64_t t_start_draft_us = ggml_time_us();
+
+        llama_ngram_cache_draft(inp, draft, n_draft, LLAMA_NGRAM_MIN, LLAMA_NGRAM_MAX, ngram_cache_context, ngram_cache_dynamic, ngram_cache_static);
+
+        for (size_t i = 1; i < draft.size(); ++i) {
+            llama_batch_add(batch_tgt, draft[i], n_past + i, { 0 }, true);
+        }
+
+        t_draft_us += ggml_time_us() - t_start_draft_us;
+        n_drafted += draft.size() - 1;
+>>>>>>> b2776
 
         llama_decode(ctx, batch_tgt);
         ++n_past;
@@ -210,12 +306,20 @@ int main(int argc, char ** argv){
 
     auto t_dec_end = ggml_time_us();
 
+<<<<<<< HEAD
+=======
+    // Update dynamic ngram cache with context ngram cache and save it to disk:
+    llama_ngram_cache_merge(ngram_cache_dynamic, ngram_cache_context);
+    llama_ngram_cache_save(ngram_cache_dynamic, params.lookup_cache_dynamic);
+
+>>>>>>> b2776
     LOG_TEE("\n\n");
 
     LOG_TEE("encoded %4d tokens in %8.3f seconds, speed: %8.3f t/s\n", n_input,   (t_enc_end - t_enc_start) / 1e6f, inp.size() / ((t_enc_end - t_enc_start) / 1e6f));
     LOG_TEE("decoded %4d tokens in %8.3f seconds, speed: %8.3f t/s\n", n_predict, (t_dec_end - t_dec_start) / 1e6f, n_predict  / ((t_dec_end - t_dec_start) / 1e6f));
 
     LOG_TEE("\n");
+<<<<<<< HEAD
     LOG_TEE("n_draft   = %d\n", n_draft);
     LOG_TEE("n_predict = %d\n", n_predict);
     LOG_TEE("n_drafted = %d\n", n_drafted);
@@ -223,6 +327,16 @@ int main(int argc, char ** argv){
             t_draft_us*1e-3, 1.0f*t_draft_us/n_drafted, n_drafted/(1e-6*t_draft_us));
     LOG_TEE("n_accept  = %d\n", n_accept);
     LOG_TEE("accept    = %.3f%%\n", 100.0f * n_accept / n_drafted);
+=======
+    LOG_TEE("n_draft      = %d\n", n_draft);
+    LOG_TEE("n_predict    = %d\n", n_predict);
+    LOG_TEE("n_drafted    = %d\n", n_drafted);
+    LOG_TEE("t_draft_flat = %.2f ms\n", t_draft_flat_us*1e-3);
+    LOG_TEE("t_draft      = %.2f ms, %.2f us per token, %.2f tokens per second\n",
+            t_draft_us*1e-3, 1.0f*t_draft_us/n_drafted, n_drafted/(1e-6*t_draft_us));
+    LOG_TEE("n_accept     = %d\n", n_accept);
+    LOG_TEE("accept       = %.3f%%\n", 100.0f * n_accept / n_drafted);
+>>>>>>> b2776
 
     LOG_TEE("\ntarget:\n");
     llama_print_timings(ctx);

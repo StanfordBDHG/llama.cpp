@@ -23,6 +23,10 @@ struct Stats {
 };
 
 struct StatParams {
+<<<<<<< HEAD
+=======
+    std::string dataset;
+>>>>>>> b2776
     std::string ofile = "imatrix.dat";
     int         n_output_frequency = 10;
     int         verbosity = 1;
@@ -44,25 +48,63 @@ private:
     std::mutex                             m_mutex;
     int                                    m_last_call = 0;
     std::vector<float>                     m_src1_data;
+<<<<<<< HEAD
     std::vector<int>                       m_ids; // the expert ids from ggml_mul_mat_id
                                                   //
     void save_imatrix(const char * file_name) const;
     void keep_imatrix(int ncall) const;
 };
 
+=======
+    std::vector<char>                      m_ids; // the expert ids from ggml_mul_mat_id
+                                                  //
+    void save_imatrix(const char * file_name, const char * dataset) const;
+    void keep_imatrix(int ncall) const;
+};
+
+// remove any prefix and suffixes from the name
+// CUDA0#blk.0.attn_k.weight#0 => blk.0.attn_k.weight
+static std::string filter_tensor_name(const char * name) {
+    std::string wname;
+    const char * p = strchr(name, '#');
+    if (p != NULL) {
+        p = p + 1;
+        const char * q = strchr(p, '#');
+        if (q != NULL) {
+            wname = std::string(p, q - p);
+        } else {
+            wname = p;
+        }
+    } else {
+        wname = name;
+    }
+    return wname;
+}
+
+>>>>>>> b2776
 bool IMatrixCollector::collect_imatrix(struct ggml_tensor * t, bool ask, void * user_data) {
     GGML_UNUSED(user_data);
 
     const struct ggml_tensor * src0 = t->src[0];
     const struct ggml_tensor * src1 = t->src[1];
+<<<<<<< HEAD
+=======
+    std::string wname = filter_tensor_name(src0->name);
+>>>>>>> b2776
 
     // when ask is true, the scheduler wants to know if we are interested in data from this tensor
     // if we return true, a follow-up call will be made with ask=false in which we can do the actual collection
     if (ask) {
         if (t->op == GGML_OP_MUL_MAT_ID) return true; // collect all indirect matrix multiplications
         if (t->op != GGML_OP_MUL_MAT) return false;
+<<<<<<< HEAD
         if (src1->ne[1] < 16 || src1->type != GGML_TYPE_F32) return false;
         if (!(strncmp(src0->name, "blk.", 4) == 0 || (m_params.collect_output_weight && strcmp(src0->name, "output.weight") == 0))) return false;
+=======
+        // why are small batches ignored (<16 tokens)?
+        if (src1->ne[1] < 16 || src1->type != GGML_TYPE_F32) return false;
+        if (!(wname.substr(0, 4) == "blk." || (m_params.collect_output_weight && wname == "output.weight"))) return false;
+>>>>>>> b2776
         return true;
     }
 
@@ -78,6 +120,7 @@ bool IMatrixCollector::collect_imatrix(struct ggml_tensor * t, bool ask, void * 
 
     const float * data = is_host ? (const float *) src1->data : m_src1_data.data();
 
+<<<<<<< HEAD
     if (t->op == GGML_OP_MUL_MAT_ID) {
         const int idx  = ((int32_t *) t->op_params)[0];
         const int n_as = ((int32_t *) t->op_params)[1];
@@ -116,6 +159,62 @@ bool IMatrixCollector::collect_imatrix(struct ggml_tensor * t, bool ask, void * 
                 const float * x = data + row * src1->ne[0];
                 for (int j = 0; j < (int)src1->ne[0]; ++j) {
                     e.values[j] += x[j]*x[j];
+=======
+    // this has been adapted to the new format of storing merged experts in a single 3d tensor
+    // ref: https://github.com/ggerganov/llama.cpp/pull/6387
+    if (t->op == GGML_OP_MUL_MAT_ID) {
+        //   ids  -> [n_experts_used, n_tokens]
+        //   src1 -> [cols, n_expert_used, n_tokens]
+        const ggml_tensor * ids = t->src[2];
+        const int n_as = src0->ne[2];
+        const int n_ids = ids->ne[0];
+
+        // the top-k selected expert ids are stored in the ids tensor
+        // for simplicity, always copy ids to host, because it is small
+        // take into account that ids is not contiguous!
+
+        GGML_ASSERT(ids->ne[1] == src1->ne[2]);
+
+        m_ids.resize(ggml_nbytes(ids));
+        ggml_backend_tensor_get(ids, m_ids.data(), 0, ggml_nbytes(ids));
+
+        auto & e = m_stats[wname];
+
+        ++e.ncall;
+        // NOTE: since we select top-k experts, the number of calls for the expert tensors will be k times larger
+        //       using the following line, we can correct for that if needed by replacing the line above with:
+        //if (idx == t->src[0]->ne[0] - 1) ++e.ncall;
+
+        if (e.values.empty()) {
+            e.values.resize(src1->ne[0]*n_as, 0);
+        }
+        else if (e.values.size() != (size_t)src1->ne[0]*n_as) {
+            fprintf(stderr, "Oops: inconsistent size for %s (%d vs %d)\n", wname.c_str(), (int)e.values.size(), (int)src1->ne[0]*n_as);
+            exit(1); //GGML_ASSERT(false);
+        }
+        if (m_params.verbosity > 1) {
+            printf("%s[%d]: %32s, %s, %5d x %5d, %d\n", __func__, m_last_call, wname.c_str(), ggml_op_name(t->op), (int)src1->ne[0], (int)src1->ne[2], (int)src1->type);
+        }
+        // loop over all possible experts, regardless if they are used or not in the batch
+        for (int ex = 0; ex < n_as; ++ex) {
+            size_t e_start = ex*src1->ne[0];
+
+            for (int idx = 0; idx < n_ids; ++idx) {
+                for (int row = 0; row < (int)src1->ne[2]; ++row) {
+                    const int excur = *(const int32_t *) (m_ids.data() + row*ids->nb[1] + idx*ids->nb[0]);
+
+                    GGML_ASSERT(excur >= 0 && excur < n_as); // sanity check
+
+                    if (excur != ex) continue;
+
+                    const int64_t i11 = idx % src1->ne[1];
+                    const int64_t i12 = row;
+                    const float * x = (const float *)((const char *)data + i11*src1->nb[1] + i12*src1->nb[2]);
+
+                    for (int j = 0; j < (int)src1->ne[0]; ++j) {
+                        e.values[e_start + j] += x[j]*x[j];
+                    }
+>>>>>>> b2776
                 }
             }
             if (e.ncall > m_last_call) {
@@ -129,17 +228,29 @@ bool IMatrixCollector::collect_imatrix(struct ggml_tensor * t, bool ask, void * 
             }
         }
     } else {
+<<<<<<< HEAD
         auto& e = m_stats[src0->name];
+=======
+        auto& e = m_stats[wname];
+>>>>>>> b2776
         if (e.values.empty()) {
             e.values.resize(src1->ne[0], 0);
         }
         else if (e.values.size() != (size_t)src1->ne[0]) {
+<<<<<<< HEAD
             fprintf(stderr, "Oops: inconsistent size for %s (%d vs %d)\n", src0->name, (int)e.values.size(), (int)src1->ne[0]);
+=======
+            fprintf(stderr, "Oops: inconsistent size for %s (%d vs %d)\n", wname.c_str(), (int)e.values.size(), (int)src1->ne[0]);
+>>>>>>> b2776
             exit(1); //GGML_ASSERT(false);
         }
         ++e.ncall;
         if (m_params.verbosity > 1) {
+<<<<<<< HEAD
             printf("%s[%d]: %32s, %s, %5d x %5d, %d\n", __func__, m_last_call, src0->name, ggml_op_name(t->op), (int)src1->ne[0], (int)src1->ne[1], (int)src1->type);
+=======
+            printf("%s[%d]: %32s, %s, %5d x %5d, %d\n", __func__, m_last_call, wname.c_str(), ggml_op_name(t->op), (int)src1->ne[0], (int)src1->ne[1], (int)src1->type);
+>>>>>>> b2776
         }
         for (int row = 0; row < (int)src1->ne[1]; ++row) {
             const float * x = data + row * src1->ne[0];
@@ -162,7 +273,11 @@ bool IMatrixCollector::collect_imatrix(struct ggml_tensor * t, bool ask, void * 
 }
 
 void IMatrixCollector::save_imatrix() const {
+<<<<<<< HEAD
     save_imatrix(m_params.ofile.empty() ? "imatrix.dat" : m_params.ofile.c_str());
+=======
+    save_imatrix(m_params.ofile.empty() ? "imatrix.dat" : m_params.ofile.c_str(), m_params.dataset.c_str());
+>>>>>>> b2776
 }
 
 void IMatrixCollector::keep_imatrix(int ncall) const {
@@ -170,6 +285,7 @@ void IMatrixCollector::keep_imatrix(int ncall) const {
     if (file_name.empty()) file_name = "imatrix.dat";
     file_name += ".at_";
     file_name += std::to_string(ncall);
+<<<<<<< HEAD
     save_imatrix(file_name.c_str());
 }
 
@@ -188,6 +304,35 @@ void IMatrixCollector::save_imatrix(const char * fname) const {
     }
     if (m_params.verbosity > 0) {
         fprintf(stderr, "\n%s: stored collected data after %d chunks in %s\n",__func__,m_last_call,fname);
+=======
+    save_imatrix(file_name.c_str(), m_params.dataset.c_str());
+}
+
+void IMatrixCollector::save_imatrix(const char * fname, const char * dataset) const {
+    std::ofstream out(fname, std::ios::binary);
+    int n_entries = m_stats.size();
+    out.write((const char *) &n_entries, sizeof(n_entries));
+    for (const auto & p : m_stats) {
+        int len = p.first.size();
+        out.write((const char *) &len, sizeof(len));
+        out.write(p.first.c_str(), len);
+        out.write((const char *) &p.second.ncall, sizeof(p.second.ncall));
+        int nval = p.second.values.size();
+        out.write((const char *) &nval, sizeof(nval));
+        if (nval > 0) out.write((const char *) p.second.values.data(), nval * sizeof(float));
+    }
+
+    // Write the number of call the matrix was computed with
+    out.write((const char *) &m_last_call, sizeof(m_last_call));
+
+    // Write the dataset name at the end of the file to later on specify it in quantize
+    int n_dataset = strlen(dataset);
+    out.write((const char *) &n_dataset, sizeof(n_dataset));
+    out.write(dataset, n_dataset);
+
+    if (m_params.verbosity > 0) {
+        fprintf(stderr, "\n%s: stored collected data after %d chunks in %s\n", __func__, m_last_call, fname);
+>>>>>>> b2776
     }
 }
 
@@ -325,12 +470,20 @@ static void process_logits(
 static bool compute_imatrix(llama_context * ctx, const gpt_params & params, bool compute_ppl, int from_chunk) {
 
     const bool add_bos = llama_should_add_bos_token(llama_get_model(ctx));
+<<<<<<< HEAD
+=======
+    GGML_ASSERT(llama_add_eos_token(llama_get_model(ctx)) != 1);
+>>>>>>> b2776
     const int n_ctx = llama_n_ctx(ctx);
 
     auto tim1 = std::chrono::high_resolution_clock::now();
     fprintf(stderr, "%s: tokenizing the input ..\n", __func__);
 
+<<<<<<< HEAD
     std::vector<llama_token> tokens = ::llama_tokenize(ctx, params.prompt, add_bos);
+=======
+    std::vector<llama_token> tokens = ::llama_tokenize(ctx, params.prompt, true);
+>>>>>>> b2776
 
     auto tim2 = std::chrono::high_resolution_clock::now();
     fprintf(stderr, "%s: tokenization took %g ms\n",__func__,1e-3*std::chrono::duration_cast<std::chrono::microseconds>(tim2-tim1).count());
@@ -403,6 +556,10 @@ static bool compute_imatrix(llama_context * ctx, const gpt_params & params, bool
                 tokens[batch_start] = llama_token_bos(llama_get_model(ctx));
             }
 
+<<<<<<< HEAD
+=======
+            // TODO: use batch.logits to save computations instead of relying on logits_all == true
+>>>>>>> b2776
             if (llama_decode(ctx, llama_batch_get_one(tokens.data() + batch_start, batch_size, j * n_batch, 0))) {
                 fprintf(stderr, "%s : failed to eval\n", __func__);
                 return false;
@@ -508,6 +665,32 @@ int main(int argc, char ** argv) {
         }
     }
 
+<<<<<<< HEAD
+=======
+    gpt_params params;
+    params.n_batch = 512;
+    if (!gpt_params_parse(args.size(), args.data(), params)) {
+        return 1;
+    }
+
+    params.logits_all = true;
+    params.n_batch = std::min(params.n_batch, params.n_ctx);
+
+    print_build_info();
+
+    if (params.seed == LLAMA_DEFAULT_SEED) {
+        params.seed = time(NULL);
+    }
+
+    fprintf(stderr, "%s: seed  = %u\n", __func__, params.seed);
+
+    std::mt19937 rng(params.seed);
+    if (params.random_prompt) {
+        params.prompt = gpt_random_prompt(rng);
+    }
+
+    sparams.dataset = params.prompt_file;
+>>>>>>> b2776
     g_collector.set_parameters(std::move(sparams));
 
     if (!combine_files.empty()) {
@@ -546,6 +729,7 @@ int main(int argc, char ** argv) {
         }
     }
 
+<<<<<<< HEAD
     gpt_params params;
     params.n_batch = 512;
     if (!gpt_params_parse(args.size(), args.data(), params)) {
@@ -589,6 +773,23 @@ int main(int argc, char ** argv) {
     llama_context * ctx = llama_new_context_with_model(model, cparams);
     if (ctx == NULL) {
         fprintf(stderr, "%s: error: unable to create context\n", __func__);
+=======
+    llama_backend_init();
+    llama_numa_init(params.numa);
+
+    // pass the callback to the backend scheduler
+    // it will be executed for each node during the graph computation
+    params.cb_eval = ik_collect_imatrix;
+    params.cb_eval_user_data = NULL;
+    params.warmup = false;
+
+    // init
+    llama_model * model;
+    llama_context * ctx;
+    std::tie(model, ctx) = llama_init_from_gpt_params(params);
+    if (model == nullptr || ctx == nullptr) {
+        fprintf(stderr, "%s : failed to init\n", __func__);
+>>>>>>> b2776
         return 1;
     }
 

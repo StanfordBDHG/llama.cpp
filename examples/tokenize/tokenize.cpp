@@ -26,11 +26,17 @@ int main(int argc, char ** argv) {
     llama_context_params ctx_params = llama_context_default_params();
     llama_context * ctx = llama_new_context_with_model(model, ctx_params);
 
+<<<<<<< HEAD
     const bool add_bos = llama_should_add_bos_token(model);
 
     std::vector<llama_token> tokens;
 
     tokens = ::llama_tokenize(model, prompt, add_bos, true);
+=======
+    std::vector<llama_token> tokens;
+
+    tokens = ::llama_tokenize(model, prompt, true, true);
+>>>>>>> b2776
 
     for (int i = 0; i < (int) tokens.size(); i++) {
         if (printing_ids) {

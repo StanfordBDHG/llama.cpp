@@ -1,15 +1,27 @@
 {
   lib,
+<<<<<<< HEAD
   config,
   stdenv,
   mkShell,
+=======
+  glibc,
+  config,
+  stdenv,
+  mkShell,
+  runCommand,
+>>>>>>> b2776
   cmake,
   ninja,
   pkg-config,
   git,
   python3,
   mpi,
+<<<<<<< HEAD
   openblas, # TODO: Use the generic `blas` so users could switch between alternative implementations
+=======
+  blas,
+>>>>>>> b2776
   cudaPackages,
   darwin,
   rocmPackages,
@@ -22,7 +34,11 @@
     useOpenCL
     useRocm
     useVulkan
+<<<<<<< HEAD
   ],
+=======
+  ] && blas.meta.available,
+>>>>>>> b2776
   useCuda ? config.cudaSupport,
   useMetalKit ? stdenv.isAarch64 && stdenv.isDarwin && !useOpenCL,
   useMpi ? false, # Increases the runtime closure size by ~700M
@@ -30,6 +46,15 @@
   useRocm ? config.rocmSupport,
   useVulkan ? false,
   llamaVersion ? "0.0.0", # Arbitrary version, substituted by the flake
+<<<<<<< HEAD
+=======
+
+  # It's necessary to consistently use backendStdenv when building with CUDA support,
+  # otherwise we get libstdc++ errors downstream.
+  effectiveStdenv ? if useCuda then cudaPackages.backendStdenv else stdenv,
+  enableStatic ? effectiveStdenv.hostPlatform.isStatic,
+  precompileMetalShaders ? false
+>>>>>>> b2776
 }@inputs:
 
 let
@@ -41,10 +66,14 @@ let
     versionOlder
     ;
 
+<<<<<<< HEAD
   # It's necessary to consistently use backendStdenv when building with CUDA support,
   # otherwise we get libstdc++ errors downstream.
   stdenv = throw "Use effectiveStdenv instead";
   effectiveStdenv = if useCuda then cudaPackages.backendStdenv else inputs.stdenv;
+=======
+  stdenv = throw "Use effectiveStdenv instead";
+>>>>>>> b2776
 
   suffices =
     lib.optionals useBlas [ "BLAS" ]
@@ -62,10 +91,21 @@ let
     strings.optionalString (suffices != [ ])
       ", accelerated with ${strings.concatStringsSep ", " suffices}";
 
+<<<<<<< HEAD
+=======
+  executableSuffix = effectiveStdenv.hostPlatform.extensions.executable;
+
+>>>>>>> b2776
   # TODO: package the Python in this repository in a Nix-like way.
   # It'd be nice to migrate to buildPythonPackage, as well as ensure this repo
   # is PEP 517-compatible, and ensure the correct .dist-info is generated.
   # https://peps.python.org/pep-0517/
+<<<<<<< HEAD
+=======
+  #
+  # TODO: Package up each Python script or service appropriately, by making
+  # them into "entrypoints"
+>>>>>>> b2776
   llama-python = python3.withPackages (
     ps: [
       ps.numpy
@@ -84,6 +124,14 @@ let
     ]
   );
 
+<<<<<<< HEAD
+=======
+  xcrunHost = runCommand "xcrunHost" {} ''
+    mkdir -p $out/bin
+    ln -s /usr/bin/xcrun $out/bin
+  '';
+
+>>>>>>> b2776
   # apple_sdk is supposed to choose sane defaults, no need to handle isAarch64
   # separately
   darwinBuildInputs =
@@ -147,6 +195,7 @@ effectiveStdenv.mkDerivation (
     postPatch = ''
       substituteInPlace ./ggml-metal.m \
         --replace '[bundle pathForResource:@"ggml-metal" ofType:@"metal"];' "@\"$out/bin/ggml-metal.metal\";"
+<<<<<<< HEAD
 
       # TODO: Package up each Python script or service appropriately.
       # If we were to migrate to buildPythonPackage and prepare the `pyproject.toml`,
@@ -154,6 +203,20 @@ effectiveStdenv.mkDerivation (
       substituteInPlace ./*.py --replace "/usr/bin/env python" "${llama-python}/bin/python"
     '';
 
+=======
+      substituteInPlace ./ggml-metal.m \
+        --replace '[bundle pathForResource:@"default" ofType:@"metallib"];' "@\"$out/bin/default.metallib\";"
+    '';
+
+    # With PR#6015 https://github.com/ggerganov/llama.cpp/pull/6015,
+    # `default.metallib` may be compiled with Metal compiler from XCode
+    # and we need to escape sandbox on MacOS to access Metal compiler.
+    # `xcrun` is used find the path of the Metal compiler, which is varible
+    # and not on $PATH
+    # see https://github.com/ggerganov/llama.cpp/pull/6118 for discussion
+    __noChroot = effectiveStdenv.isDarwin && useMetalKit && precompileMetalShaders;
+
+>>>>>>> b2776
     nativeBuildInputs =
       [
         cmake
@@ -167,6 +230,14 @@ effectiveStdenv.mkDerivation (
         # TODO: Replace with autoAddDriverRunpath
         # once https://github.com/NixOS/nixpkgs/pull/275241 has been merged
         cudaPackages.autoAddOpenGLRunpathHook
+<<<<<<< HEAD
+=======
+      ]
+      ++ optionals (effectiveStdenv.hostPlatform.isGnu && enableStatic) [
+        glibc.static
+      ] ++ optionals (effectiveStdenv.isDarwin && useMetalKit && precompileMetalShaders) [
+        xcrunHost
+>>>>>>> b2776
       ];
 
     buildInputs =
@@ -175,21 +246,37 @@ effectiveStdenv.mkDerivation (
       ++ optionals useMpi [ mpi ]
       ++ optionals useOpenCL [ clblast ]
       ++ optionals useRocm rocmBuildInputs
+<<<<<<< HEAD
+=======
+      ++ optionals useBlas [ blas ]
+>>>>>>> b2776
       ++ optionals useVulkan vulkanBuildInputs;
 
     cmakeFlags =
       [
         (cmakeBool "LLAMA_NATIVE" false)
         (cmakeBool "LLAMA_BUILD_SERVER" true)
+<<<<<<< HEAD
         (cmakeBool "BUILD_SHARED_LIBS" true)
         (cmakeBool "CMAKE_SKIP_BUILD_RPATH" true)
         (cmakeBool "LLAMA_BLAS" useBlas)
         (cmakeBool "LLAMA_CLBLAST" useOpenCL)
         (cmakeBool "LLAMA_CUBLAS" useCuda)
+=======
+        (cmakeBool "BUILD_SHARED_LIBS" (!enableStatic))
+        (cmakeBool "CMAKE_SKIP_BUILD_RPATH" true)
+        (cmakeBool "LLAMA_BLAS" useBlas)
+        (cmakeBool "LLAMA_CLBLAST" useOpenCL)
+        (cmakeBool "LLAMA_CUDA" useCuda)
+>>>>>>> b2776
         (cmakeBool "LLAMA_HIPBLAS" useRocm)
         (cmakeBool "LLAMA_METAL" useMetalKit)
         (cmakeBool "LLAMA_MPI" useMpi)
         (cmakeBool "LLAMA_VULKAN" useVulkan)
+<<<<<<< HEAD
+=======
+        (cmakeBool "LLAMA_STATIC" enableStatic)
+>>>>>>> b2776
       ]
       ++ optionals useCuda [
         (
@@ -209,14 +296,26 @@ effectiveStdenv.mkDerivation (
         # Should likely use `rocmPackages.clr.gpuTargets`.
         "-DAMDGPU_TARGETS=gfx803;gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx940;gfx941;gfx942;gfx1010;gfx1012;gfx1030;gfx1100;gfx1101;gfx1102"
       ]
+<<<<<<< HEAD
       ++ optionals useMetalKit [ (lib.cmakeFeature "CMAKE_C_FLAGS" "-D__ARM_FEATURE_DOTPROD=1") ]
       ++ optionals useBlas [ (lib.cmakeFeature "LLAMA_BLAS_VENDOR" "OpenBLAS") ];
+=======
+      ++ optionals useMetalKit [
+        (lib.cmakeFeature "CMAKE_C_FLAGS" "-D__ARM_FEATURE_DOTPROD=1")
+        (cmakeBool "LLAMA_METAL_EMBED_LIBRARY" (!precompileMetalShaders))
+      ];
+>>>>>>> b2776
 
     # TODO(SomeoneSerge): It's better to add proper install targets at the CMake level,
     # if they haven't been added yet.
     postInstall = ''
+<<<<<<< HEAD
       mv $out/bin/main $out/bin/llama
       mv $out/bin/server $out/bin/llama-server
+=======
+      mv $out/bin/main${executableSuffix} $out/bin/llama${executableSuffix}
+      mv $out/bin/server${executableSuffix} $out/bin/llama-server${executableSuffix}
+>>>>>>> b2776
       mkdir -p $out/include
       cp $src/llama.h $out/include/
     '';

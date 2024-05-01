@@ -3,9 +3,19 @@
 ::  Copyright (C) 2024 Intel Corporation
 ::  SPDX-License-Identifier: MIT
 
+<<<<<<< HEAD
 mkdir -p build
 cd build
 @call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 --force
+=======
+
+IF not exist build (mkdir build)
+cd build
+if %errorlevel% neq 0 goto ERROR
+
+@call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 --force
+if %errorlevel% neq 0 goto ERROR
+>>>>>>> b2776
 
 ::  for FP16
 ::  faster for long-prompt inference
@@ -13,11 +23,27 @@ cd build
 
 ::  for FP32
 cmake -G "MinGW Makefiles" ..  -DLLAMA_SYCL=ON -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx  -DCMAKE_BUILD_TYPE=Release
+<<<<<<< HEAD
 
 
+=======
+if %errorlevel% neq 0 goto ERROR
+>>>>>>> b2776
 ::  build example/main only
 ::  make main
 
 ::  build all binary
 make -j
+<<<<<<< HEAD
 cd ..
+=======
+if %errorlevel% neq 0 goto ERROR
+
+cd ..
+exit /B 0
+
+:ERROR
+echo comomand error: %errorlevel%
+exit /B %errorlevel%
+
+>>>>>>> b2776
