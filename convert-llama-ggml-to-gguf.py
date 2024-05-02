@@ -281,6 +281,7 @@ class GGMLToGGUF:
     def add_vocab(self, gguf_writer):
         hp = self.model.hyperparameters
         gguf_writer.add_tokenizer_model('llama')
+        gguf_writer.add_tokenizer_pre('default')
         tokens = []
         scores = []
         toktypes = []
@@ -373,7 +374,7 @@ def handle_metadata(cfg, hp):
         raise ValueError('Unable to load metadata')
     vocab_path = Path(cfg.vocab_dir if cfg.vocab_dir is not None else cfg.model_metadata_dir)
     vocab_factory = convert.VocabFactory(vocab_path)
-    vocab, special_vocab = vocab_factory.load_vocab(cfg.vocabtype, cfg.model_metadata_dir)
+    vocab, special_vocab = vocab_factory.load_vocab(cfg.vocabtype.split(","), cfg.model_metadata_dir)
     convert.check_vocab_size(params, vocab)
     return params, vocab, special_vocab
 
@@ -398,8 +399,8 @@ def handle_args():
                         help ='Load HuggingFace/.pth vocab and metadata from the specified directory')
     parser.add_argument("--vocab-dir", type=Path,
                         help="directory containing tokenizer.model, if separate from model file - only meaningful with --model-metadata-dir")
-    parser.add_argument("--vocabtype", choices=["spm", "bpe"], default="spm",
-                        help="vocab format - only meaningful with --model-metadata-dir and/or --vocab-dir (default: spm)")
+    parser.add_argument("--vocabtype", default="spm,hfft",
+                        help="vocab format - only meaningful with --model-metadata-dir and/or --vocab-dir (default: spm,hfft)")
     return parser.parse_args()
 
 
