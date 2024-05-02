@@ -11,7 +11,7 @@
 
 #include <vector>
 #include <string>
-#include "common.h"
+#include <common.h>
 
 
 /// Tokenize a `String` via a given `llama_context`.
