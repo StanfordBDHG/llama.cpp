@@ -6,15 +6,13 @@
 # SPDX-License-Identifier: MIT
 #
 
-name: Build XCArchive
+name: Create XCFramework and Release
 
 on:
-  pull_request:
   workflow_dispatch:
-  workflow_call:
     inputs:
       version:
-        description: 'The version number of the framework embedded in the XCArchives.'
+        description: 'The version number of the framework embedded in the XCFramework. This version number is also used as the release tag.'
         type: string
         required: true
 
@@ -25,9 +23,8 @@ jobs:
       workspaceFile: llama.xcworkspace
       xcFrameworkName: llama
       scheme: llama
-      dryRun: true
       sdk: '["iphoneos", "iphonesimulator", "macosx", "xros", "xrsimulator"]'
-      version: 0.1.0
+      version: ${{ inputs.version }}
       configuration: Release
       runsonlabels: '["macOS", "self-hosted"]'
       user: PaulsAutomationBot

@@ -34,10 +34,22 @@
 #define DEFAULT_MODEL_PATH "models/7B/ggml-model-f16.gguf"
 
 // build info
+// If macro is not defined (passed via Xcode), set the corresponding variable as defined via external variable.
+#ifndef LLAMA_BUILD_NUMBER
 extern int LLAMA_BUILD_NUMBER;
+#endif
+
+#ifndef LLAMA_COMMIT
 extern char const *LLAMA_COMMIT;
+#endif
+
+#ifndef LLAMA_COMPILER
 extern char const *LLAMA_COMPILER;
+#endif
+
+#ifndef LLAMA_BUILD_TARGET
 extern char const *LLAMA_BUILD_TARGET;
+#endif
 
 struct llama_control_vector_load_info;
 
