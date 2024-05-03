@@ -7,89 +7,105 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F0E44282BE4135F008753C8 /* ggml.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44272BE4135F008753C8 /* ggml.c */; };
-		2F0E44312BE413A7008753C8 /* ggml-backend.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44292BE413A7008753C8 /* ggml-backend.c */; };
-		2F0E44322BE413A7008753C8 /* ggml-metal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E442A2BE413A7008753C8 /* ggml-metal.m */; };
-		2F0E44332BE413A7008753C8 /* unicode-data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E442B2BE413A7008753C8 /* unicode-data.cpp */; };
-		2F0E44342BE413A7008753C8 /* llama.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E442C2BE413A7008753C8 /* llama.cpp */; };
-		2F0E44352BE413A7008753C8 /* ggml-quants.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E442D2BE413A7008753C8 /* ggml-quants.c */; };
-		2F0E44362BE413A7008753C8 /* ggml-alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E442E2BE413A7008753C8 /* ggml-alloc.c */; };
-		2F0E44372BE413A7008753C8 /* sgemm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E442F2BE413A7008753C8 /* sgemm.cpp */; };
-		2F0E44382BE413A7008753C8 /* unicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44302BE413A7008753C8 /* unicode.cpp */; };
-		2F0E443A2BE413C9008753C8 /* ggml-metal.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44392BE413C9008753C8 /* ggml-metal.metal */; };
-		2F0E443F2BE41418008753C8 /* llama.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443B2BE41418008753C8 /* llama.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F0E44402BE41418008753C8 /* ggml.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443C2BE41418008753C8 /* ggml.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F0E44412BE41418008753C8 /* ggml-backend.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443D2BE41418008753C8 /* ggml-backend.h */; };
-		2F0E44422BE41418008753C8 /* ggml-alloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443E2BE41418008753C8 /* ggml-alloc.h */; };
-		2F0E44582BE4163C008753C8 /* base64.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44432BE4163C008753C8 /* base64.hpp */; };
-		2F0E44592BE4163C008753C8 /* build-info.cpp.in in Resources */ = {isa = PBXBuildFile; fileRef = 2F0E44442BE4163C008753C8 /* build-info.cpp.in */; };
-		2F0E445A2BE4163C008753C8 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2F0E44452BE4163C008753C8 /* CMakeLists.txt */; };
-		2F0E445B2BE4163C008753C8 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44462BE4163C008753C8 /* common.cpp */; };
-		2F0E445C2BE4163C008753C8 /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44472BE4163C008753C8 /* common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F0E445D2BE4163C008753C8 /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44482BE4163C008753C8 /* console.cpp */; };
-		2F0E445E2BE4163C008753C8 /* console.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44492BE4163C008753C8 /* console.h */; };
-		2F0E445F2BE4163C008753C8 /* grammar-parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E444A2BE4163C008753C8 /* grammar-parser.cpp */; };
-		2F0E44602BE4163C008753C8 /* grammar-parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E444B2BE4163C008753C8 /* grammar-parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F0E44612BE4163C008753C8 /* json-schema-to-grammar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E444C2BE4163C008753C8 /* json-schema-to-grammar.cpp */; };
-		2F0E44622BE4163C008753C8 /* json-schema-to-grammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E444D2BE4163C008753C8 /* json-schema-to-grammar.h */; };
-		2F0E44632BE4163C008753C8 /* json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E444E2BE4163C008753C8 /* json.hpp */; };
-		2F0E44642BE4163C008753C8 /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E444F2BE4163C008753C8 /* log.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F0E44652BE4163C008753C8 /* ngram-cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44502BE4163C008753C8 /* ngram-cache.cpp */; };
-		2F0E44662BE4163C008753C8 /* ngram-cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44512BE4163C008753C8 /* ngram-cache.h */; };
-		2F0E44672BE4163C008753C8 /* sampling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44522BE4163C008753C8 /* sampling.cpp */; };
-		2F0E44682BE4163C008753C8 /* sampling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44532BE4163C008753C8 /* sampling.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F0E44692BE4163C008753C8 /* stb_image.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44542BE4163C008753C8 /* stb_image.h */; };
-		2F0E446A2BE4163C008753C8 /* train.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44552BE4163C008753C8 /* train.cpp */; };
-		2F0E446B2BE4163C008753C8 /* train.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44562BE4163C008753C8 /* train.h */; };
+		2F6CA0322BE4A6D600306C7C /* base64.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FEE2BE4A6D500306C7C /* base64.hpp */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0332BE4A6D600306C7C /* build-info.cpp.in in Resources */ = {isa = PBXBuildFile; fileRef = 2F6C9FEF2BE4A6D500306C7C /* build-info.cpp.in */; };
+		2F6CA0342BE4A6D600306C7C /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2F6C9FF02BE4A6D500306C7C /* CMakeLists.txt */; };
+		2F6CA0352BE4A6D600306C7C /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C9FF12BE4A6D500306C7C /* common.cpp */; };
+		2F6CA0362BE4A6D600306C7C /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FF22BE4A6D500306C7C /* common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA0372BE4A6D600306C7C /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C9FF32BE4A6D500306C7C /* console.cpp */; };
+		2F6CA0382BE4A6D600306C7C /* console.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FF42BE4A6D500306C7C /* console.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0392BE4A6D600306C7C /* grammar-parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C9FF52BE4A6D500306C7C /* grammar-parser.cpp */; };
+		2F6CA03A2BE4A6D600306C7C /* grammar-parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FF62BE4A6D500306C7C /* grammar-parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA03B2BE4A6D600306C7C /* json-schema-to-grammar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C9FF72BE4A6D500306C7C /* json-schema-to-grammar.cpp */; };
+		2F6CA03C2BE4A6D600306C7C /* json-schema-to-grammar.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FF82BE4A6D500306C7C /* json-schema-to-grammar.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA03D2BE4A6D600306C7C /* json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FF92BE4A6D500306C7C /* json.hpp */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA03E2BE4A6D600306C7C /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FFA2BE4A6D500306C7C /* log.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA03F2BE4A6D600306C7C /* ngram-cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C9FFB2BE4A6D500306C7C /* ngram-cache.cpp */; };
+		2F6CA0402BE4A6D600306C7C /* ngram-cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FFC2BE4A6D500306C7C /* ngram-cache.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0412BE4A6D600306C7C /* sampling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6C9FFD2BE4A6D500306C7C /* sampling.cpp */; };
+		2F6CA0422BE4A6D600306C7C /* sampling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FFE2BE4A6D500306C7C /* sampling.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA0432BE4A6D600306C7C /* stb_image.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6C9FFF2BE4A6D500306C7C /* stb_image.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0442BE4A6D600306C7C /* train.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0002BE4A6D500306C7C /* train.cpp */; };
+		2F6CA0452BE4A6D600306C7C /* train.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0012BE4A6D500306C7C /* train.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0462BE4A6D600306C7C /* ggml-backend-impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0032BE4A6D500306C7C /* ggml-backend-impl.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0482BE4A6D600306C7C /* ggml-quants.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0052BE4A6D500306C7C /* ggml-quants.c */; };
+		2F6CA0492BE4A6D600306C7C /* ggml-metal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0062BE4A6D500306C7C /* ggml-metal.m */; };
+		2F6CA04A2BE4A6D600306C7C /* ggml-alloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0072BE4A6D500306C7C /* ggml-alloc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA04B2BE4A6D600306C7C /* ggml-metal.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0082BE4A6D600306C7C /* ggml-metal.metal */; };
+		2F6CA04C2BE4A6D600306C7C /* ggml-backend.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0092BE4A6D600306C7C /* ggml-backend.c */; };
+		2F6CA04D2BE4A6D600306C7C /* ggml-quants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA00A2BE4A6D600306C7C /* ggml-quants.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA04E2BE4A6D600306C7C /* llama.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA00B2BE4A6D600306C7C /* llama.cpp */; };
+		2F6CA04F2BE4A6D600306C7C /* ggml-backend.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA00C2BE4A6D600306C7C /* ggml-backend.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA0512BE4A6D600306C7C /* ggml-common.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA00E2BE4A6D600306C7C /* ggml-common.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0522BE4A6D600306C7C /* sgemm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0102BE4A6D600306C7C /* sgemm.cpp */; };
+		2F6CA0572BE4A6D600306C7C /* ggml-impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0162BE4A6D600306C7C /* ggml-impl.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0582BE4A6D600306C7C /* ggml-alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0172BE4A6D600306C7C /* ggml-alloc.c */; };
+		2F6CA05E2BE4A6D600306C7C /* llama.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA01D2BE4A6D600306C7C /* llama.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA0622BE4A6D600306C7C /* ggml.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0212BE4A6D600306C7C /* ggml.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA0632BE4A6D600306C7C /* unicode-data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0222BE4A6D600306C7C /* unicode-data.cpp */; };
+		2F6CA0642BE4A6D600306C7C /* unicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0232BE4A6D600306C7C /* unicode.cpp */; };
+		2F6CA0652BE4A6D600306C7C /* ggml-metal.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0242BE4A6D600306C7C /* ggml-metal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0662BE4A6D600306C7C /* unicode-data.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0252BE4A6D600306C7C /* unicode-data.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA0672BE4A6D600306C7C /* ggml.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA0262BE4A6D600306C7C /* ggml.c */; };
+		2F6CA0682BE4A6D600306C7C /* sgemm.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0272BE4A6D600306C7C /* sgemm.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2F6CA06A2BE4A6D600306C7C /* tokenize.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0292BE4A6D600306C7C /* tokenize.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA06B2BE4A6D600306C7C /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA02A2BE4A6D600306C7C /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F6CA06C2BE4A6D600306C7C /* tokenize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA02C2BE4A6D600306C7C /* tokenize.cpp */; };
+		2F6CA06D2BE4A6D600306C7C /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F6CA02D2BE4A6D600306C7C /* vector.cpp */; };
+		2F6CA06F2BE4A6D600306C7C /* unicode.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F6CA0302BE4A6D600306C7C /* unicode.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		972079C42AFAACEF008A9E53 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972079C32AFAACEF008A9E53 /* Accelerate.framework */; };
-		97B76BF72B199E890019D706 /* tokenize.h in Headers */ = {isa = PBXBuildFile; fileRef = 97B76BF32B199E890019D706 /* tokenize.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		97B76BF82B199E890019D706 /* vector.h in Headers */ = {isa = PBXBuildFile; fileRef = 97B76BF42B199E890019D706 /* vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		97B76BF92B199E890019D706 /* vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97B76BF52B199E890019D706 /* vector.cpp */; };
-		97B76BFD2B199EC60019D706 /* tokenize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97B76BF62B199E890019D706 /* tokenize.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2F0E44272BE4135F008753C8 /* ggml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ggml.c; sourceTree = "<group>"; };
-		2F0E44292BE413A7008753C8 /* ggml-backend.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ggml-backend.c"; sourceTree = "<group>"; };
-		2F0E442A2BE413A7008753C8 /* ggml-metal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ggml-metal.m"; sourceTree = "<group>"; };
-		2F0E442B2BE413A7008753C8 /* unicode-data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "unicode-data.cpp"; sourceTree = "<group>"; };
-		2F0E442C2BE413A7008753C8 /* llama.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llama.cpp; sourceTree = "<group>"; };
-		2F0E442D2BE413A7008753C8 /* ggml-quants.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ggml-quants.c"; sourceTree = "<group>"; };
-		2F0E442E2BE413A7008753C8 /* ggml-alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ggml-alloc.c"; sourceTree = "<group>"; };
-		2F0E442F2BE413A7008753C8 /* sgemm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sgemm.cpp; sourceTree = "<group>"; };
-		2F0E44302BE413A7008753C8 /* unicode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unicode.cpp; sourceTree = "<group>"; };
-		2F0E44392BE413C9008753C8 /* ggml-metal.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
-		2F0E443B2BE41418008753C8 /* llama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llama.h; sourceTree = "<group>"; };
-		2F0E443C2BE41418008753C8 /* ggml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ggml.h; sourceTree = "<group>"; };
-		2F0E443D2BE41418008753C8 /* ggml-backend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-backend.h"; sourceTree = "<group>"; };
-		2F0E443E2BE41418008753C8 /* ggml-alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-alloc.h"; sourceTree = "<group>"; };
-		2F0E44432BE4163C008753C8 /* base64.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = base64.hpp; sourceTree = "<group>"; };
-		2F0E44442BE4163C008753C8 /* build-info.cpp.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "build-info.cpp.in"; sourceTree = "<group>"; };
-		2F0E44452BE4163C008753C8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		2F0E44462BE4163C008753C8 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
-		2F0E44472BE4163C008753C8 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
-		2F0E44482BE4163C008753C8 /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = console.cpp; sourceTree = "<group>"; };
-		2F0E44492BE4163C008753C8 /* console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = console.h; sourceTree = "<group>"; };
-		2F0E444A2BE4163C008753C8 /* grammar-parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "grammar-parser.cpp"; sourceTree = "<group>"; };
-		2F0E444B2BE4163C008753C8 /* grammar-parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "grammar-parser.h"; sourceTree = "<group>"; };
-		2F0E444C2BE4163C008753C8 /* json-schema-to-grammar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "json-schema-to-grammar.cpp"; sourceTree = "<group>"; };
-		2F0E444D2BE4163C008753C8 /* json-schema-to-grammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-schema-to-grammar.h"; sourceTree = "<group>"; };
-		2F0E444E2BE4163C008753C8 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
-		2F0E444F2BE4163C008753C8 /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
-		2F0E44502BE4163C008753C8 /* ngram-cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "ngram-cache.cpp"; sourceTree = "<group>"; };
-		2F0E44512BE4163C008753C8 /* ngram-cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ngram-cache.h"; sourceTree = "<group>"; };
-		2F0E44522BE4163C008753C8 /* sampling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampling.cpp; sourceTree = "<group>"; };
-		2F0E44532BE4163C008753C8 /* sampling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampling.h; sourceTree = "<group>"; };
-		2F0E44542BE4163C008753C8 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
-		2F0E44552BE4163C008753C8 /* train.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = train.cpp; sourceTree = "<group>"; };
-		2F0E44562BE4163C008753C8 /* train.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = train.h; sourceTree = "<group>"; };
+		2F6C9FEE2BE4A6D500306C7C /* base64.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = base64.hpp; sourceTree = "<group>"; };
+		2F6C9FEF2BE4A6D500306C7C /* build-info.cpp.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "build-info.cpp.in"; sourceTree = "<group>"; };
+		2F6C9FF02BE4A6D500306C7C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		2F6C9FF12BE4A6D500306C7C /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
+		2F6C9FF22BE4A6D500306C7C /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		2F6C9FF32BE4A6D500306C7C /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = console.cpp; sourceTree = "<group>"; };
+		2F6C9FF42BE4A6D500306C7C /* console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = console.h; sourceTree = "<group>"; };
+		2F6C9FF52BE4A6D500306C7C /* grammar-parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "grammar-parser.cpp"; sourceTree = "<group>"; };
+		2F6C9FF62BE4A6D500306C7C /* grammar-parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "grammar-parser.h"; sourceTree = "<group>"; };
+		2F6C9FF72BE4A6D500306C7C /* json-schema-to-grammar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "json-schema-to-grammar.cpp"; sourceTree = "<group>"; };
+		2F6C9FF82BE4A6D500306C7C /* json-schema-to-grammar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "json-schema-to-grammar.h"; sourceTree = "<group>"; };
+		2F6C9FF92BE4A6D500306C7C /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
+		2F6C9FFA2BE4A6D500306C7C /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		2F6C9FFB2BE4A6D500306C7C /* ngram-cache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "ngram-cache.cpp"; sourceTree = "<group>"; };
+		2F6C9FFC2BE4A6D500306C7C /* ngram-cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ngram-cache.h"; sourceTree = "<group>"; };
+		2F6C9FFD2BE4A6D500306C7C /* sampling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampling.cpp; sourceTree = "<group>"; };
+		2F6C9FFE2BE4A6D500306C7C /* sampling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampling.h; sourceTree = "<group>"; };
+		2F6C9FFF2BE4A6D500306C7C /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		2F6CA0002BE4A6D500306C7C /* train.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = train.cpp; sourceTree = "<group>"; };
+		2F6CA0012BE4A6D500306C7C /* train.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = train.h; sourceTree = "<group>"; };
+		2F6CA0032BE4A6D500306C7C /* ggml-backend-impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-backend-impl.h"; sourceTree = "<group>"; };
+		2F6CA0052BE4A6D500306C7C /* ggml-quants.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ggml-quants.c"; sourceTree = "<group>"; };
+		2F6CA0062BE4A6D500306C7C /* ggml-metal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ggml-metal.m"; sourceTree = "<group>"; };
+		2F6CA0072BE4A6D500306C7C /* ggml-alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-alloc.h"; sourceTree = "<group>"; };
+		2F6CA0082BE4A6D600306C7C /* ggml-metal.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = "ggml-metal.metal"; sourceTree = "<group>"; };
+		2F6CA0092BE4A6D600306C7C /* ggml-backend.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ggml-backend.c"; sourceTree = "<group>"; };
+		2F6CA00A2BE4A6D600306C7C /* ggml-quants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-quants.h"; sourceTree = "<group>"; };
+		2F6CA00B2BE4A6D600306C7C /* llama.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llama.cpp; sourceTree = "<group>"; };
+		2F6CA00C2BE4A6D600306C7C /* ggml-backend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-backend.h"; sourceTree = "<group>"; };
+		2F6CA00E2BE4A6D600306C7C /* ggml-common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-common.h"; sourceTree = "<group>"; };
+		2F6CA00F2BE4A6D600306C7C /* llama-module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "llama-module.modulemap"; sourceTree = "<group>"; };
+		2F6CA0102BE4A6D600306C7C /* sgemm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sgemm.cpp; sourceTree = "<group>"; };
+		2F6CA0162BE4A6D600306C7C /* ggml-impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-impl.h"; sourceTree = "<group>"; };
+		2F6CA0172BE4A6D600306C7C /* ggml-alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ggml-alloc.c"; sourceTree = "<group>"; };
+		2F6CA01D2BE4A6D600306C7C /* llama.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llama.h; sourceTree = "<group>"; };
+		2F6CA0212BE4A6D600306C7C /* ggml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ggml.h; sourceTree = "<group>"; };
+		2F6CA0222BE4A6D600306C7C /* unicode-data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "unicode-data.cpp"; sourceTree = "<group>"; };
+		2F6CA0232BE4A6D600306C7C /* unicode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = unicode.cpp; sourceTree = "<group>"; };
+		2F6CA0242BE4A6D600306C7C /* ggml-metal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ggml-metal.h"; sourceTree = "<group>"; };
+		2F6CA0252BE4A6D600306C7C /* unicode-data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "unicode-data.h"; sourceTree = "<group>"; };
+		2F6CA0262BE4A6D600306C7C /* ggml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ggml.c; sourceTree = "<group>"; };
+		2F6CA0272BE4A6D600306C7C /* sgemm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sgemm.h; sourceTree = "<group>"; };
+		2F6CA0292BE4A6D600306C7C /* tokenize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tokenize.h; sourceTree = "<group>"; };
+		2F6CA02A2BE4A6D600306C7C /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
+		2F6CA02C2BE4A6D600306C7C /* tokenize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tokenize.cpp; sourceTree = "<group>"; };
+		2F6CA02D2BE4A6D600306C7C /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
+		2F6CA0302BE4A6D600306C7C /* unicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unicode.h; sourceTree = "<group>"; };
 		972079A62AFAA818008A9E53 /* llama.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = llama.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972079C32AFAACEF008A9E53 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
-		979D479D2B081F3E00EF8149 /* llama-module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = "llama-module.modulemap"; sourceTree = "<group>"; };
-		97B76BF32B199E890019D706 /* tokenize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tokenize.h; sourceTree = "<group>"; };
-		97B76BF42B199E890019D706 /* vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
-		97B76BF52B199E890019D706 /* vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vector.cpp; sourceTree = "<group>"; };
-		97B76BF62B199E890019D706 /* tokenize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tokenize.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,53 +120,80 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2F0E44572BE4163C008753C8 /* common */ = {
+		2F6CA0022BE4A6D500306C7C /* common */ = {
 			isa = PBXGroup;
 			children = (
-				2F0E44432BE4163C008753C8 /* base64.hpp */,
-				2F0E44442BE4163C008753C8 /* build-info.cpp.in */,
-				2F0E44452BE4163C008753C8 /* CMakeLists.txt */,
-				2F0E44462BE4163C008753C8 /* common.cpp */,
-				2F0E44472BE4163C008753C8 /* common.h */,
-				2F0E44482BE4163C008753C8 /* console.cpp */,
-				2F0E44492BE4163C008753C8 /* console.h */,
-				2F0E444A2BE4163C008753C8 /* grammar-parser.cpp */,
-				2F0E444B2BE4163C008753C8 /* grammar-parser.h */,
-				2F0E444C2BE4163C008753C8 /* json-schema-to-grammar.cpp */,
-				2F0E444D2BE4163C008753C8 /* json-schema-to-grammar.h */,
-				2F0E444E2BE4163C008753C8 /* json.hpp */,
-				2F0E444F2BE4163C008753C8 /* log.h */,
-				2F0E44502BE4163C008753C8 /* ngram-cache.cpp */,
-				2F0E44512BE4163C008753C8 /* ngram-cache.h */,
-				2F0E44522BE4163C008753C8 /* sampling.cpp */,
-				2F0E44532BE4163C008753C8 /* sampling.h */,
-				2F0E44542BE4163C008753C8 /* stb_image.h */,
-				2F0E44552BE4163C008753C8 /* train.cpp */,
-				2F0E44562BE4163C008753C8 /* train.h */,
+				2F6C9FEE2BE4A6D500306C7C /* base64.hpp */,
+				2F6C9FEF2BE4A6D500306C7C /* build-info.cpp.in */,
+				2F6C9FF02BE4A6D500306C7C /* CMakeLists.txt */,
+				2F6C9FF12BE4A6D500306C7C /* common.cpp */,
+				2F6C9FF22BE4A6D500306C7C /* common.h */,
+				2F6C9FF32BE4A6D500306C7C /* console.cpp */,
+				2F6C9FF42BE4A6D500306C7C /* console.h */,
+				2F6C9FF52BE4A6D500306C7C /* grammar-parser.cpp */,
+				2F6C9FF62BE4A6D500306C7C /* grammar-parser.h */,
+				2F6C9FF72BE4A6D500306C7C /* json-schema-to-grammar.cpp */,
+				2F6C9FF82BE4A6D500306C7C /* json-schema-to-grammar.h */,
+				2F6C9FF92BE4A6D500306C7C /* json.hpp */,
+				2F6C9FFA2BE4A6D500306C7C /* log.h */,
+				2F6C9FFB2BE4A6D500306C7C /* ngram-cache.cpp */,
+				2F6C9FFC2BE4A6D500306C7C /* ngram-cache.h */,
+				2F6C9FFD2BE4A6D500306C7C /* sampling.cpp */,
+				2F6C9FFE2BE4A6D500306C7C /* sampling.h */,
+				2F6C9FFF2BE4A6D500306C7C /* stb_image.h */,
+				2F6CA0002BE4A6D500306C7C /* train.cpp */,
+				2F6CA0012BE4A6D500306C7C /* train.h */,
 			);
 			path = common;
+			sourceTree = "<group>";
+		};
+		2F6CA02B2BE4A6D600306C7C /* include */ = {
+			isa = PBXGroup;
+			children = (
+				2F6CA0292BE4A6D600306C7C /* tokenize.h */,
+				2F6CA02A2BE4A6D600306C7C /* vector.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		2F6CA02E2BE4A6D600306C7C /* swift */ = {
+			isa = PBXGroup;
+			children = (
+				2F6CA02B2BE4A6D600306C7C /* include */,
+				2F6CA02C2BE4A6D600306C7C /* tokenize.cpp */,
+				2F6CA02D2BE4A6D600306C7C /* vector.cpp */,
+			);
+			path = swift;
 			sourceTree = "<group>";
 		};
 		9720799C2AFAA818008A9E53 = {
 			isa = PBXGroup;
 			children = (
-				2F0E44572BE4163C008753C8 /* common */,
-				97B76BF12B199E040019D706 /* swift */,
-				979D479D2B081F3E00EF8149 /* llama-module.modulemap */,
-				2F0E443E2BE41418008753C8 /* ggml-alloc.h */,
-				2F0E443D2BE41418008753C8 /* ggml-backend.h */,
-				2F0E443C2BE41418008753C8 /* ggml.h */,
-				2F0E443B2BE41418008753C8 /* llama.h */,
-				2F0E44272BE4135F008753C8 /* ggml.c */,
-				2F0E442E2BE413A7008753C8 /* ggml-alloc.c */,
-				2F0E44292BE413A7008753C8 /* ggml-backend.c */,
-				2F0E442A2BE413A7008753C8 /* ggml-metal.m */,
-				2F0E442D2BE413A7008753C8 /* ggml-quants.c */,
-				2F0E442C2BE413A7008753C8 /* llama.cpp */,
-				2F0E442F2BE413A7008753C8 /* sgemm.cpp */,
-				2F0E442B2BE413A7008753C8 /* unicode-data.cpp */,
-				2F0E44302BE413A7008753C8 /* unicode.cpp */,
-				2F0E44392BE413C9008753C8 /* ggml-metal.metal */,
+				2F6CA0022BE4A6D500306C7C /* common */,
+				2F6CA0172BE4A6D600306C7C /* ggml-alloc.c */,
+				2F6CA0072BE4A6D500306C7C /* ggml-alloc.h */,
+				2F6CA0032BE4A6D500306C7C /* ggml-backend-impl.h */,
+				2F6CA0092BE4A6D600306C7C /* ggml-backend.c */,
+				2F6CA00C2BE4A6D600306C7C /* ggml-backend.h */,
+				2F6CA00E2BE4A6D600306C7C /* ggml-common.h */,
+				2F6CA0162BE4A6D600306C7C /* ggml-impl.h */,
+				2F6CA0242BE4A6D600306C7C /* ggml-metal.h */,
+				2F6CA0062BE4A6D500306C7C /* ggml-metal.m */,
+				2F6CA0082BE4A6D600306C7C /* ggml-metal.metal */,
+				2F6CA0052BE4A6D500306C7C /* ggml-quants.c */,
+				2F6CA00A2BE4A6D600306C7C /* ggml-quants.h */,
+				2F6CA0262BE4A6D600306C7C /* ggml.c */,
+				2F6CA0212BE4A6D600306C7C /* ggml.h */,
+				2F6CA00F2BE4A6D600306C7C /* llama-module.modulemap */,
+				2F6CA00B2BE4A6D600306C7C /* llama.cpp */,
+				2F6CA01D2BE4A6D600306C7C /* llama.h */,
+				2F6CA0102BE4A6D600306C7C /* sgemm.cpp */,
+				2F6CA0272BE4A6D600306C7C /* sgemm.h */,
+				2F6CA02E2BE4A6D600306C7C /* swift */,
+				2F6CA0222BE4A6D600306C7C /* unicode-data.cpp */,
+				2F6CA0252BE4A6D600306C7C /* unicode-data.h */,
+				2F6CA0232BE4A6D600306C7C /* unicode.cpp */,
+				2F6CA0302BE4A6D600306C7C /* unicode.h */,
 				972079A72AFAA818008A9E53 /* Products */,
 				972079C22AFAACEF008A9E53 /* Frameworks */,
 			);
@@ -172,25 +215,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		97B76BF12B199E040019D706 /* swift */ = {
-			isa = PBXGroup;
-			children = (
-				97B76BF22B199E890019D706 /* include */,
-				97B76BF62B199E890019D706 /* tokenize.cpp */,
-				97B76BF52B199E890019D706 /* vector.cpp */,
-			);
-			path = swift;
-			sourceTree = "<group>";
-		};
-		97B76BF22B199E890019D706 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				97B76BF32B199E890019D706 /* tokenize.h */,
-				97B76BF42B199E890019D706 /* vector.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -198,23 +222,31 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F0E44632BE4163C008753C8 /* json.hpp in Headers */,
-				2F0E445E2BE4163C008753C8 /* console.h in Headers */,
-				2F0E446B2BE4163C008753C8 /* train.h in Headers */,
-				2F0E44642BE4163C008753C8 /* log.h in Headers */,
-				2F0E44602BE4163C008753C8 /* grammar-parser.h in Headers */,
-				97B76BF82B199E890019D706 /* vector.h in Headers */,
-				2F0E44402BE41418008753C8 /* ggml.h in Headers */,
-				2F0E44682BE4163C008753C8 /* sampling.h in Headers */,
-				2F0E445C2BE4163C008753C8 /* common.h in Headers */,
-				2F0E44412BE41418008753C8 /* ggml-backend.h in Headers */,
-				2F0E44422BE41418008753C8 /* ggml-alloc.h in Headers */,
-				2F0E443F2BE41418008753C8 /* llama.h in Headers */,
-				2F0E44662BE4163C008753C8 /* ngram-cache.h in Headers */,
-				2F0E44582BE4163C008753C8 /* base64.hpp in Headers */,
-				2F0E44692BE4163C008753C8 /* stb_image.h in Headers */,
-				97B76BF72B199E890019D706 /* tokenize.h in Headers */,
-				2F0E44622BE4163C008753C8 /* json-schema-to-grammar.h in Headers */,
+				2F6CA06B2BE4A6D600306C7C /* vector.h in Headers */,
+				2F6CA0422BE4A6D600306C7C /* sampling.h in Headers */,
+				2F6CA04A2BE4A6D600306C7C /* ggml-alloc.h in Headers */,
+				2F6CA06A2BE4A6D600306C7C /* tokenize.h in Headers */,
+				2F6CA03E2BE4A6D600306C7C /* log.h in Headers */,
+				2F6CA0622BE4A6D600306C7C /* ggml.h in Headers */,
+				2F6CA05E2BE4A6D600306C7C /* llama.h in Headers */,
+				2F6CA0362BE4A6D600306C7C /* common.h in Headers */,
+				2F6CA03A2BE4A6D600306C7C /* grammar-parser.h in Headers */,
+				2F6CA04F2BE4A6D600306C7C /* ggml-backend.h in Headers */,
+				2F6CA0322BE4A6D600306C7C /* base64.hpp in Headers */,
+				2F6CA0382BE4A6D600306C7C /* console.h in Headers */,
+				2F6CA0462BE4A6D600306C7C /* ggml-backend-impl.h in Headers */,
+				2F6CA0512BE4A6D600306C7C /* ggml-common.h in Headers */,
+				2F6CA0572BE4A6D600306C7C /* ggml-impl.h in Headers */,
+				2F6CA03C2BE4A6D600306C7C /* json-schema-to-grammar.h in Headers */,
+				2F6CA0652BE4A6D600306C7C /* ggml-metal.h in Headers */,
+				2F6CA04D2BE4A6D600306C7C /* ggml-quants.h in Headers */,
+				2F6CA03D2BE4A6D600306C7C /* json.hpp in Headers */,
+				2F6CA0402BE4A6D600306C7C /* ngram-cache.h in Headers */,
+				2F6CA0682BE4A6D600306C7C /* sgemm.h in Headers */,
+				2F6CA0452BE4A6D600306C7C /* train.h in Headers */,
+				2F6CA0662BE4A6D600306C7C /* unicode-data.h in Headers */,
+				2F6CA06F2BE4A6D600306C7C /* unicode.h in Headers */,
+				2F6CA0432BE4A6D600306C7C /* stb_image.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,8 +308,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F0E445A2BE4163C008753C8 /* CMakeLists.txt in Resources */,
-				2F0E44592BE4163C008753C8 /* build-info.cpp.in in Resources */,
+				2F6CA0342BE4A6D600306C7C /* CMakeLists.txt in Resources */,
+				2F6CA0332BE4A6D600306C7C /* build-info.cpp.in in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,25 +320,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F0E445B2BE4163C008753C8 /* common.cpp in Sources */,
-				2F0E44282BE4135F008753C8 /* ggml.c in Sources */,
-				2F0E44312BE413A7008753C8 /* ggml-backend.c in Sources */,
-				2F0E446A2BE4163C008753C8 /* train.cpp in Sources */,
-				2F0E443A2BE413C9008753C8 /* ggml-metal.metal in Sources */,
-				2F0E44382BE413A7008753C8 /* unicode.cpp in Sources */,
-				2F0E445D2BE4163C008753C8 /* console.cpp in Sources */,
-				2F0E44362BE413A7008753C8 /* ggml-alloc.c in Sources */,
-				2F0E44612BE4163C008753C8 /* json-schema-to-grammar.cpp in Sources */,
-				2F0E44672BE4163C008753C8 /* sampling.cpp in Sources */,
-				2F0E44322BE413A7008753C8 /* ggml-metal.m in Sources */,
-				2F0E44352BE413A7008753C8 /* ggml-quants.c in Sources */,
-				2F0E44652BE4163C008753C8 /* ngram-cache.cpp in Sources */,
-				2F0E44342BE413A7008753C8 /* llama.cpp in Sources */,
-				2F0E44372BE413A7008753C8 /* sgemm.cpp in Sources */,
-				97B76BFD2B199EC60019D706 /* tokenize.cpp in Sources */,
-				97B76BF92B199E890019D706 /* vector.cpp in Sources */,
-				2F0E44332BE413A7008753C8 /* unicode-data.cpp in Sources */,
-				2F0E445F2BE4163C008753C8 /* grammar-parser.cpp in Sources */,
+				2F6CA0482BE4A6D600306C7C /* ggml-quants.c in Sources */,
+				2F6CA0642BE4A6D600306C7C /* unicode.cpp in Sources */,
+				2F6CA0352BE4A6D600306C7C /* common.cpp in Sources */,
+				2F6CA0442BE4A6D600306C7C /* train.cpp in Sources */,
+				2F6CA0522BE4A6D600306C7C /* sgemm.cpp in Sources */,
+				2F6CA04B2BE4A6D600306C7C /* ggml-metal.metal in Sources */,
+				2F6CA0632BE4A6D600306C7C /* unicode-data.cpp in Sources */,
+				2F6CA0492BE4A6D600306C7C /* ggml-metal.m in Sources */,
+				2F6CA0372BE4A6D600306C7C /* console.cpp in Sources */,
+				2F6CA04C2BE4A6D600306C7C /* ggml-backend.c in Sources */,
+				2F6CA04E2BE4A6D600306C7C /* llama.cpp in Sources */,
+				2F6CA06D2BE4A6D600306C7C /* vector.cpp in Sources */,
+				2F6CA0672BE4A6D600306C7C /* ggml.c in Sources */,
+				2F6CA0412BE4A6D600306C7C /* sampling.cpp in Sources */,
+				2F6CA06C2BE4A6D600306C7C /* tokenize.cpp in Sources */,
+				2F6CA0582BE4A6D600306C7C /* ggml-alloc.c in Sources */,
+				2F6CA0392BE4A6D600306C7C /* grammar-parser.cpp in Sources */,
+				2F6CA03B2BE4A6D600306C7C /* json-schema-to-grammar.cpp in Sources */,
+				2F6CA03F2BE4A6D600306C7C /* ngram-cache.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

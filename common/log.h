@@ -53,19 +53,19 @@
 //  like so:
 //
 //  #define LOG_TARGET (a valid FILE*)
-//  #include "log.h"
+//  #include <llama/log.h>
 //
 //  or it can be simply redirected to stdout or stderr
 //  like so:
 //
 //  #define LOG_TARGET stderr
-//  #include "log.h"
+//  #include <llama/log.h>
 //
 //  The log target can also be redirected to a different function
 //  like so:
 //
 //  #define LOG_TARGET log_handler_different()
-//  #include "log.h"
+//  #include <llama/log.h>
 //
 //  FILE* log_handler_different()
 //  {
@@ -75,7 +75,7 @@
 //  or:
 //
 //  #define LOG_TARGET log_handler_another_one("somelog.log")
-//  #include "log.h"
+//  #include <llama/log.h>
 //
 //  FILE* log_handler_another_one(char*filename)
 //  {
@@ -170,7 +170,7 @@ inline std::string log_filename_generator_impl(LogTriState multilog, const std::
 //  like so:
 //
 //  #define LOG_NO_TIMESTAMPS
-//  #include "log.h"
+//  #include <llama/log.h>
 //
 #ifndef LOG_NO_TIMESTAMPS
     #ifndef _MSC_VER
@@ -203,7 +203,7 @@ inline std::string log_filename_generator_impl(LogTriState multilog, const std::
 //  like so:
 //
 //  #define LOG_NO_FILE_LINE_FUNCTION
-//  #include "log.h"
+//  #include <llama/log.h>
 //
 #ifndef LOG_NO_FILE_LINE_FUNCTION
     #ifndef _MSC_VER

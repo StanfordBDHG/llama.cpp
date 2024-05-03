@@ -49,9 +49,9 @@
 #pragma GCC diagnostic ignored "-Wpedantic"
 #pragma GCC diagnostic ignored "-Wignored-attributes"
 
-#include "sgemm.h"
-#include "ggml-impl.h"
-#include "ggml-quants.h"
+#include <llama/sgemm.h>
+#include <llama/ggml-impl.h>
+#include <llama/ggml-quants.h>
 
 #ifdef _MSC_VER
 #define NOINLINE __declspec(noinline)

@@ -1,11 +1,11 @@
 #define LLAMA_API_INTERNAL
-#include "llama.h"
+#include <llama/llama.h>
 
-#include "unicode.h"
+#include <llama/unicode.h>
 
-#include "ggml.h"
-#include "ggml-alloc.h"
-#include "ggml-backend.h"
+#include <llama/ggml.h>
+#include <llama/ggml-alloc.h>
+#include <llama/ggml-backend.h>
 
 #ifdef GGML_USE_CUDA
 #  include "ggml-cuda.h"
@@ -20,7 +20,7 @@
 #endif
 
 #ifdef GGML_USE_METAL
-#  include "ggml-metal.h"
+#  include <llama/ggml-metal.h>
 #endif
 #ifdef GGML_USE_MPI
 #  include "ggml-mpi.h"

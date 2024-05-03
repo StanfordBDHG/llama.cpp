@@ -1,4 +1,4 @@
-#include "json-schema-to-grammar.h"
+#include <llama/json-schema-to-grammar.h>
 #include <algorithm>
 #include <fstream>
 #include <map>

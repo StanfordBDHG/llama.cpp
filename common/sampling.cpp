@@ -1,5 +1,5 @@
 #define LLAMA_API_INTERNAL
-#include "sampling.h"
+#include <llama/sampling.h>
 #include <random>
 
 struct llama_sampling_context * llama_sampling_init(const struct llama_sampling_params & params) {

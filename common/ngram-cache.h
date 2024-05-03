@@ -1,6 +1,6 @@
 #pragma once
 
-#include "llama.h"
+#include <llama/llama.h>
 
 #include <unordered_map>
 #include <string>

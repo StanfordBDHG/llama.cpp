@@ -1,10 +1,10 @@
 #define _CRT_SECURE_NO_DEPRECATE // Disables ridiculous "unsafe" warnings on Windows
 #define _USE_MATH_DEFINES // For M_PI on MSVC
 
-#include "ggml-impl.h"
-#include "ggml-quants.h"
-#include "ggml.h"
-#include "sgemm.h"
+#include <llama/ggml-impl.h>
+#include <llama/ggml-quants.h>
+#include <llama/ggml.h>
+#include <llama/sgemm.h>
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #include <malloc.h> // using malloc.h with MSC/MINGW
@@ -282,7 +282,7 @@ inline static void * ggml_calloc(size_t num, size_t size) {
 #if defined(GGML_USE_ACCELERATE)
 #include <Accelerate/Accelerate.h>
 #if defined(GGML_USE_CLBLAST) // allow usage of CLBlast alongside Accelerate functions
-#include "ggml-opencl.h"
+#include <llama/ggml-opencl.h>
 #endif
 #elif defined(GGML_USE_OPENBLAS)
 #if defined(GGML_BLAS_USE_MKL)
@@ -291,7 +291,7 @@ inline static void * ggml_calloc(size_t num, size_t size) {
 #include <cblas.h>
 #endif
 #elif defined(GGML_USE_CLBLAST)
-#include "ggml-opencl.h"
+#include <llama/ggml-opencl.h>
 #endif
 
 // floating point type used to accumulate sums

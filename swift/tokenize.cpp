@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: MIT
 //
 
-#include "tokenize.h"
+#include <llama/tokenize.h>
 
 
 /// Tokenize a `String` via a given `llama_context`.

@@ -10,7 +10,7 @@
 #define vector_hpp
 
 #include <vector>
-#include "common.h"
+#include <llama/common.h>
 
 
 /// Create an empty `vector` of `llama_seq_id`s that serve as a buffer for batch processing.

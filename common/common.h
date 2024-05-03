@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "llama.h"
+#include <llama/llama.h>
 
-#include "sampling.h"
+#include <llama/sampling.h>
 
 #define LOG_NO_FILE_LINE_FUNCTION
-#include "log.h"
+#include <llama/log.h>
 
 #include <cmath>
 #include <string>

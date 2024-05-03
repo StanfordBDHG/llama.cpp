@@ -1,9 +1,9 @@
 #pragma once
 
 #define GGML_COMMON_DECL_C
-#include "ggml-common.h"
+#include <llama/ggml-common.h>
 
-#include "ggml.h"
+#include <llama/ggml.h>
 
 // GGML internal header
 

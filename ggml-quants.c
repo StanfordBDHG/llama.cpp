@@ -1,11 +1,11 @@
 #define GGML_COMMON_IMPL_C
-#include "ggml-common.h"
+#include <llama/ggml-common.h>
 
-#include "ggml-quants.h"
-#include "ggml-impl.h"
+#include <llama/ggml-quants.h>
+#include <llama/ggml-impl.h>
 
 #define GGML_COMMON_IMPL_C
-#include "ggml-common.h"
+#include <llama/ggml-common.h>
 
 #include <math.h>
 #include <string.h>

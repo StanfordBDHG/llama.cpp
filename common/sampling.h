@@ -1,8 +1,8 @@
 #pragma once
 
-#include "llama.h"
+#include <llama/llama.h>
 
-#include "grammar-parser.h"
+#include <llama/grammar-parser.h>
 
 #include <random>
 #include <string>
@@ -85,7 +85,7 @@ struct llama_sampling_context {
     std::mt19937 rng;
 };
 
-#include "common.h"
+#include <llama/common.h>
 
 // Create a new sampling context instance.
 struct llama_sampling_context * llama_sampling_init(const struct llama_sampling_params & params);

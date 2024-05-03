@@ -1,8 +1,8 @@
 #ifndef LLAMA_H
 #define LLAMA_H
 
-#include "ggml.h"
-#include "ggml-backend.h"
+#include <llama/ggml.h>
+#include <llama/ggml-backend.h>
 
 #include <stddef.h>
 #include <stdint.h>

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ggml.h"
-#include "ggml-alloc.h"
+#include <llama/ggml.h>
+#include <llama/ggml-alloc.h>
 
 #ifdef  __cplusplus
 extern "C" {

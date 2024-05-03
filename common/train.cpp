@@ -1,5 +1,5 @@
-#include "train.h"
-#include "common.h"
+#include <llama/train.h>
+#include <llama/common.h>
 
 #include <random>
 #include <sstream>

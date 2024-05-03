@@ -1,4 +1,4 @@
 #pragma once
-#include "json.hpp"
+#include <llama/json.hpp>
 
 std::string json_schema_to_grammar(const nlohmann::ordered_json& schema);
