@@ -18,7 +18,7 @@
 		2F0E44382BE413A7008753C8 /* unicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44302BE413A7008753C8 /* unicode.cpp */; };
 		2F0E443A2BE413C9008753C8 /* ggml-metal.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44392BE413C9008753C8 /* ggml-metal.metal */; };
 		2F0E443F2BE41418008753C8 /* llama.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443B2BE41418008753C8 /* llama.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F0E44402BE41418008753C8 /* ggml.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443C2BE41418008753C8 /* ggml.h */; };
+		2F0E44402BE41418008753C8 /* ggml.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443C2BE41418008753C8 /* ggml.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F0E44412BE41418008753C8 /* ggml-backend.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443D2BE41418008753C8 /* ggml-backend.h */; };
 		2F0E44422BE41418008753C8 /* ggml-alloc.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E443E2BE41418008753C8 /* ggml-alloc.h */; };
 		2F0E44582BE4163C008753C8 /* base64.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44432BE4163C008753C8 /* base64.hpp */; };
@@ -37,7 +37,7 @@
 		2F0E44652BE4163C008753C8 /* ngram-cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44502BE4163C008753C8 /* ngram-cache.cpp */; };
 		2F0E44662BE4163C008753C8 /* ngram-cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44512BE4163C008753C8 /* ngram-cache.h */; };
 		2F0E44672BE4163C008753C8 /* sampling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44522BE4163C008753C8 /* sampling.cpp */; };
-		2F0E44682BE4163C008753C8 /* sampling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44532BE4163C008753C8 /* sampling.h */; };
+		2F0E44682BE4163C008753C8 /* sampling.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44532BE4163C008753C8 /* sampling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F0E44692BE4163C008753C8 /* stb_image.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44542BE4163C008753C8 /* stb_image.h */; };
 		2F0E446A2BE4163C008753C8 /* train.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E44552BE4163C008753C8 /* train.cpp */; };
 		2F0E446B2BE4163C008753C8 /* train.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F0E44562BE4163C008753C8 /* train.h */; };
@@ -204,12 +204,12 @@
 				2F0E44642BE4163C008753C8 /* log.h in Headers */,
 				2F0E44602BE4163C008753C8 /* grammar-parser.h in Headers */,
 				97B76BF82B199E890019D706 /* vector.h in Headers */,
+				2F0E44682BE4163C008753C8 /* sampling.h in Headers */,
+				2F0E44402BE41418008753C8 /* ggml.h in Headers */,
 				2F0E445C2BE4163C008753C8 /* common.h in Headers */,
 				2F0E44412BE41418008753C8 /* ggml-backend.h in Headers */,
 				2F0E44422BE41418008753C8 /* ggml-alloc.h in Headers */,
-				2F0E44402BE41418008753C8 /* ggml.h in Headers */,
 				2F0E443F2BE41418008753C8 /* llama.h in Headers */,
-				2F0E44682BE4163C008753C8 /* sampling.h in Headers */,
 				2F0E44662BE4163C008753C8 /* ngram-cache.h in Headers */,
 				2F0E44582BE4163C008753C8 /* base64.hpp in Headers */,
 				2F0E44692BE4163C008753C8 /* stb_image.h in Headers */,
