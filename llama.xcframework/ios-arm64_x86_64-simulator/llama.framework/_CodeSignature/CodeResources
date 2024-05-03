@@ -8,21 +8,29 @@
 		<data>
 		cTmObH0JRW5xdNFL7Q15U5ma12E=
 		</data>
-		<key>Headers/ggml-alloc.h</key>
+		<key>Headers/common.h</key>
 		<data>
-		VuM/SQbnJOW/JNE8alKhvF8M5Ww=
-		</data>
-		<key>Headers/ggml-backend.h</key>
-		<data>
-		wG5xMVKMyUHJTjODvIcFmyFa3vQ=
+		fX+iHcAtUJ8ZopHtwJgmDEOTo30=
 		</data>
 		<key>Headers/ggml.h</key>
 		<data>
 		tQvfbMj1e+TzUt4cr79op/SNsbk=
 		</data>
+		<key>Headers/grammar-parser.h</key>
+		<data>
+		RGyClQ/Ka2DSO36xeqWdIIVcbp8=
+		</data>
 		<key>Headers/llama.h</key>
 		<data>
 		9mk8zjxVR+H3JXbdkZXfQKW2CkE=
+		</data>
+		<key>Headers/log.h</key>
+		<data>
+		K0dkbA7D4BU4eezOUPtiWvnJj9w=
+		</data>
+		<key>Headers/sampling.h</key>
+		<data>
+		nH8Edcu8URa+pq7Numy0G8Ep0Nw=
 		</data>
 		<key>Headers/tokenize.h</key>
 		<data>
@@ -58,18 +66,11 @@
 			jbjZ3SC/vJociL3sQ0+C2iJVeqIJChAi245YcroffUo=
 			</data>
 		</dict>
-		<key>Headers/ggml-alloc.h</key>
+		<key>Headers/common.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			9VrdbgvEkbJTuR26uubgBCUZd5m8kUbvAovcfm6X1Ss=
-			</data>
-		</dict>
-		<key>Headers/ggml-backend.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			u2Qzlfl+Pth+K/u/FY5nM1BsRweshcfR51Lpi5I+DEo=
+			P3yk3MrfR0QzzjyyR42QvQMK4wyoSkZPJQE25UEbejs=
 			</data>
 		</dict>
 		<key>Headers/ggml.h</key>
@@ -79,11 +80,32 @@
 			emoRQSLJfx5C2pLPDu9y8iRoY5CWazQ4cXL935TjnBE=
 			</data>
 		</dict>
+		<key>Headers/grammar-parser.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ZGQBEnYU3HrvwLQZYT38vF43D9t3j1hAB6WQkKyTZDo=
+			</data>
+		</dict>
 		<key>Headers/llama.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
 			+tQ+YJn/Eek8hNF0UJFmDLUWmiHTLh6yd9CEt7CJB7A=
+			</data>
+		</dict>
+		<key>Headers/log.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			zd8mkLzt9Rs/q6JEPB9HYawonJxcpkMipv8xiwl9N+o=
+			</data>
+		</dict>
+		<key>Headers/sampling.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			73gHI6sjgkmUNIoE1mAisTcPIjmj9S5OebWkRrGqVBY=
 			</data>
 		</dict>
 		<key>Headers/tokenize.h</key>
